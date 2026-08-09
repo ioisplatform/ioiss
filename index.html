@@ -1,185 +1,161 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#030712">
-<meta name="description" content="IOIS Platform - Indian Online Income Supporting System. Digital resources, career tools, creator resources and membership plans.">
-<title>IOIS PLATFORM | Indian Online Income Supporting System</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<link rel="stylesheet" href="style.css">
+<title>IOIS PLATFORM — Single Page</title>
+<style>
+:root{--bg:#030712;--panel:#0b1220;--panel2:#111827;--line:#263247;--text:#f8fafc;--muted:#94a3b8;--gold:#fbbf24;--cyan:#22d3ee;--green:#4ade80;--purple:#a78bfa;--red:#fb7185}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 20% 0,#17255455,transparent 32%),radial-gradient(circle at 90% 10%,#78350f33,transparent 30%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}a{color:inherit;text-decoration:none}.container{width:min(1180px,calc(100% - 28px));margin:auto}
+.topbar{background:#020617;border-bottom:1px solid #1e293b;padding:8px 0;font-size:11px;color:#cbd5e1}.topbar span{color:var(--gold);font-weight:900}.header{position:sticky;top:0;z-index:50;background:#020617ee;backdrop-filter:blur(18px);border-bottom:1px solid #1e293b}.head{min-height:74px;display:flex;align-items:center;gap:18px}.brand{display:flex;align-items:center;gap:10px;margin-right:auto}.brand img{width:48px;height:48px;object-fit:contain}.brand b{display:block;font-size:18px}.brand small{display:block;color:#64748b;font-size:9px}.tri{background:linear-gradient(90deg,#ff7a18,#fff,#20c997);-webkit-background-clip:text;background-clip:text;color:transparent}.nav{display:flex;gap:6px;flex-wrap:wrap}.nav a{padding:9px 10px;border-radius:9px;color:#cbd5e1;font-size:11px;font-weight:800}.nav a:hover{background:#111827;color:#fff}.actions{display:flex;gap:8px}.btn{border:0;border-radius:10px;padding:11px 15px;font-weight:900;cursor:pointer}.btn.gold{background:linear-gradient(135deg,#f59e0b,#fde68a);color:#111827}.btn.dark{background:#111827;border:1px solid #334155;color:#fff}.btn.full{width:100%}.menu{display:none}
+.hero{padding:42px 0 24px}.hero-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:18px}.hero-card,.glass{background:linear-gradient(145deg,#0f172acc,#07101ddd);border:1px solid #334155;border-radius:24px;box-shadow:0 20px 80px #0006}.hero-card{padding:42px}.eyebrow{display:inline-block;color:var(--gold);font-size:11px;font-weight:900;letter-spacing:1.5px}.hero h1{font-size:clamp(38px,6vw,68px);line-height:.98;margin:14px 0}.hero p{color:#cbd5e1;max-width:720px;line-height:1.8}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}.clock{padding:24px;text-align:center}.clock .label{color:var(--gold);font-weight:900;font-size:12px}.digital{font:900 clamp(30px,5vw,52px)/1.1 ui-monospace,monospace;margin:18px 0}.date{color:var(--muted);font-size:12px}.section{padding:55px 0}.title{text-align:center;margin-bottom:25px}.title span{color:var(--gold);font-size:10px;font-weight:900;letter-spacing:2px}.title h2{font-size:32px;margin:8px 0}.title p{color:var(--muted);font-size:13px}.grid7{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.plan{position:relative;overflow:hidden;padding:22px;border:1px solid #334155;border-radius:18px;background:linear-gradient(145deg,#111827,#070b15)}.plan.featured{border-color:#f59e0b88;box-shadow:0 0 35px #f59e0b14}.plan .tag{font-size:9px;color:var(--gold);font-weight:900}.plan h3{font-size:18px;margin:8px 0}.price{font-size:30px;font-weight:1000}.plan ul{padding:0 0 0 16px;color:#cbd5e1;font-size:11px;line-height:1.9;min-height:112px}.payout{border-top:1px solid #263247;padding-top:10px;color:#86efac;font-size:10px;font-weight:800}.service-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.service{padding:22px 12px;text-align:center;border:1px solid #263247;border-radius:15px;background:#0b1220}.service b{display:block;margin-top:8px;font-size:11px}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card{padding:22px;border:1px solid #263247;border-radius:18px;background:#0b1220}.card h3{margin-top:0}.muted{color:var(--muted)}.process{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.step{padding:20px;text-align:center;border:1px solid #263247;border-radius:16px;background:#0b1220}.num{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;margin:auto;background:var(--gold);color:#111827;font-weight:1000}.examples{display:grid;gap:8px}.examples details{background:#0b1220;border:1px solid #263247;border-radius:12px;padding:12px}.examples summary{cursor:pointer;color:var(--gold);font-weight:900;font-size:11px}.examples p{color:#cbd5e1;font-size:11px;line-height:1.7}.dashboard{display:none}.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.profile-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.field{display:grid;gap:5px;margin-bottom:10px}.field label{font-size:10px;color:#cbd5e1;font-weight:800}.field input,.field select,.field textarea{width:100%;background:#050a14;color:#fff;border:1px solid #334155;border-radius:9px;padding:11px;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold)}.notice{padding:14px;border:1px solid #f59e0b55;background:#f59e0b0d;border-radius:12px;color:#fde68a;font-size:11px}.idcard{min-height:270px;border-radius:24px;padding:25px;position:relative;overflow:hidden;background:linear-gradient(135deg,#111827,#334155,#0b1220);border:1px solid #94a3b8aa;box-shadow:inset 0 0 40px #fff1,0 25px 70px #0008}.idcard:before{content:"";position:absolute;inset:-60%;background:linear-gradient(100deg,transparent 42%,#ffffff18 50%,transparent 58%);transform:rotate(18deg);animation:shine 5s linear infinite}@keyframes shine{from{transform:translateX(-35%) rotate(18deg)}to{transform:translateX(35%) rotate(18deg)}}.idtop,.idbody,.idbottom{position:relative;z-index:1}.idtop{display:flex;justify-content:space-between;align-items:center}.planbadge{font-size:10px;font-weight:1000;letter-spacing:1px}.idbody{margin-top:38px}.idname{font-size:27px;font-weight:1000}.uid{font-family:ui-monospace,monospace;color:#e2e8f0;font-size:12px;margin-top:7px}.idbottom{display:flex;justify-content:space-between;align-items:end;margin-top:34px;font-size:10px;color:#cbd5e1}.silver{filter:none}.goldcard{background:linear-gradient(135deg,#422006,#f59e0b,#78350f,#111827);border-color:#fbbf24}.digitalcard{background:linear-gradient(135deg,#082f49,#06b6d4,#0f172a)}.premiumcard{background:linear-gradient(135deg,#312e81,#a78bfa,#111827)}.platinumcard{background:linear-gradient(135deg,#334155,#e2e8f0,#475569,#0f172a);color:#0f172a}.crystalcard{background:linear-gradient(135deg,#164e63,#67e8f9,#f0f9ff,#155e75);color:#082f49}.modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:15px;background:#000b}.modal.open{display:flex}.modalbox{width:min(650px,100%);max-height:92vh;overflow:auto;background:#0b1220;border:1px solid #475569;border-radius:20px;padding:22px;box-shadow:0 30px 100px #000}.modalbox h2{margin-top:0}.close{float:right;background:none;border:0;color:#94a3b8;font-size:24px;cursor:pointer}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.file{font-size:10px;color:#94a3b8}.toast{position:fixed;right:15px;bottom:15px;z-index:200;max-width:360px;padding:13px 15px;background:#111827;border:1px solid #334155;border-radius:10px;display:none;font-size:11px}.toast.show{display:block}.toast.ok{border-color:#22c55e}.toast.err{border-color:#fb7185}footer{padding:35px 0;border-top:1px solid #1e293b;color:#64748b;font-size:10px;text-align:center}
+@media(max-width:1000px){.nav{display:none}.menu{display:block}.grid7{grid-template-columns:repeat(2,1fr)}.service-grid{grid-template-columns:repeat(3,1fr)}.hero-grid{grid-template-columns:1fr}.process{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.container{width:calc(100% - 18px)}.hero-card{padding:27px}.grid7,.service-grid,.cards,.dash-grid,.two,.profile-row,.process{grid-template-columns:1fr}.hero h1{font-size:42px}.brand small{display:none}}
+</style>
 </head>
 <body>
+<div class="topbar"><div class="container"><span>LIVE UPDATE</span> — IOIS PLATFORM • ₹10 से ₹999 तक Membership Plans • Single-page IOIS System</div></div>
 
-<div class="live-update">
-  <span class="live-badge">LIVE UPDATE</span>
-  <div class="ticker-wrap"><div class="ticker">
-    🔥 IOIS PLATFORM — ₹10 से शुरुआत करें और Digital Resources प्राप्त करें!
-    &nbsp;&nbsp;&nbsp; 🚀 ₹49 से ₹999 तक Membership Plans उपलब्ध हैं!
-    &nbsp;&nbsp;&nbsp; 🇮🇳 IOIS — Indian Online Income Supporting System
-  </div></div>
-</div>
-
-<header class="site-header">
-  <div class="container header-inner">
-    <a href="index.html" class="brand">
-      <img src="assets/logo.png" alt="IOIS Logo" onerror="this.style.display='none'">
-      <span>
-        <b class="tiranga-text">IOIS PLATFORM</b>
-        <small>Indian Online Income Supporting System</small>
-      </span>
-    </a>
-    <nav class="desktop-nav">
-      <a class="active" href="index.html"><i class="fa-solid fa-house"></i> Home</a>
-      <a href="membership.html"><i class="fa-solid fa-layer-group"></i> 7 Plans</a>
-      <a href="#services"><i class="fa-solid fa-toolbox"></i> Services</a>
-      <a href="#examples"><i class="fa-solid fa-chart-line"></i> Examples</a>
-      <a href="news.html"><i class="fa-solid fa-newspaper"></i> समाचार</a>
-      <a href="jobs.html"><i class="fa-solid fa-briefcase"></i> Jobs</a>
-      <a href="chat.html"><i class="fa-solid fa-comments"></i> Chat</a>
-    </nav>
-    <div class="header-actions">
-      <button class="btn-outline" onclick="openLoginModal()">Login</button>
-      <button class="btn-primary" onclick="openRegistrationFlow()">Join IOIS</button>
-    </div>
-    <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
-  </div>
-  <div id="mobile-menu" class="mobile-menu">
-    <a href="index.html">🏠 Home</a><a href="membership.html">💳 All Membership Plans</a>
-    <a href="#services">🧰 Services</a><a href="#examples">📊 Referral Examples</a>
-    <a href="news.html">📰 समाचार</a><a href="jobs.html">💼 Jobs</a><a href="chat.html">💬 Community Chat</a>
-    <button class="btn-outline full" onclick="openLoginModal()">Login</button>
-    <button class="btn-primary full" onclick="openRegistrationFlow()">Register</button>
-  </div>
-</header>
+<header class="header">
+<div class="container head">
+<a class="brand" href="#home"><img id="logo" alt="IOIS Logo"><span><b class="tri">IOIS PLATFORM</b><small>Indian Online Income Supporting System</small></span></a>
+<nav class="nav">
+<a href="#home">Home</a><a href="#plans">7 Plans</a><a href="#services">Services</a><a href="#panchang">पंचांग</a><a href="#dashboard">Dashboard</a><a href="#chat">Chat</a>
+</nav>
+<div class="actions"><button class="btn dark" onclick="openLogin()">Login</button><button class="btn gold" onclick="openRegister()">Register</button></div>
+<button class="btn dark menu" onclick="document.querySelector('.nav').style.display=document.querySelector('.nav').style.display==='flex'?'none':'flex'">☰</button>
+</div></header>
 
 <main>
-<section class="section hero-section">
-  <div class="container">
-    <div class="room-wall">
-      <div class="clock-panel">
-        <div class="panel-title"><span><i class="fa-solid fa-clock"></i> IOIS Live Clock</span><i class="live-dot"></i></div>
-        <div id="digital-clock" class="digital-clock">12:00:00 AM</div>
-        <div class="analog-clock" aria-label="Live analog clock">
-          <div class="clock-number"><span class="n12">12</span><span class="n1">1</span><span class="n2">2</span><span class="n3">3</span><span class="n4">4</span><span class="n5">5</span><span class="n6">6</span><span class="n7">7</span><span class="n8">8</span><span class="n9">9</span><span class="n10">10</span><span class="n11">11</span></div>
-          <div id="clock-hour" class="clock-hand hour-hand"></div>
-          <div id="clock-min" class="clock-hand minute-hand"></div>
-          <div id="clock-sec" class="clock-hand second-hand"></div>
-          <div class="clock-center"></div>
-        </div>
-        <div id="clock-date" class="muted">तारीख लोड हो रही है...</div>
-      </div>
+<section id="home" class="hero"><div class="container hero-grid">
+<div class="hero-card"><span class="eyebrow">🇮🇳 PREMIUM SINGLE-PAGE PLATFORM</span><h1 class="tri">Indian Online Income<br>Supporting System</h1><p>IOIS का पूरा experience अब एक ही page पर — registration, login, membership plans, payment address, dashboard, digital ID card, services, पंचांग और digital clock.</p><div class="hero-actions"><button class="btn gold" onclick="openRegister()">🚀 Join IOIS</button><button class="btn dark" onclick="document.getElementById('plans').scrollIntoView()">📦 View 7 Plans</button></div></div>
+<div class="glass clock"><div class="label">◉ IOIS LIVE DIGITAL CLOCK</div><div id="clock" class="digital">00:00:00</div><div id="date" class="date">लोड हो रहा है...</div><div class="notice" style="margin-top:18px">आपको अलग page पर जाने की जरूरत नहीं है। Header के buttons इसी page के sections पर ले जाते हैं।</div></div>
+</div></section>
 
-      <div class="weather-panel">
-        <div class="satellite-label"><i class="fa-solid fa-satellite"></i> <span id="weather-location-label">GPS Location</span></div>
-        <div class="weather-scene">
-          <div class="orbit"></div>
-          <div class="weather-info">
-            <div id="weather-temp" class="weather-temp">--°C</div>
-            <div id="weather-status">☀️ मौसम जानकारी लोड हो रही है...</div>
-            <small id="weather-location">Location खोजी जा रही है...</small>
-            <small id="weather-extra">Humidity --% · Wind -- km/h</small>
-            <a href="panchang.html" class="small-primary"><i class="fa-solid fa-calendar-days"></i> पंचांग देखें</a>
-          </div>
-        </div>
-      </div>
+<section id="services" class="section"><div class="container"><div class="title"><span>MAIN SERVICES</span><h2>एक ही page पर पूरा IOIS system</h2></div><div class="service-grid">
+<div class="service">📄<b>CV / Resume</b></div><div class="service">✉️<b>Cover Letters</b></div><div class="service">🤖<b>AI Prompts</b></div><div class="service">📣<b>Social Media</b></div><div class="service">🪪<b>Digital ID</b></div><div class="service">💻<b>AI & Freelancing</b></div>
+</div></div></section>
 
-      <div class="smart-panel">
-        <div class="panel-title"><span><i class="fa-solid fa-box-archive"></i> IOIS SMART SYSTEM</span><b>IOIS</b></div>
-        <div class="smart-content">
-          <p>✨ आज का शुभ रंग: <strong>पीला & केसरिया</strong></p>
-          <p>⏰ शुभ समय: <strong>सुबह 08:15 से 10:30</strong></p>
-          <p>IOIS Platform पर Digital Resources, Career Tools और Membership Plans उपलब्ध हैं।</p>
-        </div>
-        <a href="panchang.html" class="small-primary full">पंचांग / मौसम देखें</a>
-      </div>
-    </div>
+<section id="plans" class="section"><div class="container"><div class="title"><span>MEMBERSHIP</span><h2>IOIS 7 Master Plans</h2><p>Selected plan के आधार पर digital ID card automatically बदलता है।</p></div><div id="plansGrid" class="grid7"></div></div></section>
 
-    <div class="smart-tv">
-      <div class="tv-head"><b><i class="fa-solid fa-tv"></i> IOIS Smart TV</b><div><button onclick="openVideo()">YouTube</button><button onclick="openVideo()">Browser</button></div></div>
-      <div class="tv-screen"><iframe src="https://www.youtube.com/embed/0gYd3mIxksc?autoplay=0&mute=1&loop=1&playlist=0gYd3mIxksc" title="IOIS Smart TV" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-    </div>
+<section id="panchang" class="section"><div class="container"><div class="title"><span>SMART SYSTEM</span><h2>पंचांग • Digital Clock • Live Weather</h2></div><div class="cards">
+<div class="card"><h3>📅 पंचांग</h3><p class="muted">आज की तारीख, weekday और basic शुभ समय information.</p><div id="panchangDate"></div></div>
+<div class="card"><h3>⏰ Digital Clock</h3><p class="muted">भारत के local browser time के अनुसार live clock.</p><div id="clock2" class="digital" style="font-size:28px"></div></div>
+<div class="card"><h3>🌤️ Weather</h3><p class="muted">Location permission मिलने पर live weather API से current data.</p><button class="btn dark" onclick="loadWeather()">Weather Refresh</button><div id="weather" style="margin-top:12px">—</div></div>
+</div></div></section>
 
-    <div class="hero-card">
-      <span class="eyebrow">🇮🇳 Indian Digital Platform</span>
-      <h1 class="tiranga-text">Indian Online Income<br>Supporting System</h1>
-      <p>IOIS एक digital platform है जो students, job seekers और digital creators को affordable digital resources, career tools और creator-supporting products उपलब्ध कराने के लिए बनाया गया है।</p>
-      <div class="hero-buttons"><button class="btn-gradient" onclick="openRegistrationFlow()">🚀 Join IOIS @ ₹10</button><button class="btn-outline large" onclick="scrollToPlans()">📦 View 7 Plans</button></div>
-    </div>
-  </div>
-</section>
+<section id="dashboard" class="section dashboard"><div class="container"><div class="title"><span>MEMBER AREA</span><h2>My Dashboard</h2><p>User ID fixed रहेगा; बाकी profile fields editable हो सकते हैं।</p></div><div class="dash-grid">
+<div class="card"><h3>Profile</h3><div class="profile-row"><div><small class="muted">Name</small><div id="dName">—</div></div><div><small class="muted">Phone</small><div id="dPhone">—</div></div><div><small class="muted">Email</small><div id="dEmail">—</div></div><div><small class="muted">Plan</small><div id="dPlan">—</div></div></div><hr style="border-color:#263247;margin:18px 0"><small class="muted">Fixed User ID</small><div id="dUid" class="uid">—</div><button class="btn dark" style="margin-top:10px" onclick="copyUID()">Copy User ID</button></div>
+<div class="card"><h3>Payment Address</h3><div id="dPayment" class="muted">—</div><p class="muted">Payment receiving address/UPI/Bank preference registration के समय save होती है।</p></div>
+</div><div class="card" style="margin-top:15px"><h3>Premium Digital ID Card</h3><div id="idcard" class="idcard silver"><div class="idtop"><b>IOIS PLATFORM</b><span id="cardPlan" class="planbadge">MEMBER</span></div><div class="idbody"><div id="cardName" class="idname">Member Name</div><div id="cardUid" class="uid">IOIS-XXXXXXXX</div></div><div class="idbottom"><span>Indian Online Income Supporting System</span><span>VALID MEMBER</span></div></div></div>
+</div></section>
 
-<section class="section" id="about">
-<div class="container"><div class="section-heading"><span>ABOUT IOIS</span><h2>IOIS क्या है?</h2></div>
-<div class="two-grid">
-<div class="glass-card"><div class="icon-box amber"><i class="fa-solid fa-building"></i></div><h3>Digital Business Platform</h3><p>IOIS का उद्देश्य students, job seekers और digital promoters को affordable digital assets और practical creator resources उपलब्ध कराना है।</p></div>
-<div class="glass-card"><div class="icon-box teal"><i class="fa-solid fa-box-open"></i></div><h3 class="teal-text">Digital Products</h3><p>CV templates, cover letters, ChatGPT prompts, social media resources, useful website links, digital ID cards और AI/freelancing guides शामिल हैं।</p></div>
-</div></div>
-</section>
+<section id="chat" class="section"><div class="container"><div class="title"><span>COMMUNITY</span><h2>IOIS Community</h2><p>Single-page placeholder for your connected community/chat module.</p></div><div class="glass" style="padding:28px;text-align:center">💬 Community Chat module इसी page में embed/activate करने के लिए backend/chat endpoint connect किया जा सकता है।</div></div></section>
 
-<section class="section" id="services">
-<div class="container"><div class="section-heading"><span>MAIN SERVICES</span><h2>IOIS की मुख्य सेवाएं</h2></div>
-<div class="services-grid">
-<div class="service-card"><i class="fa-solid fa-file-lines"></i><b>CV / Resume</b></div><div class="service-card"><i class="fa-solid fa-envelope"></i><b>Cover Letters</b></div>
-<div class="service-card"><i class="fa-solid fa-robot"></i><b>AI Prompts</b></div><div class="service-card"><i class="fa-solid fa-share-nodes"></i><b>Social Media</b></div>
-<div class="service-card"><i class="fa-solid fa-id-card"></i><b>Digital ID</b></div><div class="service-card"><i class="fa-solid fa-laptop-code"></i><b>AI & Freelancing</b></div>
-</div></div>
-</section>
-
-<section class="section" id="plans">
-<div class="container"><div class="section-heading"><span>MEMBERSHIP</span><h2>IOIS 7 Master Plans</h2><p>₹10 से ₹999 तक के digital membership options</p></div>
-<div id="plans-grid" class="plans-grid"></div>
-</div>
-</section>
-
-<section class="section">
-<div class="container"><div class="section-heading"><span>REFERRAL STRUCTURE</span><h2>Direct Referral Payout Chart</h2></div>
-<div id="payout-grid" class="payout-grid"></div>
-<div class="notice"><i class="fa-solid fa-bolt"></i><h3>Cross-Level Example</h3><p>Referral payout examples plan-specific हैं। किसी भी payout को guaranteed income न मानें; actual eligibility और payment platform rules के अनुसार होगी।</p></div>
-</div>
-</section>
-
-<section class="section" id="examples">
-<div class="container narrow"><div class="section-heading"><span>PRACTICAL EXAMPLES</span><h2>21 Detailed Referral Examples</h2><p>Master presentation के practical examples</p></div>
-<div id="examples-list" class="examples-list"></div></div>
-</section>
-
-<section class="section">
-<div class="container"><div class="section-heading"><span>SIMPLE PROCESS</span><h2>IOIS कैसे काम करता है?</h2></div>
-<div class="steps-grid">
-<div class="step"><b>1</b><h3>Plan चुनें</h3><p>अपनी जरूरत के अनुसार membership plan चुनें।</p></div>
-<div class="step"><b>2</b><h3>Digital Resources</h3><p>Selected digital resources प्राप्त करें।</p></div>
-<div class="step"><b>3</b><h3>Share / Promote</h3><p>Platform और products को लोगों तक पहुँचाएँ।</p></div>
-<div class="step"><b>4</b><h3>Referral Payout</h3><p>Eligible referral होने पर applicable payout structure लागू होगा।</p></div>
-</div></div>
-</section>
-
-<section class="section"><div class="container"><div class="cta">
-<div class="cta-icon">🚀</div><h2>IOIS Platform से शुरुआत करें</h2><p>अपनी जरूरत के अनुसार digital membership plan चुनें और IOIS ecosystem का हिस्सा बनें।</p><button class="btn-gradient" onclick="openRegistrationFlow()">Join IOIS Now @ ₹10</button>
+<section class="section"><div class="container"><div class="title"><span>HOW IT WORKS</span><h2>Simple Process</h2></div><div class="process">
+<div class="step"><div class="num">1</div><h3>Plan चुनें</h3><p class="muted">अपनी membership service चुनें।</p></div>
+<div class="step"><div class="num">2</div><h3>Register</h3><p class="muted">Required identity, sponsor और payment details दें।</p></div>
+<div class="step"><div class="num">3</div><h3>Verification</h3><p class="muted">Payment/proof verification workflow follow करें।</p></div>
+<div class="step"><div class="num">4</div><h3>Digital ID</h3><p class="muted">Selected plan के matching premium card को dashboard में देखें।</p></div>
 </div></div></section>
 </main>
 
-<footer><div class="container footer-grid"><div><b class="tiranga-text footer-logo">IOIS PLATFORM</b><p>Indian Online Income Supporting System</p></div><div><h3>Quick Links</h3><a href="membership.html">Membership</a><a href="jobs.html">Jobs</a><a href="news.html">News</a><a href="chat.html">Community Chat</a></div><div><h3>IOIS</h3><p>Digital resources, creator tools and career-supporting products.</p></div></div><div class="copyright">© 2026 IOIS PLATFORM. All Rights Reserved.</div></footer>
+<footer><div class="container">© <span id="year"></span> IOIS PLATFORM • Single-page master system</div></footer>
 
-<div id="modal-overlay" class="modal-overlay" onclick="closeModals(event)">
-<div id="registration-modal" class="modal" onclick="event.stopPropagation()">
-<button class="modal-close" onclick="closeModals()">×</button><div class="modal-icon">👤</div><h2>IOIS Member Registration</h2>
-<form id="registration-form" onsubmit="handleDetailsSubmit(event)">
-<label>Select Membership Plan *</label><select id="reg-plan" required></select>
-<label>Full Name</label><input id="reg-name" type="text" placeholder="अपना पूरा नाम" required>
-<label>WhatsApp Number</label><input id="reg-phone" type="tel" inputmode="numeric" maxlength="10" placeholder="10-digit WhatsApp Number" required>
-<label>Referral Code (optional)</label><input id="reg-ref" type="text" placeholder="Referral code">
-<button class="btn-gradient full" type="submit">Proceed</button>
-</form></div>
+<!-- Registration -->
+<div id="registerModal" class="modal"><div class="modalbox"><button class="close" onclick="closeModal('registerModal')">×</button><h2>🚀 IOIS Registration</h2>
+<form id="registerForm">
+<div class="two"><div class="field"><label>पूरा नाम *</label><input id="rName" required></div><div class="field"><label>Mobile Number *</label><input id="rPhone" inputmode="numeric" maxlength="10" required></div></div>
+<div class="two"><div class="field"><label>Email Address *</label><input id="rEmail" type="email" required></div><div class="field"><label>Strong Password *</label><input id="rPass" type="password" minlength="8" required></div></div>
+<div class="two"><div class="field"><label>Membership Plan *</label><select id="rPlan" required></select></div><div class="field"><label>Sponsor ID *</label><input id="rSponsor" required></div></div>
+<div class="field"><label>Sponsor Details *</label><textarea id="rSponsorDetails" rows="2" required></textarea></div>
+<div class="field"><label>Payment Receiving Type *</label><select id="rPayType" required><option value="">Select</option><option>My UPI</option><option>Family Member UPI</option><option>Bank Account</option><option>Family Member Bank Account</option></select></div>
+<div class="field"><label>UPI ID / Bank Payment Address *</label><input id="rPaymentAddress" required placeholder="UPI ID या account/payment address"></div>
+<div class="field"><label>UPI QR / Payment Proof *</label><input id="rProof" class="file" type="file" accept="image/*,.pdf" required></div>
+<div class="notice">User ID registration के बाद automatically generate होगा और editable नहीं होगा। Password को plain-text में Telegram पर नहीं भेजा जाएगा।</div>
+<button class="btn gold full" type="submit">Complete Registration & Generate User ID</button>
+</form></div></div>
 
-<div id="login-modal" class="modal" onclick="event.stopPropagation()">
-<button class="modal-close" onclick="closeModals()">×</button><div class="modal-icon">🔐</div><h2>IOIS Member Login</h2>
-<form onsubmit="handleLogin(event)"><label>WhatsApp / Mobile</label><input id="login-phone" type="tel" inputmode="numeric" maxlength="10" required><label>Password / PIN</label><input id="login-password" type="password" required><button class="btn-gradient full" type="submit">Login</button></form>
-<p class="modal-note">Demo frontend login: production authentication के लिए Supabase Auth जोड़ें।</p></div>
-</div>
-
+<!-- Login -->
+<div id="loginModal" class="modal"><div class="modalbox"><button class="close" onclick="closeModal('loginModal')">×</button><h2>🔐 IOIS Login</h2>
+<form id="loginForm"><div class="field"><label>Email</label><input id="lEmail" type="email" required></div><div class="field"><label>Password</label><input id="lPass" type="password" required></div><button class="btn gold full">Login</button><p class="muted" style="font-size:10px">This single-file build stores a local demo session unless you connect your Supabase Auth project.</p></form></div></div>
 <div id="toast" class="toast"></div>
-<script src="script.js"></script>
+
+<script>
+/* IOIS SINGLE-PAGE MASTER
+   Secure Telegram notifications should be sent through the existing
+   Supabase Edge Function — never put a Telegram bot token in this file. */
+const IOIS={
+  telegramEndpoint:"https://hrvwzviprlnpkhrgzdrc.supabase.co/functions/v1/iois-registration-notification",
+  plans:[
+   {id:"starter",name:"Starter",display:"Alpha Starter Pass",price:10,payout:7,cls:"silver",features:["Digital ID Pass","3 CV Templates","2 Cover Letters","10 ChatGPT Prompts","Useful Website Links"]},
+   {id:"basic",name:"Basic",display:"Nexus Pro Creator Kit",price:49,payout:35,cls:"silver",features:["Pro Creator Badge","15+ Bio-data","50+ Social Posts","Smartphone Website Guide"]},
+   {id:"plus",name:"Plus",display:"Apex Executive Pass",price:99,payout:70,cls:"digitalcard",features:["Executive Business Pass","100+ Branding Templates","Logos","Business Card Bundle"]},
+   {id:"premium",name:"Premium",display:"Zenith VIP Creator",price:199,payout:120,cls:"premiumcard",features:["VIP Creator Card","Mobile Design Masterclass","300+ Marketing Banners"]},
+   {id:"pro",name:"Pro",display:"Govt Exam & Student",price:299,payout:220,cls:"goldcard",features:["Student ID Card","Govt Job Alert Sheet","GK & Exam Notes"]},
+   {id:"business",name:"Business",display:"Diamond Business Agency",price:499,payout:375,cls:"platinumcard",features:["Diamond Agency Card","1000+ Graphic Assets","Video Assets","Agency Manual"]},
+   {id:"enterprise",name:"Enterprise",display:"VIP Mastermind & AI",price:999,payout:750,cls:"crystalcard",features:["VIP Elite Card","ChatGPT / Canva AI Mastery","Freelancing Blueprint"]}
+  ]
+};
+let current=null;
+
+const $=id=>document.getElementById(id);
+const money=n=>"₹"+Number(n).toLocaleString("en-IN");
+function toast(msg,ok=true){const t=$("toast");t.textContent=msg;t.className="toast show "+(ok?"ok":"err");clearTimeout(window.__t);window.__t=setTimeout(()=>t.className="toast",4000)}
+function openRegister(plan){$("registerModal").classList.add("open");$("rPlan").value=plan||localStorage.getItem("iois_selected_plan")||"starter"}
+function openLogin(){$("loginModal").classList.add("open")}
+function closeModal(id){$(id).classList.remove("open")}
+function genUID(){const a="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";let s="";for(let i=0;i<10;i++)s+=a[Math.floor(Math.random()*a.length)];return "IOIS-"+new Date().getFullYear()+"-"+s}
+function renderPlans(){
+ $("plansGrid").innerHTML=IOIS.plans.map((p,i)=>`<article class="plan ${i===6?"featured":""}"><span class="tag">PLAN ${String(i+1).padStart(2,"0")}</span><h3>${p.display}</h3><div class="price">${money(p.price)}</div><ul>${p.features.map(x=>`<li>✓ ${x}</li>`).join("")}</ul><div class="payout">Direct payout example: ${money(p.payout)}</div><button class="btn gold full" style="margin-top:12px" onclick="openRegister('${p.id}')">Select ${p.name}</button></article>`).join("");
+ $("rPlan").innerHTML=IOIS.plans.map(p=>`<option value="${p.id}">${p.name} — ${money(p.price)}</option>`).join("");
+}
+function updateClock(){
+ const d=new Date(),time=d.toLocaleTimeString("en-IN",{hour12:false});
+ $("clock").textContent=time;$("clock2").textContent=time;$("date").textContent=d.toLocaleDateString("hi-IN",{weekday:"long",day:"2-digit",month:"long",year:"numeric"});$("panchangDate").textContent=d.toLocaleDateString("hi-IN",{dateStyle:"full"});
+}
+async function loadWeather(){
+ if(!navigator.geolocation){$("weather").textContent="GPS unavailable";return}
+ navigator.geolocation.getCurrentPosition(async pos=>{
+  try{const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}&current=temperature_2m,relative_humidity_2m,wind_speed_10m&timezone=auto`);const d=await r.json();$("weather").textContent=`${Math.round(d.current.temperature_2m)}°C • Humidity ${d.current.relative_humidity_2m}% • Wind ${Math.round(d.current.wind_speed_10m)} km/h`}catch{$("weather").textContent="Weather unavailable"}
+ },()=>{$("weather").textContent="Location permission required"});
+}
+function selectedPlan(){return IOIS.plans.find(p=>p.id===$("rPlan").value)||IOIS.plans[0]}
+function renderDashboard(){
+ if(!current)return;
+ $("dashboard").style.display="block";$("dName").textContent=current.name;$("dPhone").textContent=current.phone;$("dEmail").textContent=current.email;
+ const p=IOIS.plans.find(x=>x.id===current.plan)||IOIS.plans[0];$("dPlan").textContent=`${p.name} — ${money(p.price)}`;$("dUid").textContent=current.uid;$("dPayment").textContent=current.paymentAddress;
+ $("cardName").textContent=current.name;$("cardUid").textContent=current.uid;$("cardPlan").textContent=p.name.toUpperCase();
+ const c=$("idcard");c.className="idcard "+p.cls;
+ $("dashboard").scrollIntoView({behavior:"smooth"});
+}
+function copyUID(){if(!current)return;navigator.clipboard?.writeText(current.uid).then(()=>toast("User ID copied")).catch(()=>toast(current.uid))}
+async function sendTelegram(payload){
+ try{await fetch(IOIS.telegramEndpoint,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});return true}catch(e){console.warn("Telegram notification unavailable",e);return false}
+}
+$("registerForm").addEventListener("submit",async e=>{
+ e.preventDefault();
+ const phone=$("rPhone").value.replace(/\D/g,""),pass=$("rPass").value;
+ if(!/^[6-9]\d{9}$/.test(phone))return toast("Valid 10-digit Indian mobile number डालें",false);
+ if(pass.length<8||!/[^A-Za-z0-9]/.test(pass))return toast("Password कम से कम 8 characters और special character वाला रखें",false);
+ const proof=$("rProof").files[0]; if(!proof)return toast("UPI QR / payment proof upload करें",false);
+ const p=selectedPlan(),uid=genUID();
+ current={uid,name:$("rName").value.trim(),phone,email:$("rEmail").value.trim(),password:pass,plan:p.id,sponsorId:$("rSponsor").value.trim(),sponsorDetails:$("rSponsorDetails").value.trim(),paymentType:$("rPayType").value,paymentAddress:$("rPaymentAddress").value.trim(),proofName:proof.name,createdAt:new Date().toISOString()};
+ localStorage.setItem("iois_user_"+uid,JSON.stringify(current));localStorage.setItem("iois_session",uid);
+ await sendTelegram({event:"registration",user_id:uid,name:current.name,phone:current.phone,email:current.email,plan:p.name,amount:p.price,sponsor_id:current.sponsorId,sponsor_details:current.sponsorDetails,payment_type:current.paymentType,payment_address:current.paymentAddress,proof_file_name:current.proofName,created_at:current.createdAt});
+ closeModal("registerModal");renderDashboard();toast(`Registration complete. Your fixed User ID is ${uid}`);
+});
+$("loginForm").addEventListener("submit",e=>{
+ e.preventDefault();const email=$("lEmail").value.trim().toLowerCase(),pass=$("lPass").value;let found=null;
+ for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k?.startsWith("iois_user_")){try{const u=JSON.parse(localStorage.getItem(k));if(u.email.toLowerCase()===email&&u.password===pass){found=u;break}}catch{}}}
+ if(!found)return toast("Login details incorrect",false);current=found;localStorage.setItem("iois_session",found.uid);closeModal("loginModal");renderDashboard();toast("Login successful")}
+);
+window.addEventListener("DOMContentLoaded",()=>{
+ const raw="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";$("logo").src="data:image/png;base64,"+raw;
+ renderPlans();updateClock();setInterval(updateClock,1000);loadWeather();$("year").textContent=new Date().getFullYear();
+ const sid=localStorage.getItem("iois_session");if(sid){try{current=JSON.parse(localStorage.getItem("iois_user_"+sid));if(current)renderDashboard()}catch{}}
+});
+</script>
 </body>
 </html>
