@@ -1,0 +1,1 @@
+window.IOIS_CONFIG={SUPABASE_URL:"https://hrvwzviprlnpkhrgzdrc.supabase.co",SUPABASE_PUBLISHABLE_KEY:"sb_publishable_tXoFuC0rz0JeDOQvmpjz7w_ZAJhKOVF"};
