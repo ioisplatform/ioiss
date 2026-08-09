@@ -2,14 +2,13 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>IOIS Registration | Indian Online Income Supporting System</title>
+    <title>IOIS Login | Indian Online Income Supporting System</title>
 
     <meta name="description"
-          content="IOIS Platform Member Registration - Indian Online Income Supporting System">
+          content="IOIS Platform Member Login - Securely access your IOIS account and member dashboard.">
 
     <meta name="theme-color" content="#030712">
 
@@ -22,11 +21,8 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     >
 
-    <!-- Supabase JS -->
+    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <!-- Existing IOIS CSS -->
-    <link rel="stylesheet" href="style.css">
 
     <style>
 
@@ -36,147 +32,89 @@
 
         body {
             margin: 0;
+            min-height: 100vh;
             background:
                 radial-gradient(
                     circle at top,
-                    rgba(245,158,11,.08),
+                    rgba(245,158,11,.10),
                     transparent 35%
                 ),
                 #030712;
-            color: #fff;
-            font-family: Arial, Helvetica, sans-serif;
+            color: white;
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
         }
 
         .tiranga-text {
-            background: linear-gradient(
-                90deg,
-                #f97316 0%,
-                #ffffff 50%,
-                #10b981 100%
-            );
+            background:
+                linear-gradient(
+                    90deg,
+                    #f97316 0%,
+                    #ffffff 50%,
+                    #10b981 100%
+                );
 
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .glass-card {
+        .glass {
             background: rgba(15,23,42,.82);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(245,158,11,.20);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+
+            border:
+                1px solid
+                rgba(245,158,11,.25);
+
             box-shadow:
-                0 20px 60px rgba(0,0,0,.35),
-                inset 0 0 35px rgba(15,23,42,.45);
+                0 25px 70px rgba(0,0,0,.55),
+                inset 0 0 40px rgba(15,23,42,.45);
         }
 
         .input-box {
-            width: 100%;
-            box-sizing: border-box;
             background: #080d1e;
-            border: 1px solid #334155;
-            color: #fff;
-            border-radius: 12px;
-            padding: 13px 14px;
-            outline: none;
-            transition: .2s;
+            border:
+                1px solid
+                rgba(100,116,139,.65);
+
+            transition:
+                border-color .2s ease,
+                box-shadow .2s ease;
         }
 
         .input-box:focus {
             border-color: #f59e0b;
-            box-shadow: 0 0 0 3px rgba(245,158,11,.10);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(245,158,11,.10);
+
+            outline: none;
         }
 
-        .input-box::placeholder {
-            color: #64748b;
-        }
-
-        .plan-option {
-            transition: .2s;
-            cursor: pointer;
-        }
-
-        .plan-option:hover {
-            transform: translateY(-2px);
-            border-color: rgba(245,158,11,.65);
-        }
-
-        .plan-option.selected {
-            border-color: #f59e0b;
+        .login-btn {
             background:
                 linear-gradient(
-                    135deg,
-                    rgba(245,158,11,.14),
-                    rgba(20,184,166,.06)
+                    90deg,
+                    #fbbf24,
+                    #14b8a6
                 );
+
+            transition:
+                transform .2s ease,
+                box-shadow .2s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+
             box-shadow:
-                0 0 0 2px rgba(245,158,11,.12);
-        }
-
-        .upload-box {
-            border: 1px dashed #475569;
-            background: #080d1e;
-            transition: .2s;
-        }
-
-        .upload-box:hover {
-            border-color: #f59e0b;
-        }
-
-        .step-number {
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f59e0b;
-            color: #030712;
-            font-weight: 900;
-            flex-shrink: 0;
-        }
-
-        .status-box {
-            display: none;
-        }
-
-        .status-box.show {
-            display: block;
-        }
-
-        .success-panel {
-            display: none;
-        }
-
-        .success-panel.show {
-            display: block;
-        }
-
-        .hidden-panel {
-            display: none !important;
-        }
-
-        .copy-btn {
-            cursor: pointer;
-        }
-
-        .top-ticker {
-            overflow: hidden;
-            white-space: nowrap;
-        }
-
-        .ticker-text {
-            display: inline-block;
-            padding-left: 100%;
-            animation: ticker 24s linear infinite;
-        }
-
-        @keyframes ticker {
-            from {
-                transform: translateX(0);
-            }
-
-            to {
-                transform: translateX(-100%);
-            }
+                0 12px 30px
+                rgba(20,184,166,.20);
         }
 
         .pulse {
@@ -186,88 +124,99 @@
         @keyframes pulse {
 
             0% {
-                box-shadow: 0 0 0 0 rgba(245,158,11,.45);
+                box-shadow:
+                    0 0 0 0
+                    rgba(245,158,11,.45);
             }
 
             70% {
-                box-shadow: 0 0 0 13px rgba(245,158,11,0);
+                box-shadow:
+                    0 0 0 12px
+                    rgba(245,158,11,0);
             }
 
             100% {
-                box-shadow: 0 0 0 0 rgba(245,158,11,0);
+                box-shadow:
+                    0 0 0 0
+                    rgba(245,158,11,0);
             }
         }
 
-        .member-id {
-            letter-spacing: 2px;
-            font-family: monospace;
+        .spinner {
+            width: 18px;
+            height: 18px;
+
+            border:
+                2px solid
+                rgba(0,0,0,.25);
+
+            border-top-color: #020617;
+
+            border-radius: 50%;
+
+            animation:
+                spin .7s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .toast {
+            animation:
+                toastIn .25s ease;
+        }
+
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
     </style>
 </head>
 
+
 <body>
 
-<!-- =========================================================
-     LIVE TICKER
-========================================================= -->
 
-<div class="bg-black border-b border-gray-800">
-
-    <div class="max-w-7xl mx-auto px-4 py-2 flex items-center">
-
-        <span
-            class="bg-red-600 text-white text-[10px]
-                   px-2 py-1 rounded font-black
-                   mr-2 shrink-0">
-
-            LIVE
-
-        </span>
-
-        <div class="top-ticker text-[11px] text-gray-300">
-
-            <div class="ticker-text">
-
-                🔥 ₹10 से Join करके ₹49 Gold Plan sale पर
-                ₹35 तक direct referral payout example
-                &nbsp;&nbsp;&nbsp;&nbsp;
-
-                🎉 IOIS के 7 Membership Plans available
-                &nbsp;&nbsp;&nbsp;&nbsp;
-
-                🚀 ₹99, ₹199, ₹299, ₹499 और ₹999 Plans
-                &nbsp;&nbsp;&nbsp;&nbsp;
-
-                🇮🇳 IOIS PLATFORM —
-                Indian Online Income Supporting System
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- =========================================================
+<!-- =====================================================
      HEADER
-========================================================= -->
+===================================================== -->
 
-<header class="border-b border-gray-800 bg-[#050b18]/95">
+<header
+    class="border-b border-gray-800
+           bg-[#030712]/95
+           backdrop-blur-xl
+           sticky top-0 z-50">
 
-    <div class="max-w-7xl mx-auto px-4 py-4
-                flex justify-between items-center">
+    <div
+        class="max-w-7xl mx-auto
+               px-4 py-3
+               flex items-center
+               justify-between">
 
-        <a href="index.html"
-           class="flex items-center gap-3">
+        <!-- LOGO -->
+
+        <a
+            href="index.html"
+            class="flex items-center gap-3">
 
             <img
                 src="assets/logo.png"
                 alt="IOIS Logo"
-                class="w-12 h-12 rounded-full
-                       border-2 border-amber-400
+                class="w-11 h-11
+                       rounded-full
+                       border-2
+                       border-amber-400
                        object-cover"
                 onerror="this.style.display='none'"
             >
@@ -275,8 +224,9 @@
             <div>
 
                 <div
-                    class="text-xl md:text-2xl
-                           font-black tracking-wider
+                    class="text-xl
+                           font-black
+                           tracking-wider
                            tiranga-text">
 
                     IOIS PLATFORM
@@ -284,8 +234,9 @@
                 </div>
 
                 <div
-                    class="text-[8px] md:text-[9px]
+                    class="text-[8px]
                            text-teal-400
+                           font-bold
                            tracking-widest
                            uppercase">
 
@@ -298,1664 +249,468 @@
         </a>
 
 
-        <div class="flex items-center gap-2">
+        <!-- BACK HOME -->
 
-            <a
-                href="index.html"
-                class="hidden sm:inline-flex
-                       px-4 py-2
-                       border border-gray-700
-                       rounded-xl
-                       text-xs
-                       text-gray-300
-                       hover:border-amber-400
-                       hover:text-amber-400">
+        <a
+            href="index.html"
+            class="text-xs
+                   text-gray-300
+                   hover:text-amber-400
+                   transition">
 
-                <i class="fa-solid fa-house mr-1"></i>
-                Home
+            <i class="fa-solid fa-house mr-1"></i>
 
-            </a>
+            Home
 
-
-            <a
-                href="login.html"
-                class="px-4 py-2
-                       border border-amber-400
-                       text-amber-400
-                       rounded-xl
-                       text-xs font-bold
-                       hover:bg-amber-400
-                       hover:text-gray-950">
-
-                <i class="fa-solid fa-right-to-bracket mr-1"></i>
-                Login
-
-            </a>
-
-        </div>
+        </a>
 
     </div>
 
 </header>
 
 
-<!-- =========================================================
+
+<!-- =====================================================
      MAIN
-========================================================= -->
+===================================================== -->
 
-<main class="max-w-7xl mx-auto px-4 py-8 md:py-12">
+<main
+    class="min-h-[calc(100vh-75px)]
+           flex items-center
+           justify-center
+           px-4 py-10">
+
+    <div
+        class="w-full
+               max-w-md">
 
 
-    <!-- =====================================================
-         PAGE INTRO
-    ====================================================== -->
+        <!-- BRAND -->
 
-    <section class="text-center mb-8">
+        <div class="text-center mb-7">
 
-        <div
-            class="inline-flex items-center gap-2
-                   bg-emerald-500/10
-                   border border-emerald-500/30
-                   text-emerald-400
-                   px-4 py-2
-                   rounded-full
-                   text-[11px]
-                   font-bold">
+            <div
+                class="mx-auto
+                       w-16 h-16
+                       rounded-2xl
+                       bg-amber-400
+                       text-gray-950
+                       flex items-center
+                       justify-center
+                       text-2xl
+                       pulse">
 
-            <i class="fa-solid fa-shield-halved"></i>
+                <i class="fa-solid fa-right-to-bracket"></i>
 
-            100% Verified Indian Digital Ecosystem
+            </div>
+
+
+            <h1
+                class="text-3xl
+                       md:text-4xl
+                       font-black
+                       mt-5">
+
+                IOIS Member Login
+
+            </h1>
+
+
+            <p
+                class="text-gray-400
+                       text-xs
+                       mt-2">
+
+                अपने IOIS Member Account में सुरक्षित Login करें।
+
+            </p>
 
         </div>
 
 
-        <h1
-            class="text-3xl md:text-5xl
-                   font-black mt-5">
-
-            <span class="tiranga-text">
-                IOIS Member Registration
-            </span>
-
-        </h1>
-
-
-        <p
-            class="max-w-3xl mx-auto
-                   text-gray-400
-                   text-sm md:text-base
-                   leading-7 mt-4">
-
-            मात्र ₹10 से शुरू करें।
-            Digital Kit, Career Resources,
-            Creator Tools और Membership
-            Ecosystem का हिस्सा बनें।
-
-        </p>
-
-    </section>
-
-
-    <!-- =====================================================
-         REGISTRATION WRAPPER
-    ====================================================== -->
-
-    <section
-        class="grid grid-cols-1
-               lg:grid-cols-3
-               gap-6">
-
 
         <!-- =================================================
-             LEFT INFORMATION
-        ================================================== -->
+             LOGIN CARD
+        ================================================= -->
 
-        <aside class="lg:col-span-1 space-y-5">
+        <div
+            class="glass
+                   rounded-3xl
+                   p-6 md:p-8">
 
 
-            <div class="glass-card rounded-2xl p-5">
+            <!-- STATUS -->
 
-                <h2
-                    class="text-amber-400
+            <div
+                id="status-message"
+                class="hidden
+                       mb-5
+                       rounded-xl
+                       px-4 py-3
+                       text-xs
+                       font-semibold">
+            </div>
+
+
+            <!-- LOGIN FORM -->
+
+            <form
+                id="login-form"
+                class="space-y-5">
+
+
+                <!-- USER ID / EMAIL -->
+
+                <div>
+
+                    <label
+                        for="login-identifier"
+                        class="block
+                               text-xs
+                               text-amber-400
+                               font-bold
+                               mb-2">
+
+                        <i class="fa-solid fa-user mr-1"></i>
+
+                        User ID / Email *
+
+                    </label>
+
+
+                    <div class="relative">
+
+                        <i
+                            class="fa-solid
+                                   fa-user
+                                   absolute
+                                   left-4
+                                   top-1/2
+                                   -translate-y-1/2
+                                   text-gray-500
+                                   text-sm">
+                        </i>
+
+
+                        <input
+                            id="login-identifier"
+                            name="identifier"
+                            type="text"
+                            autocomplete="username"
+                            required
+                            placeholder="User ID या Email"
+                            class="input-box
+                                   w-full
+                                   rounded-xl
+                                   py-3.5
+                                   pl-11
+                                   pr-4
+                                   text-sm
+                                   text-white">
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PASSWORD -->
+
+                <div>
+
+                    <div
+                        class="flex
+                               justify-between
+                               items-center
+                               mb-2">
+
+                        <label
+                            for="login-password"
+                            class="text-xs
+                                   text-amber-400
+                                   font-bold">
+
+                            <i class="fa-solid fa-lock mr-1"></i>
+
+                            Password *
+
+                        </label>
+
+
+                        <button
+                            type="button"
+                            id="forgot-password-btn"
+                            class="text-[11px]
+                                   text-teal-400
+                                   hover:text-amber-400
+                                   font-bold">
+
+                            Forgot Password?
+
+                        </button>
+
+                    </div>
+
+
+                    <div class="relative">
+
+                        <i
+                            class="fa-solid
+                                   fa-lock
+                                   absolute
+                                   left-4
+                                   top-1/2
+                                   -translate-y-1/2
+                                   text-gray-500
+                                   text-sm">
+                        </i>
+
+
+                        <input
+                            id="login-password"
+                            name="password"
+                            type="password"
+                            autocomplete="current-password"
+                            required
+                            placeholder="अपना Password"
+                            class="input-box
+                                   w-full
+                                   rounded-xl
+                                   py-3.5
+                                   pl-11
+                                   pr-12
+                                   text-sm
+                                   text-white">
+
+
+                        <button
+                            type="button"
+                            id="toggle-password"
+                            class="absolute
+                                   right-4
+                                   top-1/2
+                                   -translate-y-1/2
+                                   text-gray-500
+                                   hover:text-amber-400">
+
+                            <i
+                                id="password-icon"
+                                class="fa-solid fa-eye">
+                            </i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- REMEMBER -->
+
+                <div
+                    class="flex
+                           items-center
+                           justify-between
+                           text-[11px]">
+
+                    <label
+                        class="flex
+                               items-center
+                               gap-2
+                               text-gray-400">
+
+                        <input
+                            id="remember-me"
+                            type="checkbox"
+                            class="accent-amber-400">
+
+                        Remember this device
+
+                    </label>
+
+
+                    <span
+                        class="text-green-400
+                               font-bold">
+
+                        <i class="fa-solid fa-shield-halved mr-1"></i>
+
+                        Secure Login
+
+                    </span>
+
+                </div>
+
+
+
+                <!-- LOGIN BUTTON -->
+
+                <button
+                    id="login-btn"
+                    type="submit"
+                    class="login-btn
+                           w-full
+                           rounded-xl
+                           py-3.5
+                           text-gray-950
                            font-black
-                           text-lg mb-4">
+                           text-sm
+                           flex
+                           items-center
+                           justify-center
+                           gap-2">
 
-                    <i class="fa-solid fa-circle-info mr-2"></i>
+                    <span id="login-btn-text">
 
-                    Registration Process
+                        <i class="fa-solid fa-right-to-bracket mr-1"></i>
 
-                </h2>
+                        Login to IOIS
 
-
-                <div class="space-y-4">
-
-
-                    <div class="flex gap-3">
-
-                        <span class="step-number">1</span>
-
-                        <div>
-
-                            <h3 class="font-bold text-sm">
-                                Plan चुनें
-                            </h3>
-
-                            <p class="text-xs text-gray-400 mt-1">
-                                अपनी जरूरत के अनुसार
-                                membership plan चुनें।
-                            </p>
-
-                        </div>
-
-                    </div>
+                    </span>
 
 
-                    <div class="flex gap-3">
+                    <span
+                        id="login-spinner"
+                        class="spinner hidden">
+                    </span>
 
-                        <span class="step-number">2</span>
+                </button>
 
-                        <div>
-
-                            <h3 class="font-bold text-sm">
-                                Details भरें
-                            </h3>
-
-                            <p class="text-xs text-gray-400 mt-1">
-                                Name, email, WhatsApp,
-                                address और sponsor details दें।
-                            </p>
-
-                        </div>
-
-                    </div>
+            </form>
 
 
-                    <div class="flex gap-3">
 
-                        <span class="step-number">3</span>
+            <!-- DIVIDER -->
 
-                        <div>
+            <div
+                class="flex
+                       items-center
+                       gap-3
+                       my-6">
 
-                            <h3 class="font-bold text-sm">
-                                Payment करें
-                            </h3>
+                <div
+                    class="h-px
+                           flex-1
+                           bg-gray-800">
+                </div>
 
-                            <p class="text-xs text-gray-400 mt-1">
-                                Selected plan की payment
-                                निर्धारित IOIS payment address पर करें।
-                            </p>
+                <span
+                    class="text-[10px]
+                           text-gray-500">
 
-                        </div>
+                    OR
 
-                    </div>
+                </span>
 
-
-                    <div class="flex gap-3">
-
-                        <span class="step-number">4</span>
-
-                        <div>
-
-                            <h3 class="font-bold text-sm">
-                                Verification
-                            </h3>
-
-                            <p class="text-xs text-gray-400 mt-1">
-                                Payment proof verification के
-                                बाद membership process पूरा होगा।
-                            </p>
-
-                        </div>
-
-                    </div>
-
+                <div
+                    class="h-px
+                           flex-1
+                           bg-gray-800">
                 </div>
 
             </div>
 
 
-            <!-- REFERRAL INFO -->
+
+            <!-- REGISTER -->
 
             <div
-                class="glass-card rounded-2xl p-5
-                       border-amber-500/30">
-
-                <div
-                    class="text-amber-400
-                           font-black text-lg">
-
-                    🔥 Open Referral Power
-
-                </div>
-
+                class="text-center">
 
                 <p
-                    class="text-gray-300
-                           text-xs
-                           leading-6 mt-3">
+                    class="text-xs
+                           text-gray-400">
 
-                    Source plan structure के अनुसार
-                    referral payout अलग-अलग plan पर
-                    निर्धारित है।
+                    अभी IOIS Member नहीं हैं?
 
                 </p>
 
 
-                <div
-                    class="grid grid-cols-2
-                           gap-2 mt-4">
+                <a
+                    href="register.html"
+                    class="inline-block
+                           mt-3
+                           px-6 py-2.5
+                           border
+                           border-amber-400
+                           text-amber-400
+                           rounded-xl
+                           text-xs
+                           font-black
+                           hover:bg-amber-400
+                           hover:text-gray-950
+                           transition">
 
+                    <i class="fa-solid fa-user-plus mr-1"></i>
 
-                    <div class="bg-black/30 rounded-xl p-3">
+                    Register Now
 
-                        <div class="text-gray-500 text-[10px]">
-                            ₹10
-                        </div>
-
-                        <div class="text-amber-400 font-black">
-                            ₹7
-                        </div>
-
-                    </div>
-
-
-                    <div class="bg-black/30 rounded-xl p-3">
-
-                        <div class="text-gray-500 text-[10px]">
-                            ₹49
-                        </div>
-
-                        <div class="text-amber-400 font-black">
-                            ₹35
-                        </div>
-
-                    </div>
-
-
-                    <div class="bg-black/30 rounded-xl p-3">
-
-                        <div class="text-gray-500 text-[10px]">
-                            ₹99
-                        </div>
-
-                        <div class="text-amber-400 font-black">
-                            ₹70
-                        </div>
-
-                    </div>
-
-
-                    <div class="bg-black/30 rounded-xl p-3">
-
-                        <div class="text-gray-500 text-[10px]">
-                            ₹999
-                        </div>
-
-                        <div class="text-amber-400 font-black">
-                            ₹750
-                        </div>
-
-                    </div>
-
-                </div>
+                </a>
 
             </div>
 
+        </div>
 
-            <!-- SECURITY -->
+
+
+        <!-- SECURITY NOTE -->
+
+        <div
+            class="mt-5
+                   glass
+                   rounded-2xl
+                   p-4">
 
             <div
-                class="rounded-2xl p-5
-                       bg-emerald-500/5
-                       border border-emerald-500/20">
-
-                <div
-                    class="flex items-center gap-2
-                           text-emerald-400
-                           font-bold text-sm">
-
-                    <i class="fa-solid fa-lock"></i>
-
-                    Secure Registration
-
-                </div>
-
-
-                <ul
-                    class="text-xs
-                           text-gray-400
-                           space-y-2 mt-3">
-
-                    <li>
-                        ✓ Secure authentication
-                    </li>
-
-                    <li>
-                        ✓ Unique Member ID
-                    </li>
-
-                    <li>
-                        ✓ User ID cannot be changed
-                    </li>
-
-                    <li>
-                        ✓ Payment verification
-                    </li>
-
-                    <li>
-                        ✓ Admin-controlled approval
-                    </li>
-
-                </ul>
-
-            </div>
-
-        </aside>
-
-
-        <!-- =================================================
-             REGISTRATION FORM
-        ================================================== -->
-
-        <div class="lg:col-span-2">
-
-            <div class="glass-card rounded-3xl p-5 md:p-8">
-
-
-                <!-- FORM HEADER -->
-
-                <div
-                    class="flex items-center
-                           gap-4
-                           border-b border-gray-800
-                           pb-5 mb-6">
-
-                    <div
-                        class="w-14 h-14
-                               rounded-2xl
-                               bg-amber-400
-                               text-gray-950
-                               flex items-center
-                               justify-center
-                               text-xl
-                               pulse">
-
-                        <i class="fa-solid fa-user-plus"></i>
-
-                    </div>
-
-
-                    <div>
-
-                        <h2
-                            class="text-xl md:text-2xl
-                                   font-black
-                                   text-amber-400">
-
-                            Create Your IOIS Account
-
-                        </h2>
-
-                        <p
-                            class="text-xs
-                                   text-gray-400 mt-1">
-
-                            सभी आवश्यक जानकारी सही-सही भरें।
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <!-- =================================================
-                     FORM
-                ================================================== -->
-
-                <form
-                    id="iois-registration-form"
-                    class="space-y-7"
-                    enctype="multipart/form-data">
-
-
-                    <!-- =============================================
-                         SECTION 1 — PLAN
-                    ============================================== -->
-
-                    <div>
-
-                        <div class="flex items-center gap-2 mb-4">
-
-                            <span class="step-number">1</span>
-
-                            <h3 class="font-black text-lg">
-                                Membership Plan
-                            </h3>
-
-                        </div>
-
-
-                        <div
-                            id="plan-grid"
-                            class="grid grid-cols-1
-                                   sm:grid-cols-2
-                                   gap-3">
-
-
-                            <!-- PLAN 1 -->
-
-                            <label
-                                class="plan-option glass-card
-                                       rounded-xl p-4
-                                       selected">
-
-                                <input
-                                    type="radio"
-                                    name="plan"
-                                    value="IOIS-SILVER-10"
-                                    data-name="Tiranga Silver"
-                                    data-amount="10"
-                                    data-payout="7"
-                                    class="hidden plan-radio"
-                                    checked>
-
-                                <div
-                                    class="flex justify-between
-                                           gap-3">
-
-                                    <div>
-
-                                        <div
-                                            class="text-[10px]
-                                                   text-amber-400
-                                                   font-black">
-
-                                            STARTER
-
-                                        </div>
-
-                                        <div
-                                            class="font-black mt-1">
-
-                                            1. Tiranga Silver
-
-                                        </div>
-
-                                    </div>
-
-                                    <div
-                                        class="text-xl
-                                               font-black
-                                               text-amber-400">
-
-                                        ₹10
-
-                                    </div>
-
-                                </div>
-
-                                <div
-                                    class="text-[10px]
-                                           text-teal-400 mt-2">
-
-                                    Earn ₹7 Per Refer (70%)
-
-                                </div>
-
-                            </label>
-
-
-                            <!-- PLAN 2 -->
-
-                            <label class="plan-option glass-card rounded-xl p-4">
-
-                                <input
-                                    type="radio"
-                                    name="plan"
-                                    value="IOIS-GOLD-49"
-                                    data-name="Tiranga Gold Pro"
-                                    data-amount="49"
-                                    data-payout="35"
-                                    class="hidden plan-radio">
-
-                                <div class="flex justify-between gap-3">
-
-                                    <div>
-
-                                        <div class="text-[10px] text-amber-400 font-black">
-                                            PRO KIT
-                                        </div>
-
-                                        <div class="font-black mt-1">
-                                            2. Tiranga Gold Pro
-                                        </div>
-
-                                    </div>
-
-                                    <div class="text-xl font-black text-amber-400">
-                                        ₹49
-                                    </div>
-
-                                </div>
-
-                                <div class="text-[10px] text-teal-400 mt-2">
-                                    Earn ₹35 Per Refer (71%)
-                                </div>
-
-                            </label>
-
-
-                            <!-- PLAN 3 -->
-
-                            <label class="plan-option glass-card rounded-xl p-4">
-
-                                <input
-                                    type="radio"
-                                    name="plan"
-                                    value="IOIS-PLATINUM-99"
-                                    data-name="Tiranga Platinum"
-                                    data-amount="99"
-                                    data-payout="70"
-                                    class="hidden plan-radio">
-
-                                <div class="flex justify-between gap-3">
-
-                                    <div>
-
-                                        <div class="text-[10px] text-amber-400 font-black">
-                                            EXECUTIVE
-                                        </div>
-
-                                        <div class="font-black mt-1">
-                                            3. Tiranga Platinum
-                                        </div>
-
-                                    </div>
-
-                                    <div class="text-xl font-black text-amber-400">
-                                        ₹99
-                                    </div>
-
-                                </div>
-
-                                <div class="text-[10px] text-teal-400 mt-2">
-                                    Earn ₹70 Per Refer (71%)
-                                </div>
-
-                            </label>
-
-
-                            <!-- PLAN 4 -->
-
-                            <label class="plan-option glass-card rounded-xl p-4">
-
-                                <input
-                                    type="radio"
-                                    name="plan"
-                                    value="IOIS-CRYSTAL-199"
-                                    data-name="Tiranga Crystal VIP"
-                                    data-amount="199"
-                                    data-payout="120"
-                                    class="hidden plan-radio">
-
-                                <div class="flex justify-between gap-3">
-
-                                    <div>
-
-                                        <div class="text-[10px] text-purple-300 font-black">
-                                            PASSIVE BONUS
-                                        </div>
-
-                                        <div class="font-black mt-1">
-                                            4. Tiranga Crystal VIP
-                                        </div>
-
-                                    </div>
-
-                                    <div class="text-xl font-black text-amber-400">
-                                        ₹199
-                                    </div>
-
-                                </div>
-
-                                <div class="text-[10px] text-gray-400 mt-2">
-                                    Direct ₹120 · Level 2 ₹20
-                                </div>
-
-                            </label>
-
-
-                            <!-- PLAN 5 -->
-
-                            <label class="plan-option glass-card rounded-xl p-4">
-
-                                <input
-                                    type="radio"
-                                    name="plan"
-                                    value="IOIS-EXAM-299"
-                                    data-name="Govt Exam Pass"
-                                    data-amount="299"
-                                    data-payout="220"
-                                    class="hidden plan-radio">
-
-                                <div class="flex justify-between gap-3">
-
-                                    <div>
-
-                                        <div class="text-[10px] text-green-400 font-black">
-                                            EXAM PASS
-                                        </div>
-
-                                        <div class="font-black mt-1">
-                                            5. Govt Exam Pass
-                                        </div>
-
-                                    </div>
-
-                                    <div class="text-xl font-black text-amber-400">
-                                        ₹299
-                                    </div>
-
-                                </div>
-
-                                <div class="text-[10px] text-gray-400 mt-2">
-                                    Direct ₹220 · L2 ₹20
-                                </div>
-
-                            </label>
-
-
-                            <!-- PLAN 6 -->
-
-                            <label class="plan-option glass-card rounded-xl p-4">
-
-                                <input
-                                    type="radio"
-                                    name="plan"
-                                    value="IOIS-DIAMOND-499"
-                                    data-name="Tiranga Diamond"
-                                    data-amount="499"
-                                    data-payout="375"
-                                    class="hidden plan-radio">
-
-                                <div class="flex justify-between gap-3">
-
-                                    <div>
-
-                                        <div class="text-[10px] text-cyan-400 font-black">
-                                            AGENCY PASS
-                                        </div>
-
-                                        <div class="font-black mt-1">
-                                            6. Tiranga Diamond
-                                        </div>
-
-                                    </div>
-
-                                    <div class="text-xl font-black text-amber-400">
-                                        ₹499
-                                    </div>
-
-                                </div>
-
-                                <div class="text-[10px] text-gray-400 mt-2">
-                                    Direct ₹375 · L2 ₹25
-                                </div>
-
-                            </label>
-
-
-                            <!-- PLAN 7 -->
-
-                            <label class="plan-option glass-card rounded-xl p-4 sm:col-span-2">
-
-                                <input
-                                    type="radio"
-                                    name="plan"
-                                    value="IOIS-VIP-999"
-                                    data-name="VIP Mastermind Freelancing & AI Pass"
-                                    data-amount="999"
-                                    data-payout="750"
-                                    class="hidden plan-radio">
-
-                                <div class="flex justify-between gap-3">
-
-                                    <div>
-
-                                        <div class="text-[10px] text-purple-300 font-black">
-                                            VIP MASTERMIND
-                                        </div>
-
-                                        <div class="font-black mt-1">
-                                            7. VIP Mastermind Freelancing & AI Pass
-                                        </div>
-
-                                    </div>
-
-                                    <div class="text-xl font-black text-amber-400">
-                                        ₹999
-                                    </div>
-
-                                </div>
-
-                                <div class="text-[10px] text-gray-400 mt-2">
-
-                                    Direct ₹750 · Level 2 ₹50
-
-                                </div>
-
-                            </label>
-
-                        </div>
-
-
-                        <!-- SELECTED PLAN SUMMARY -->
-
-                        <div
-                            class="mt-4
-                                   rounded-xl
-                                   bg-amber-400/5
-                                   border border-amber-400/20
-                                   p-4">
-
-                            <div class="text-[10px] text-gray-500">
-                                SELECTED PLAN
-                            </div>
-
-                            <div
-                                id="selected-plan-name"
-                                class="font-black
-                                       text-amber-400
-                                       mt-1">
-
-                                Tiranga Silver
-
-                            </div>
-
-                            <div
-                                class="text-xs
-                                       text-gray-400 mt-1">
-
-                                Payable Amount:
-                                <strong
-                                    id="selected-plan-amount"
-                                    class="text-white">
-
-                                    ₹10
-
-                                </strong>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- =============================================
-                         SECTION 2 — PERSONAL DETAILS
-                    ============================================== -->
-
-                    <div>
-
-                        <div class="flex items-center gap-2 mb-4">
-
-                            <span class="step-number">2</span>
-
-                            <h3 class="font-black text-lg">
-                                Personal Details
-                            </h3>
-
-                        </div>
-
-
-                        <div
-                            class="grid grid-cols-1
-                                   md:grid-cols-2
-                                   gap-4">
-
-
-                            <div>
-
-                                <label class="form-label">
-                                    Full Name *
-                                </label>
-
-                                <input
-                                    id="full-name"
-                                    name="full_name"
-                                    type="text"
-                                    class="input-box"
-                                    placeholder="अपना पूरा नाम"
-                                    autocomplete="name"
-                                    required>
-
-                            </div>
-
-
-                            <div>
-
-                                <label class="form-label">
-                                    Email Address *
-                                </label>
-
-                                <input
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    class="input-box"
-                                    placeholder="example@email.com"
-                                    autocomplete="email"
-                                    required>
-
-                            </div>
-
-
-                            <div>
-
-                                <label class="form-label">
-                                    WhatsApp Number *
-                                </label>
-
-                                <input
-                                    id="whatsapp"
-                                    name="whatsapp"
-                                    type="tel"
-                                    class="input-box"
-                                    placeholder="10-digit WhatsApp Number"
-                                    inputmode="numeric"
-                                    maxlength="10"
-                                    required>
-
-                            </div>
-
-
-                            <div>
-
-                                <label class="form-label">
-                                    Set Password *
-                                </label>
-
-                                <div class="relative">
-
-                                    <input
-                                        id="password"
-                                        name="password"
-                                        type="password"
-                                        class="input-box pr-12"
-                                        placeholder="कम से कम 8 characters"
-                                        minlength="8"
-                                        autocomplete="new-password"
-                                        required>
-
-                                    <button
-                                        type="button"
-                                        onclick="togglePassword('password','password-eye')"
-                                        class="absolute right-3 top-1/2
-                                               -translate-y-1/2
-                                               text-gray-500">
-
-                                        <i
-                                            id="password-eye"
-                                            class="fa-solid fa-eye">
-                                        </i>
-
-                                    </button>
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="md:col-span-2">
-
-                                <label class="form-label">
-                                    Confirm Password *
-                                </label>
-
-                                <input
-                                    id="confirm-password"
-                                    type="password"
-                                    class="input-box"
-                                    placeholder="Password दोबारा लिखें"
-                                    minlength="8"
-                                    autocomplete="new-password"
-                                    required>
-
-                            </div>
-
-
-                            <div class="md:col-span-2">
-
-                                <label class="form-label">
-                                    Full Address *
-                                </label>
-
-                                <textarea
-                                    id="address"
-                                    name="address"
-                                    rows="3"
-                                    class="input-box"
-                                    placeholder="पूरा पता"
-                                    required></textarea>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- =============================================
-                         SECTION 3 — SPONSOR
-                    ============================================== -->
-
-                    <div>
-
-                        <div class="flex items-center gap-2 mb-4">
-
-                            <span class="step-number">3</span>
-
-                            <h3 class="font-black text-lg">
-                                Sponsor / Referral Details
-                            </h3>
-
-                        </div>
-
-
-                        <div
-                            class="grid grid-cols-1
-                                   md:grid-cols-2
-                                   gap-4">
-
-
-                            <div>
-
-                                <label class="form-label">
-                                    Sponsor Name
-                                </label>
-
-                                <input
-                                    id="sponsor-name"
-                                    name="sponsor_name"
-                                    type="text"
-                                    class="input-box"
-                                    placeholder="Sponsor का नाम">
-
-                            </div>
-
-
-                            <div>
-
-                                <label class="form-label">
-                                    Sponsor ID
-                                </label>
-
-                                <input
-                                    id="sponsor-id"
-                                    name="sponsor_id"
-                                    type="text"
-                                    class="input-box uppercase"
-                                    placeholder="IOIS Member ID">
-
-                            </div>
-
-                        </div>
-
-
-                        <p
-                            class="text-[10px]
-                                   text-gray-500 mt-2">
-
-                            यदि किसी ने आपको refer किया है,
-                            तो उसका सही Sponsor ID दर्ज करें।
-
-                        </p>
-
-                    </div>
-
-
-                    <!-- =============================================
-                         SECTION 4 — WITHDRAWAL DETAILS
-                    ============================================== -->
-
-                    <div>
-
-                        <div class="flex items-center gap-2 mb-4">
-
-                            <span class="step-number">4</span>
-
-                            <h3 class="font-black text-lg">
-                                Withdrawal / Income Details
-                            </h3>
-
-                        </div>
-
-
-                        <label class="form-label">
-
-                            Withdrawal UPI ID / Bank Details
-                            *
-
-                        </label>
-
-
-                        <textarea
-                            id="withdrawal-details"
-                            name="withdrawal_details"
-                            rows="3"
-                            class="input-box"
-                            placeholder="UPI ID या Bank Account Details"
-                            required></textarea>
-
-
-                        <p
-                            class="text-[10px]
-                                   text-gray-500 mt-2">
-
-                            यह जानकारी payout/withdrawal processing
-                            के लिए उपयोग की जाएगी।
-
-                        </p>
-
-                    </div>
-
-
-                    <!-- =============================================
-                         SECTION 5 — PAYMENT
-                    ============================================== -->
-
-                    <div>
-
-                        <div class="flex items-center gap-2 mb-4">
-
-                            <span class="step-number">5</span>
-
-                            <h3 class="font-black text-lg">
-                                Payment Verification
-                            </h3>
-
-                        </div>
-
-
-                        <div
-                            class="rounded-2xl
-                                   bg-amber-400/5
-                                   border border-amber-400/20
-                                   p-5">
-
-
-                            <div
-                                class="flex items-start gap-3">
-
-                                <i
-                                    class="fa-solid fa-credit-card
-                                           text-amber-400
-                                           text-xl mt-1">
-                                </i>
-
-
-                                <div>
-
-                                    <h4
-                                        class="font-black
-                                               text-amber-400">
-
-                                        Payment Address
-
-                                    </h4>
-
-
-                                    <p
-                                        class="text-xs
-                                               text-gray-400
-                                               mt-1">
-
-                                        Selected plan की payment
-                                        केवल official IOIS payment
-                                        address पर करें।
-
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- PAYMENT ADDRESS FROM CONFIG -->
-
-                            <div
-                                class="mt-4
-                                       bg-black/40
-                                       border border-gray-700
-                                       rounded-xl p-4">
-
-
-                                <div
-                                    class="text-[10px]
-                                           text-gray-500
-                                           uppercase">
-
-                                    Official Payment Address
-
-                                </div>
-
-
-                                <div
-                                    id="official-payment-address"
-                                    class="font-black
-                                           text-amber-400
-                                           break-all mt-2">
-
-                                    Payment address loading...
-
-                                </div>
-
-
-                                <button
-                                    type="button"
-                                    onclick="copyPaymentAddress()"
-                                    class="mt-3
-                                           px-3 py-2
-                                           bg-gray-800
-                                           hover:bg-gray-700
-                                           rounded-lg
-                                           text-[10px]
-                                           font-bold">
-
-                                    <i class="fa-solid fa-copy mr-1"></i>
-
-                                    Copy Payment Address
-
-                                </button>
-
-                            </div>
-
-
-                            <!-- PAYMENT REFERENCE -->
-
-                            <div class="mt-4">
-
-                                <label class="form-label">
-                                    Payment Transaction / UTR ID *
-                                </label>
-
-                                <input
-                                    id="payment-reference"
-                                    name="payment_reference"
-                                    type="text"
-                                    class="input-box"
-                                    placeholder="UTR / Transaction ID"
-                                    required>
-
-                            </div>
-
-
-                            <!-- PAYMENT SCREENSHOT -->
-
-                            <div class="mt-4">
-
-                                <label class="form-label">
-
-                                    Payment Screenshot *
-
-                                </label>
-
-
-                                <label
-                                    class="upload-box
-                                           rounded-xl
-                                           p-5
-                                           flex flex-col
-                                           items-center
-                                           justify-center
-                                           text-center
-                                           cursor-pointer">
-
-                                    <i
-                                        class="fa-solid fa-cloud-arrow-up
-                                               text-amber-400
-                                               text-3xl">
-                                    </i>
-
-
-                                    <span
-                                        class="text-sm
-                                               font-bold mt-2">
-
-                                        Screenshot Upload करें
-
-                                    </span>
-
-
-                                    <span
-                                        id="payment-file-name"
-                                        class="text-[10px]
-                                               text-gray-500 mt-1">
-
-                                        JPG / PNG / WEBP
-
-                                    </span>
-
-
-                                    <input
-                                        id="payment-screenshot"
-                                        name="payment_screenshot"
-                                        type="file"
-                                        accept="image/jpeg,image/png,image/webp"
-                                        class="hidden"
-                                        required>
-
-                                </label>
-
-                            </div>
-
-
-                            <!-- PAYMENT ADDRESS PROOF -->
-
-                            <div class="mt-4">
-
-                                <label class="form-label">
-
-                                    Payment Address Proof *
-
-                                </label>
-
-
-                                <p
-                                    class="text-[10px]
-                                           text-gray-500 mb-2">
-
-                                    UPI QR / Passbook / Bank proof
-                                    upload करें।
-
-                                </p>
-
-
-                                <label
-                                    class="upload-box
-                                           rounded-xl
-                                           p-5
-                                           flex flex-col
-                                           items-center
-                                           justify-center
-                                           text-center
-                                           cursor-pointer">
-
-                                    <i
-                                        class="fa-solid fa-file-shield
-                                               text-teal-400
-                                               text-3xl">
-                                    </i>
-
-
-                                    <span
-                                        class="text-sm
-                                               font-bold mt-2">
-
-                                        Address Proof Upload करें
-
-                                    </span>
-
-
-                                    <span
-                                        id="address-proof-name"
-                                        class="text-[10px]
-                                               text-gray-500 mt-1">
-
-                                        JPG / PNG / WEBP / PDF
-
-                                    </span>
-
-
-                                    <input
-                                        id="address-proof"
-                                        name="address_proof"
-                                        type="file"
-                                        accept="image/jpeg,image/png,image/webp,application/pdf"
-                                        class="hidden"
-                                        required>
-
-                                </label>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- =============================================
-                         TERMS
-                    ============================================== -->
-
-                    <div
-                        class="rounded-xl
-                               bg-black/30
-                               border border-gray-800
-                               p-4">
-
-
-                        <label
-                            class="flex gap-3
-                                   cursor-pointer">
-
-
-                            <input
-                                id="terms"
-                                type="checkbox"
-                                required
-                                class="mt-1
-                                       accent-amber-400">
-
-
-                            <span
-                                class="text-xs
-                                       text-gray-400
-                                       leading-6">
-
-                                मैं पुष्टि करता/करती हूँ कि मेरे द्वारा
-                                दी गई जानकारी सही है और मैं IOIS की
-                                registration/payment verification
-                                process को समझता/समझती हूँ।
-
-                            </span>
-
-                        </label>
-
-                    </div>
-
-
-                    <!-- =============================================
-                         STATUS
-                    ============================================== -->
-
-                    <div
-                        id="registration-status"
-                        class="status-box
-                               rounded-xl
-                               p-4
-                               text-sm">
-
-                    </div>
-
-
-                    <!-- =============================================
-                         SUBMIT
-                    ============================================== -->
-
-                    <button
-                        id="register-submit"
-                        type="submit"
-                        class="w-full
-                               py-4
-                               bg-gradient-to-r
-                               from-amber-400
-                               to-teal-400
-                               text-gray-950
-                               rounded-xl
-                               font-black
-                               text-sm
-                               shadow-xl
-                               hover:scale-[1.01]
-                               transition">
-
-                        <i
-                            class="fa-solid fa-user-plus mr-2">
-                        </i>
-
-                        CREATE IOIS ACCOUNT
-
-                    </button>
-
+                class="flex
+                       gap-3
+                       items-start">
+
+                <i
+                    class="fa-solid
+                           fa-shield-halved
+                           text-green-400
+                           mt-0.5">
+                </i>
+
+                <div>
+
+                    <h3
+                        class="text-xs
+                               font-bold
+                               text-green-400">
+
+                        सुरक्षित Account Access
+
+                    </h3>
 
                     <p
-                        class="text-center
-                               text-[10px]
-                               text-gray-500">
+                        class="text-[10px]
+                               text-gray-500
+                               leading-5
+                               mt-1">
 
-                        Account create होने के बाद आपका
-                        Unique Member ID system द्वारा generate होगा।
+                        आपका Password frontend में
+                        plain text के रूप में store नहीं किया जाता।
+                        Authentication Supabase Auth द्वारा handle
+                        किया जाता है।
 
                     </p>
 
-                </form>
-
-
-                <!-- =================================================
-                     SUCCESS PANEL
-                ================================================== -->
-
-                <div
-                    id="registration-success"
-                    class="success-panel">
-
-
-                    <div
-                        class="text-center
-                               py-6">
-
-
-                        <div
-                            class="mx-auto
-                                   w-20 h-20
-                                   rounded-full
-                                   bg-emerald-500/10
-                                   border border-emerald-500/30
-                                   text-emerald-400
-                                   flex items-center
-                                   justify-center
-                                   text-3xl">
-
-                            <i class="fa-solid fa-check"></i>
-
-                        </div>
-
-
-                        <h2
-                            class="text-2xl
-                                   font-black
-                                   text-emerald-400
-                                   mt-5">
-
-                            Registration Successful
-
-                        </h2>
-
-
-                        <p
-                            class="text-sm
-                                   text-gray-400 mt-2">
-
-                            आपका IOIS account successfully
-                            create हो गया है।
-
-                        </p>
-
-
-                        <!-- MEMBER ID -->
-
-                        <div
-                            class="mt-6
-                                   bg-black/40
-                                   border border-amber-400/30
-                                   rounded-2xl
-                                   p-5">
-
-
-                            <div
-                                class="text-[10px]
-                                       text-gray-500
-                                       uppercase">
-
-                                Your Unique IOIS Member ID
-
-                            </div>
-
-
-                            <div
-                                id="generated-member-id"
-                                class="member-id
-                                       text-2xl
-                                       md:text-3xl
-                                       font-black
-                                       text-amber-400
-                                       mt-3">
-
-                                IOIS-XXXXXXXX
-
-                            </div>
-
-
-                            <button
-                                type="button"
-                                onclick="copyMemberID()"
-                                class="copy-btn
-                                       mt-4
-                                       px-5 py-2.5
-                                       bg-amber-400
-                                       text-gray-950
-                                       rounded-xl
-                                       text-xs
-                                       font-black">
-
-                                <i class="fa-solid fa-copy mr-1"></i>
-
-                                Copy Member ID
-
-                            </button>
-
-                        </div>
-
-
-                        <div
-                            class="grid grid-cols-1
-                                   sm:grid-cols-2
-                                   gap-3 mt-5">
-
-
-                            <a
-                                href="dashboard.html"
-                                class="py-3
-                                       bg-gradient-to-r
-                                       from-amber-400
-                                       to-teal-400
-                                       text-gray-950
-                                       rounded-xl
-                                       font-black
-                                       text-xs">
-
-                                <i class="fa-solid fa-gauge mr-1"></i>
-
-                                Open Dashboard
-
-                            </a>
-
-
-                            <a
-                                href="login.html"
-                                class="py-3
-                                       border border-amber-400
-                                       text-amber-400
-                                       rounded-xl
-                                       font-black
-                                       text-xs">
-
-                                <i class="fa-solid fa-right-to-bracket mr-1"></i>
-
-                                Login
-
-                            </a>
-
-                        </div>
-
-                    </div>
-
                 </div>
 
             </div>
 
         </div>
 
-    </section>
-
-</main>
 
 
-<!-- =========================================================
-     FOOTER
-========================================================= -->
-
-<footer
-    class="border-t border-gray-800
-           bg-[#050b18]
-           mt-10">
-
-    <div
-        class="max-w-7xl mx-auto
-               px-4 py-8
-               text-center">
-
+        <!-- FOOTER -->
 
         <div
-            class="text-xl
-                   font-black
-                   tiranga-text">
-
-            IOIS PLATFORM
-
-        </div>
-
-
-        <p
-            class="text-xs
-                   text-gray-500 mt-2">
-
-            Indian Online Income Supporting System
-
-        </p>
-
-
-        <div
-            class="flex flex-wrap
-                   justify-center
-                   gap-4 mt-5
-                   text-[11px]
-                   text-gray-500">
-
-            <a href="index.html"
-               class="hover:text-amber-400">
-                Home
-            </a>
-
-            <a href="membership.html"
-               class="hover:text-amber-400">
-                Membership
-            </a>
-
-            <a href="login.html"
-               class="hover:text-amber-400">
-                Login
-            </a>
-
-            <a href="contact.html"
-               class="hover:text-amber-400">
-                Contact
-            </a>
-
-            <a href="privacy.html"
-               class="hover:text-amber-400">
-                Privacy
-            </a>
-
-        </div>
-
-
-        <div
-            class="border-t
-                   border-gray-800
-                   mt-6 pt-5">
+            class="text-center
+                   mt-6">
 
             <p
                 class="text-[10px]
@@ -1970,74 +725,197 @@
 
     </div>
 
-</footer>
+</main>
 
 
-<!-- =========================================================
-     CONFIG + REGISTRATION LOGIC
-========================================================= -->
+
+<!-- =====================================================
+     FORGOT PASSWORD MODAL
+===================================================== -->
+
+<div
+    id="forgot-modal"
+    class="hidden
+           fixed inset-0
+           z-[100]
+           bg-black/80
+           backdrop-blur-sm
+           flex items-center
+           justify-center
+           px-4">
+
+
+    <div
+        class="glass
+               rounded-3xl
+               p-6
+               max-w-md
+               w-full
+               relative">
+
+
+        <button
+            type="button"
+            id="close-forgot"
+            class="absolute
+                   right-5
+                   top-4
+                   text-gray-400
+                   hover:text-white
+                   text-xl">
+
+            &times;
+
+        </button>
+
+
+        <div class="text-center mb-6">
+
+            <div
+                class="mx-auto
+                       w-14 h-14
+                       rounded-2xl
+                       bg-teal-400
+                       text-gray-950
+                       flex items-center
+                       justify-center
+                       text-xl">
+
+                <i class="fa-solid fa-key"></i>
+
+            </div>
+
+
+            <h2
+                class="text-xl
+                       font-black
+                       text-teal-400
+                       mt-4">
+
+                Password Recovery
+
+            </h2>
+
+
+            <p
+                class="text-xs
+                       text-gray-400
+                       mt-2">
+
+                अपने registered Email पर
+                password reset link प्राप्त करें।
+
+            </p>
+
+        </div>
+
+
+        <form
+            id="forgot-form"
+            class="space-y-4">
+
+
+            <div>
+
+                <label
+                    class="block
+                           text-xs
+                           text-gray-300
+                           mb-2">
+
+                    Registered Email *
+
+                </label>
+
+
+                <input
+                    id="forgot-email"
+                    type="email"
+                    required
+                    placeholder="example@email.com"
+                    class="input-box
+                           w-full
+                           rounded-xl
+                           p-3.5
+                           text-sm
+                           text-white">
+
+            </div>
+
+
+            <button
+                id="reset-btn"
+                type="submit"
+                class="w-full
+                       py-3.5
+                       rounded-xl
+                       bg-teal-400
+                       text-gray-950
+                       font-black
+                       text-xs">
+
+                <span id="reset-btn-text">
+
+                    <i class="fa-solid fa-paper-plane mr-1"></i>
+
+                    Send Reset Link
+
+                </span>
+
+                <span
+                    id="reset-spinner"
+                    class="spinner hidden
+                           mx-auto">
+                </span>
+
+            </button>
+
+
+        </form>
+
+    </div>
+
+</div>
+
+
 
 <script>
 
-/*
-==============================================================
-IOIS REGISTRATION CONFIG
-==============================================================
+/* =========================================================
+   IOIS SUPABASE CONFIGURATION
+=========================================================
 
-IMPORTANT:
-Only the Supabase PROJECT URL and PUBLIC/PUBLISHABLE key
-belong in frontend code.
+   यहाँ केवल Supabase PROJECT URL और
+   publishable/anon key frontend में रखें।
 
-NEVER put:
-- Supabase service_role key
-- Telegram Bot Token
-- private server secrets
+   SERVICE ROLE KEY यहाँ कभी नहीं डालें।
+========================================================= */
 
-inside this file.
-==============================================================
-*/
+const SUPABASE_URL =
+    "YOUR_SUPABASE_PROJECT_URL";
+
+const SUPABASE_ANON_KEY =
+    "YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY";
 
 
-const IOIS_CONFIG = {
-
-    SUPABASE_URL:
-        window.IOIS_SUPABASE_URL ||
-        "YOUR_SUPABASE_PROJECT_URL",
-
-    SUPABASE_PUBLISHABLE_KEY:
-        window.IOIS_SUPABASE_PUBLISHABLE_KEY ||
-        "YOUR_SUPABASE_PUBLISHABLE_KEY",
-
-    /*
-     * This is only a display placeholder.
-     * Replace through your secure site configuration.
-     */
-    PAYMENT_ADDRESS:
-        window.IOIS_PAYMENT_ADDRESS ||
-        "OFFICIAL IOIS PAYMENT ADDRESS"
-
-};
-
-
-/* ============================================================
+/* =========================================================
    SUPABASE CLIENT
-============================================================ */
+========================================================= */
 
-let ioisSupabase = null;
+let supabaseClient = null;
+
 
 try {
 
     if (
-        IOIS_CONFIG.SUPABASE_URL &&
-        !IOIS_CONFIG.SUPABASE_URL.startsWith("YOUR_") &&
-        IOIS_CONFIG.SUPABASE_PUBLISHABLE_KEY &&
-        !IOIS_CONFIG.SUPABASE_PUBLISHABLE_KEY.startsWith("YOUR_")
+        SUPABASE_URL !== "YOUR_SUPABASE_PROJECT_URL" &&
+        SUPABASE_ANON_KEY !== "YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY"
     ) {
 
-        ioisSupabase =
+        supabaseClient =
             window.supabase.createClient(
-                IOIS_CONFIG.SUPABASE_URL,
-                IOIS_CONFIG.SUPABASE_PUBLISHABLE_KEY
+                SUPABASE_URL,
+                SUPABASE_ANON_KEY
             );
 
     }
@@ -2045,1343 +923,690 @@ try {
 } catch (error) {
 
     console.error(
-        "IOIS Supabase initialization error:",
+        "Supabase initialization error:",
         error
     );
 
 }
 
 
-/* ============================================================
-   ELEMENTS
-============================================================ */
 
-const registrationForm =
-    document.getElementById(
-        "iois-registration-form"
-    );
+/* =========================================================
+   DOM
+========================================================= */
 
-const submitButton =
-    document.getElementById(
-        "register-submit"
-    );
+const loginForm =
+    document.getElementById("login-form");
 
-const statusBox =
-    document.getElementById(
-        "registration-status"
-    );
+const loginIdentifier =
+    document.getElementById("login-identifier");
 
+const loginPassword =
+    document.getElementById("login-password");
 
-/* ============================================================
-   FORM LABEL STYLE
-============================================================ */
+const loginBtn =
+    document.getElementById("login-btn");
 
-document.querySelectorAll(".form-label")
-    .forEach(label => {
+const loginBtnText =
+    document.getElementById("login-btn-text");
 
-        label.classList.add(
-            "block",
-            "text-xs",
-            "text-gray-300",
-            "font-bold",
-            "mb-1"
-        );
+const loginSpinner =
+    document.getElementById("login-spinner");
 
-    });
+const statusMessage =
+    document.getElementById("status-message");
 
+const forgotModal =
+    document.getElementById("forgot-modal");
 
-/* ============================================================
-   PLAN SELECTION
-============================================================ */
+const forgotForm =
+    document.getElementById("forgot-form");
 
-document.querySelectorAll(".plan-radio")
-    .forEach(radio => {
+const forgotEmail =
+    document.getElementById("forgot-email");
 
-        radio.addEventListener(
-            "change",
-            updateSelectedPlan
-        );
+const resetBtn =
+    document.getElementById("reset-btn");
 
-    });
+const resetBtnText =
+    document.getElementById("reset-btn-text");
+
+const resetSpinner =
+    document.getElementById("reset-spinner");
 
 
-function updateSelectedPlan() {
 
-    document.querySelectorAll(".plan-option")
-        .forEach(card => {
+/* =========================================================
+   STATUS MESSAGE
+========================================================= */
 
-            card.classList.remove(
-                "selected"
-            );
-
-        });
-
-
-    const selected =
-        document.querySelector(
-            ".plan-radio:checked"
-        );
-
-
-    if (!selected) return;
-
-
-    const card =
-        selected.closest(
-            ".plan-option"
-        );
-
-
-    if (card) {
-
-        card.classList.add(
-            "selected"
-        );
-
-    }
-
-
-    document.getElementById(
-        "selected-plan-name"
-    ).textContent =
-        selected.dataset.name;
-
-
-    document.getElementById(
-        "selected-plan-amount"
-    ).textContent =
-        "₹" +
-        selected.dataset.amount;
-
-}
-
-
-/* ============================================================
-   PASSWORD TOGGLE
-============================================================ */
-
-function togglePassword(
-    inputID,
-    iconID
+function showStatus(
+    message,
+    type = "error"
 ) {
 
-    const input =
-        document.getElementById(
-            inputID
+    statusMessage.className =
+        "mb-5 rounded-xl px-4 py-3 text-xs font-semibold toast";
+
+    if (type === "success") {
+
+        statusMessage.classList.add(
+            "bg-green-500/10",
+            "border",
+            "border-green-500/30",
+            "text-green-300"
         );
-
-    const icon =
-        document.getElementById(
-            iconID
-        );
-
-
-    if (!input) return;
-
-
-    if (input.type === "password") {
-
-        input.type = "text";
-
-        if (icon) {
-
-            icon.className =
-                "fa-solid fa-eye-slash";
-
-        }
 
     } else {
 
-        input.type = "password";
-
-        if (icon) {
-
-            icon.className =
-                "fa-solid fa-eye";
-
-        }
-
-    }
-
-}
-
-
-/* ============================================================
-   FILE NAME DISPLAY
-============================================================ */
-
-document.getElementById(
-    "payment-screenshot"
-).addEventListener(
-    "change",
-    function () {
-
-        const file =
-            this.files?.[0];
-
-        document.getElementById(
-            "payment-file-name"
-        ).textContent =
-            file
-                ? file.name
-                : "JPG / PNG / WEBP";
-
-    }
-);
-
-
-document.getElementById(
-    "address-proof"
-).addEventListener(
-    "change",
-    function () {
-
-        const file =
-            this.files?.[0];
-
-        document.getElementById(
-            "address-proof-name"
-        ).textContent =
-            file
-                ? file.name
-                : "JPG / PNG / WEBP / PDF";
-
-    }
-);
-
-
-/* ============================================================
-   PAYMENT ADDRESS
-============================================================ */
-
-document.getElementById(
-    "official-payment-address"
-).textContent =
-    IOIS_CONFIG.PAYMENT_ADDRESS;
-
-
-function copyPaymentAddress() {
-
-    const value =
-        IOIS_CONFIG.PAYMENT_ADDRESS;
-
-
-    if (
-        !value ||
-        value.startsWith("OFFICIAL")
-    ) {
-
-        showStatus(
-            "Official payment address अभी configure नहीं है।",
-            "error"
+        statusMessage.classList.add(
+            "bg-red-500/10",
+            "border",
+            "border-red-500/30",
+            "text-red-300"
         );
 
-        return;
-
     }
 
+    statusMessage.innerHTML =
+        message;
 
-    copyText(
-        value,
-        "Payment Address copied."
+    statusMessage.classList.remove(
+        "hidden"
     );
 
 }
 
 
-/* ============================================================
-   MOBILE NUMBER VALIDATION
-============================================================ */
+function hideStatus() {
 
-document.getElementById(
-    "whatsapp"
-).addEventListener(
-    "input",
-    function () {
+    statusMessage.classList.add(
+        "hidden"
+    );
 
-        this.value =
-            this.value
-                .replace(/\D/g, "")
-                .slice(0, 10);
+}
+
+
+
+/* =========================================================
+   PASSWORD SHOW / HIDE
+========================================================= */
+
+document
+    .getElementById("toggle-password")
+    .addEventListener(
+        "click",
+        function () {
+
+            const icon =
+                document.getElementById(
+                    "password-icon"
+                );
+
+            if (
+                loginPassword.type ===
+                "password"
+            ) {
+
+                loginPassword.type =
+                    "text";
+
+                icon.className =
+                    "fa-solid fa-eye-slash";
+
+            } else {
+
+                loginPassword.type =
+                    "password";
+
+                icon.className =
+                    "fa-solid fa-eye";
+
+            }
+
+        }
+    );
+
+
+
+/* =========================================================
+   LOADING STATE
+========================================================= */
+
+function setLoginLoading(
+    loading
+) {
+
+    loginBtn.disabled =
+        loading;
+
+    if (loading) {
+
+        loginBtnText.classList.add(
+            "hidden"
+        );
+
+        loginSpinner.classList.remove(
+            "hidden"
+        );
+
+    } else {
+
+        loginBtnText.classList.remove(
+            "hidden"
+        );
+
+        loginSpinner.classList.add(
+            "hidden"
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+loginForm.addEventListener(
+    "submit",
+    async function (event) {
+
+        event.preventDefault();
+
+        hideStatus();
+
+
+        if (!supabaseClient) {
+
+            showStatus(
+                "Supabase configuration अभी connect नहीं है। अपनी Supabase Project URL और Publishable/Anon Key लगाएँ।"
+            );
+
+            return;
+
+        }
+
+
+        const identifier =
+            loginIdentifier.value
+                .trim();
+
+        const password =
+            loginPassword.value;
+
+
+        if (!identifier) {
+
+            showStatus(
+                "कृपया User ID या Email दर्ज करें।"
+            );
+
+            return;
+
+        }
+
+
+        if (!password) {
+
+            showStatus(
+                "कृपया Password दर्ज करें।"
+            );
+
+            return;
+
+        }
+
+
+        setLoginLoading(true);
+
+
+        try {
+
+            /*
+             * Primary login:
+             * Email + Password
+             */
+
+            let email =
+                identifier;
+
+
+            /*
+             * यदि User ID दी गई है,
+             * तो profiles/members table से
+             * registered email खोजने की कोशिश।
+             *
+             * Table/column आपके Supabase schema
+             * के अनुसार होना चाहिए।
+             */
+
+            if (
+                !identifier.includes("@")
+            ) {
+
+                const {
+                    data: member,
+                    error: memberError
+                } =
+                    await supabaseClient
+                        .from("profiles")
+                        .select("email")
+                        .eq(
+                            "user_id",
+                            identifier
+                        )
+                        .maybeSingle();
+
+
+                if (
+                    !memberError &&
+                    member &&
+                    member.email
+                ) {
+
+                    email =
+                        member.email;
+
+                } else {
+
+                    showStatus(
+                        "User ID नहीं मिली। कृपया सही User ID या registered Email से Login करें।"
+                    );
+
+                    setLoginLoading(false);
+
+                    return;
+
+                }
+
+            }
+
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient.auth.signInWithPassword(
+                    {
+                        email: email,
+                        password: password
+                    }
+                );
+
+
+            if (error) {
+
+                console.error(
+                    "Login error:",
+                    error
+                );
+
+                let message =
+                    "Login failed. कृपया Email/User ID और Password जाँचें।";
+
+
+                if (
+                    error.message
+                        .toLowerCase()
+                        .includes("email not confirmed")
+                ) {
+
+                    message =
+                        "आपका Email अभी verify नहीं हुआ है। पहले Email verification पूरा करें।";
+
+                }
+
+
+                if (
+                    error.message
+                        .toLowerCase()
+                        .includes("invalid login credentials")
+                ) {
+
+                    message =
+                        "गलत User ID/Email या Password।";
+
+                }
+
+
+                showStatus(
+                    message
+                );
+
+                setLoginLoading(false);
+
+                return;
+
+            }
+
+
+            if (
+                data &&
+                data.user
+            ) {
+
+                showStatus(
+                    "Login सफल हुआ। Dashboard खोला जा रहा है...",
+                    "success"
+                );
+
+
+                /*
+                 * छोटी delay ताकि success message
+                 * user को दिखाई दे।
+                 */
+
+                setTimeout(
+                    function () {
+
+                        window.location.href =
+                            "dashboard.html";
+
+                    },
+                    700
+                );
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                error
+            );
+
+            showStatus(
+                "Login के दौरान unexpected error आया। कृपया दोबारा प्रयास करें।"
+            );
+
+            setLoginLoading(false);
+
+        }
 
     }
 );
 
 
-/* ============================================================
-   FORM SUBMIT
-============================================================ */
 
-registrationForm.addEventListener(
+/* =========================================================
+   FORGOT PASSWORD MODAL
+========================================================= */
+
+document
+    .getElementById("forgot-password-btn")
+    .addEventListener(
+        "click",
+        function () {
+
+            forgotModal.classList.remove(
+                "hidden"
+            );
+
+            forgotEmail.focus();
+
+        }
+    );
+
+
+document
+    .getElementById("close-forgot")
+    .addEventListener(
+        "click",
+        function () {
+
+            forgotModal.classList.add(
+                "hidden"
+            );
+
+        }
+    );
+
+
+forgotModal.addEventListener(
+    "click",
+    function (event) {
+
+        if (
+            event.target ===
+            forgotModal
+        ) {
+
+            forgotModal.classList.add(
+                "hidden"
+            );
+
+        }
+
+    }
+);
+
+
+
+/* =========================================================
+   PASSWORD RESET
+========================================================= */
+
+forgotForm.addEventListener(
     "submit",
     async function (event) {
 
         event.preventDefault();
 
 
-        clearStatus();
+        if (!supabaseClient) {
 
-
-        const selectedPlan =
-            document.querySelector(
-                ".plan-radio:checked"
-            );
-
-
-        if (!selectedPlan) {
-
-            showStatus(
-                "कृपया membership plan चुनें।",
-                "error"
+            alert(
+                "Supabase configuration connect नहीं है।"
             );
 
             return;
 
         }
-
-
-        const fullName =
-            document.getElementById(
-                "full-name"
-            ).value.trim();
 
 
         const email =
-            document.getElementById(
-                "email"
-            ).value.trim()
-            .toLowerCase();
+            forgotEmail.value
+                .trim();
 
 
-        const whatsapp =
-            document.getElementById(
-                "whatsapp"
-            ).value.trim();
-
-
-        const password =
-            document.getElementById(
-                "password"
-            ).value;
-
-
-        const confirmPassword =
-            document.getElementById(
-                "confirm-password"
-            ).value;
-
-
-        const address =
-            document.getElementById(
-                "address"
-            ).value.trim();
-
-
-        const sponsorName =
-            document.getElementById(
-                "sponsor-name"
-            ).value.trim();
-
-
-        const sponsorID =
-            document.getElementById(
-                "sponsor-id"
-            ).value.trim()
-            .toUpperCase();
-
-
-        const withdrawalDetails =
-            document.getElementById(
-                "withdrawal-details"
-            ).value.trim();
-
-
-        const paymentReference =
-            document.getElementById(
-                "payment-reference"
-            ).value.trim();
-
-
-        const paymentScreenshot =
-            document.getElementById(
-                "payment-screenshot"
-            ).files?.[0];
-
-
-        const addressProof =
-            document.getElementById(
-                "address-proof"
-            ).files?.[0];
-
-
-        /* -----------------------------------------------
-           BASIC VALIDATION
-        ------------------------------------------------ */
-
-        if (
-            !fullName ||
-            !email ||
-            !whatsapp ||
-            !password ||
-            !address ||
-            !withdrawalDetails ||
-            !paymentReference
-        ) {
-
-            showStatus(
-                "कृपया सभी required fields भरें।",
-                "error"
-            );
+        if (!email) {
 
             return;
 
         }
 
 
-        if (!/^[0-9]{10}$/.test(whatsapp)) {
+        resetBtn.disabled =
+            true;
 
-            showStatus(
-                "कृपया सही 10-digit WhatsApp number डालें।",
-                "error"
-            );
+        resetBtnText.classList.add(
+            "hidden"
+        );
 
-            return;
-
-        }
-
-
-        if (password.length < 8) {
-
-            showStatus(
-                "Password कम से कम 8 characters का होना चाहिए।",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (password !== confirmPassword) {
-
-            showStatus(
-                "Password और Confirm Password अलग हैं।",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (!paymentScreenshot) {
-
-            showStatus(
-                "Payment screenshot upload करें।",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (!addressProof) {
-
-            showStatus(
-                "Payment address proof upload करें।",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        /* -----------------------------------------------
-           FILE SIZE
-        ------------------------------------------------ */
-
-        const maxFileSize =
-            5 * 1024 * 1024;
-
-
-        if (
-            paymentScreenshot.size >
-            maxFileSize
-        ) {
-
-            showStatus(
-                "Payment screenshot 5 MB से कम होना चाहिए।",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if (
-            addressProof.size >
-            maxFileSize
-        ) {
-
-            showStatus(
-                "Address proof 5 MB से कम होना चाहिए।",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        /* -----------------------------------------------
-           SUPABASE CHECK
-        ------------------------------------------------ */
-
-        if (!ioisSupabase) {
-
-            showStatus(
-                "Supabase configuration उपलब्ध नहीं है। कृपया project configuration check करें।",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        setSubmitting(true);
+        resetSpinner.classList.remove(
+            "hidden"
+        );
 
 
         try {
 
-
-            /* ============================================
-               1. CREATE AUTH USER
-            ============================================ */
-
             const {
-                data: authData,
-                error: authError
+                error
             } =
-                await ioisSupabase.auth.signUp({
-
-                    email: email,
-
-                    password: password,
-
-                    options: {
-
-                        data: {
-
-                            full_name:
-                                fullName,
-
-                            whatsapp:
-                                whatsapp
-
+                await supabaseClient.auth
+                    .resetPasswordForEmail(
+                        email,
+                        {
+                            redirectTo:
+                                window.location.origin +
+                                "/reset-password.html"
                         }
-
-                    }
-
-                });
+                    );
 
 
-            if (authError) {
+            if (error) {
 
-                throw authError;
+                throw error;
 
             }
 
 
-            if (!authData?.user?.id) {
+            resetBtnText.innerHTML =
+                `
+                <i class="fa-solid fa-check mr-1"></i>
+                Reset Link Sent
+                `;
 
-                throw new Error(
-                    "Authentication user create नहीं हुआ।"
-                );
+            resetBtnText.classList.remove(
+                "hidden"
+            );
 
-            }
-
-
-            const userID =
-                authData.user.id;
-
-
-            /* ============================================
-               2. GENERATE TEMP CLIENT MEMBER ID
-               
-               NOTE:
-               Final canonical Member ID should be generated
-               by database/backend, not trusted from browser.
-            ============================================ */
-
-            const temporaryMemberID =
-                generateTemporaryMemberID();
+            resetSpinner.classList.add(
+                "hidden"
+            );
 
 
-            /* ============================================
-               3. UPLOAD PAYMENT SCREENSHOT
-            ============================================ */
+            setTimeout(
+                function () {
 
-            const paymentPath =
-                await uploadFile(
-                    "payment-proofs",
-                    userID,
-                    paymentScreenshot
-                );
+                    forgotModal.classList.add(
+                        "hidden"
+                    );
 
+                    alert(
+                        "Password reset link आपके registered Email पर भेज दिया गया है।"
+                    );
 
-            /* ============================================
-               4. UPLOAD ADDRESS PROOF
-            ============================================ */
-
-            const proofPath =
-                await uploadFile(
-                    "address-proofs",
-                    userID,
-                    addressProof
-                );
-
-
-            /* ============================================
-               5. SAVE MEMBER PROFILE
-               
-               IMPORTANT:
-               The exact table/column names must match the
-               already-created Supabase schema.
-               
-               This block intentionally does NOT invent
-               membership_plans columns.
-            ============================================ */
-
-            const profilePayload = {
-
-                user_id:
-                    userID,
-
-                full_name:
-                    fullName,
-
-                email:
-                    email,
-
-                whatsapp:
-                    whatsapp,
-
-                address:
-                    address,
-
-                sponsor_name:
-                    sponsorName || null,
-
-                sponsor_id:
-                    sponsorID || null,
-
-                withdrawal_details:
-                    withdrawalDetails,
-
-                member_id:
-                    temporaryMemberID,
-
-                plan_code:
-                    selectedPlan.value,
-
-                payment_reference:
-                    paymentReference,
-
-                payment_proof_path:
-                    paymentPath,
-
-                address_proof_path:
-                    proofPath,
-
-                status:
-                    "pending"
-
-            };
-
-
-            /*
-             * The exact insert table can be changed to the
-             * existing profile table if its actual name differs.
-             *
-             * We first attempt the standard IOIS members table.
-             */
-
-            const {
-                data: memberData,
-                error: memberError
-            } =
-                await ioisSupabase
-                    .from("members")
-                    .insert(
-                        profilePayload
-                    )
-                    .select()
-                    .single();
-
-
-            if (memberError) {
-
-                /*
-                 * Do NOT delete the Auth account here.
-                 *
-                 * The account must not disappear simply because
-                 * a profile insert needs admin/schema adjustment.
-                 */
-
-                console.error(
-                    "Member insert error:",
-                    memberError
-                );
-
-                throw new Error(
-                    "Account create हो गया है लेकिन member profile save नहीं हुआ। Admin/schema verification आवश्यक है।"
-                );
-
-            }
-
-
-            /* ============================================
-               6. FINAL MEMBER ID
-            ============================================ */
-
-            const finalMemberID =
-                memberData?.member_id ||
-                temporaryMemberID;
-
-
-            /* ============================================
-               7. SHOW SUCCESS
-            ============================================ */
-
-            showRegistrationSuccess(
-                finalMemberID
+                },
+                500
             );
 
 
         } catch (error) {
 
             console.error(
-                "IOIS Registration Error:",
+                "Password reset error:",
                 error
             );
 
 
-            showStatus(
-                getFriendlyErrorMessage(error),
-                "error"
+            resetBtnText.classList.remove(
+                "hidden"
+            );
+
+            resetSpinner.classList.add(
+                "hidden"
             );
 
 
-        } finally {
-
-            setSubmitting(false);
+            alert(
+                "Password reset request failed. कृपया registered Email जाँचें और दोबारा प्रयास करें।"
+            );
 
         }
+
+
+        resetBtn.disabled =
+            false;
 
     }
 );
 
 
-/* ============================================================
-   UPLOAD FILE
-============================================================ */
 
-async function uploadFile(
-    bucket,
-    userID,
-    file
-) {
+/* =========================================================
+   CHECK EXISTING SESSION
+========================================================= */
 
-    const extension =
-        getFileExtension(file.name);
+async function checkExistingSession() {
 
-
-    const safeName =
-        Date.now() +
-        "-" +
-        cryptoRandomPart() +
-        "." +
-        extension;
-
-
-    const path =
-        userID +
-        "/" +
-        safeName;
-
-
-    const {
-        error
-    } =
-        await ioisSupabase
-            .storage
-            .from(bucket)
-            .upload(
-                path,
-                file,
-                {
-                    cacheControl: "3600",
-                    upsert: false
-                }
-            );
-
-
-    if (error) {
-
-        throw error;
-
-    }
-
-
-    return path;
-
-}
-
-
-/* ============================================================
-   HELPERS
-============================================================ */
-
-function getFileExtension(
-    filename
-) {
-
-    const parts =
-        filename
-            .split(".");
-
-    return (
-        parts.length > 1
-            ? parts.pop()
-            : "file"
-    )
-    .toLowerCase()
-    .replace(/[^a-z0-9]/g, "");
-
-}
-
-
-function cryptoRandomPart() {
-
-    if (
-        window.crypto &&
-        crypto.getRandomValues
-    ) {
-
-        const array =
-            new Uint32Array(2);
-
-        crypto.getRandomValues(
-            array
-        );
-
-        return (
-            array[0].toString(36) +
-            array[1].toString(36)
-        );
-
-    }
-
-    return Math.random()
-        .toString(36)
-        .substring(2, 10);
-
-}
-
-
-function generateTemporaryMemberID() {
-
-    const date =
-        new Date();
-
-    const year =
-        date.getFullYear();
-
-
-    const random =
-        Math.random()
-            .toString(36)
-            .substring(2, 8)
-            .toUpperCase();
-
-
-    return (
-        "IOIS-" +
-        year +
-        "-" +
-        random
-    );
-
-}
-
-
-/* ============================================================
-   COPY
-============================================================ */
-
-function copyText(
-    text,
-    successMessage
-) {
-
-    if (
-        navigator.clipboard &&
-        navigator.clipboard.writeText
-    ) {
-
-        navigator.clipboard
-            .writeText(text)
-            .then(() => {
-
-                showStatus(
-                    successMessage,
-                    "success"
-                );
-
-            })
-            .catch(() => {
-
-                fallbackCopy(
-                    text,
-                    successMessage
-                );
-
-            });
+    if (!supabaseClient) {
 
         return;
 
     }
 
 
-    fallbackCopy(
-        text,
-        successMessage
-    );
-
-}
-
-
-function fallbackCopy(
-    text,
-    successMessage
-) {
-
-    const textarea =
-        document.createElement(
-            "textarea"
-        );
-
-    textarea.value =
-        text;
-
-    textarea.style.position =
-        "fixed";
-
-    textarea.style.opacity =
-        "0";
-
-    document.body.appendChild(
-        textarea
-    );
-
-    textarea.select();
-
     try {
 
-        document.execCommand(
-            "copy"
-        );
+        const {
+            data
+        } =
+            await supabaseClient.auth
+                .getSession();
 
-        showStatus(
-            successMessage,
-            "success"
-        );
 
-    } catch {
+        if (
+            data &&
+            data.session &&
+            data.session.user
+        ) {
 
-        showStatus(
-            "Copy नहीं हो पाया। कृपया manually copy करें।",
-            "error"
+            /*
+             * Already logged-in user
+             * dashboard पर जा सकता है।
+             */
+
+            window.location.href =
+                "dashboard.html";
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Session check error:",
+            error
         );
 
     }
 
-    textarea.remove();
-
 }
 
 
-function copyMemberID() {
-
-    const id =
-        document.getElementById(
-            "generated-member-id"
-        ).textContent.trim();
+checkExistingSession();
 
 
-    if (!id) return;
 
+/* =========================================================
+   AUTH STATE LISTENER
+========================================================= */
 
-    copyText(
-        id,
-        "Unique Member ID copied."
+if (supabaseClient) {
+
+    supabaseClient.auth.onAuthStateChange(
+        function (
+            event,
+            session
+        ) {
+
+            console.log(
+                "IOIS Auth Event:",
+                event
+            );
+
+        }
     );
 
 }
 
 
-/* ============================================================
-   STATUS
-============================================================ */
 
-function showStatus(
-    message,
-    type = "info"
-) {
-
-    if (!statusBox) return;
-
-
-    statusBox.className =
-        "status-box show rounded-xl p-4 text-sm";
-
-
-    if (type === "success") {
-
-        statusBox.classList.add(
-            "bg-emerald-500/10",
-            "border",
-            "border-emerald-500/30",
-            "text-emerald-400"
-        );
-
-        statusBox.innerHTML =
-            '<i class="fa-solid fa-circle-check mr-2"></i>' +
-            escapeHTML(message);
-
-    }
-
-    else if (type === "error") {
-
-        statusBox.classList.add(
-            "bg-red-500/10",
-            "border",
-            "border-red-500/30",
-            "text-red-400"
-        );
-
-        statusBox.innerHTML =
-            '<i class="fa-solid fa-circle-exclamation mr-2"></i>' +
-            escapeHTML(message);
-
-    }
-
-    else {
-
-        statusBox.classList.add(
-            "bg-blue-500/10",
-            "border",
-            "border-blue-500/30",
-            "text-blue-400"
-        );
-
-        statusBox.innerHTML =
-            '<i class="fa-solid fa-circle-info mr-2"></i>' +
-            escapeHTML(message);
-
-    }
-
-
-    statusBox.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-    });
-
-}
-
-
-function clearStatus() {
-
-    if (!statusBox) return;
-
-    statusBox.className =
-        "status-box";
-
-    statusBox.innerHTML =
-        "";
-
-}
-
-
-/* ============================================================
-   SUCCESS
-============================================================ */
-
-function showRegistrationSuccess(
-    memberID
-) {
-
-    registrationForm
-        .classList
-        .add(
-            "hidden-panel"
-        );
-
-
-    document.getElementById(
-        "generated-member-id"
-    ).textContent =
-        memberID;
-
-
-    document.getElementById(
-        "registration-success"
-    ).classList.add(
-        "show"
-    );
-
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
-}
-
-
-/* ============================================================
-   SUBMIT BUTTON
-============================================================ */
-
-function setSubmitting(
-    state
-) {
-
-    if (!submitButton) return;
-
-
-    submitButton.disabled =
-        state;
-
-
-    if (state) {
-
-        submitButton.innerHTML =
-            '<i class="fa-solid fa-spinner fa-spin mr-2"></i>' +
-            'ACCOUNT CREATE हो रहा है...';
-
-        submitButton.classList.add(
-            "opacity-60",
-            "cursor-not-allowed"
-        );
-
-    } else {
-
-        submitButton.innerHTML =
-            '<i class="fa-solid fa-user-plus mr-2"></i>' +
-            'CREATE IOIS ACCOUNT';
-
-        submitButton.classList.remove(
-            "opacity-60",
-            "cursor-not-allowed"
-        );
-
-    }
-
-}
-
-
-/* ============================================================
-   FRIENDLY ERRORS
-============================================================ */
-
-function getFriendlyErrorMessage(
-    error
-) {
-
-    const message =
-        error?.message ||
-        String(error || "");
-
-
-    const lower =
-        message.toLowerCase();
-
-
-    if (
-        lower.includes(
-            "user already registered"
-        )
-    ) {
-
-        return (
-            "इस email से account पहले से registered है। " +
-            "Login या Forgot Password का उपयोग करें।"
-        );
-
-    }
-
-
-    if (
-        lower.includes(
-            "invalid login credentials"
-        )
-    ) {
-
-        return (
-            "Login details सही नहीं हैं।"
-        );
-
-    }
-
-
-    if (
-        lower.includes(
-            "password"
-        ) &&
-        lower.includes(
-            "at least"
-        )
-    ) {
-
-        return (
-            "Password मजबूत और कम से कम 8 characters का रखें।"
-        );
-
-    }
-
-
-    if (
-        lower.includes(
-            "row-level security"
-        ) ||
-        lower.includes(
-            "rls"
-        )
-    ) {
-
-        return (
-            "Database security policy ने request रोक दी है। " +
-            "Supabase RLS policy verify करना आवश्यक है।"
-        );
-
-    }
-
-
-    if (
-        lower.includes(
-            "bucket"
-        ) ||
-        lower.includes(
-            "storage"
-        )
-    ) {
-
-        return (
-            "Document upload नहीं हो पाया। " +
-            "Supabase Storage bucket/policy verify करें।"
-        );
-
-    }
-
-
-    return (
-        message ||
-        "Registration process पूरा नहीं हो पाया। कृपया दोबारा प्रयास करें।"
-    );
-
-}
-
-
-/* ============================================================
-   HTML ESCAPE
-============================================================ */
-
-function escapeHTML(
-    value
-) {
-
-    return String(value)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
-}
-
-
-/* ============================================================
-   INITIALIZE
-============================================================ */
-
-updateSelectedPlan();
-
-
-/* ============================================================
-   OPTIONAL REFERRAL URL SUPPORT
-
-   Example:
-   register.html?ref=IOIS-2026-ABC123
-
-   Sponsor ID will be prefilled automatically.
-============================================================ */
-
-(function loadReferralFromURL() {
-
-    const params =
-        new URLSearchParams(
-            window.location.search
-        );
-
-
-    const ref =
-        params.get(
-            "ref"
-        );
-
-
-    if (!ref) return;
-
-
-    const sponsorInput =
-        document.getElementById(
-            "sponsor-id"
-        );
-
-
-    if (
-        sponsorInput &&
-        !sponsorInput.value
-    ) {
-
-        sponsorInput.value =
-            ref
-                .trim()
-                .toUpperCase();
-
-    }
-
-})();
+/* =========================================================
+   ENTER KEY / UX
+========================================================= */
+
+loginIdentifier.addEventListener(
+    "input",
+    hideStatus
+);
+
+loginPassword.addEventListener(
+    "input",
+    hideStatus
+);
 
 </script>
 
