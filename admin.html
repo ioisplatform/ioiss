@@ -1,0 +1,3548 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>IOIS Admin Panel | Indian Online Income Supporting System</title>
+
+<meta name="description"
+      content="IOIS Platform secure administrator dashboard.">
+
+<meta name="theme-color"
+      content="#030712">
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+html {
+    scroll-behavior:smooth;
+}
+
+body {
+    margin:0;
+    background:#030712;
+    color:#f8fafc;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+.glass {
+    background:rgba(15,23,42,.78);
+    border:1px solid rgba(245,158,11,.20);
+    backdrop-filter:blur(15px);
+}
+
+.card {
+    transition:.25s ease;
+}
+
+.card:hover {
+    transform:translateY(-3px);
+    border-color:rgba(245,158,11,.55);
+}
+
+.tiranga-text {
+    background:linear-gradient(
+        90deg,
+        #f97316,
+        #fff,
+        #10b981
+    );
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.sidebar {
+    background:
+    linear-gradient(
+        180deg,
+        #071022 0%,
+        #030712 100%
+    );
+}
+
+.stat-number {
+    font-size:28px;
+    font-weight:900;
+}
+
+.modal-bg {
+    background:rgba(0,0,0,.75);
+    backdrop-filter:blur(7px);
+}
+
+.status-pending {
+    color:#fbbf24;
+}
+
+.status-approved {
+    color:#34d399;
+}
+
+.status-rejected {
+    color:#f87171;
+}
+
+.table-scroll {
+    overflow-x:auto;
+}
+
+table {
+    min-width:900px;
+}
+
+th {
+    background:#0f172a;
+}
+
+input,
+select,
+textarea {
+    background:#020617!important;
+    color:white!important;
+    border:1px solid #334155!important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline:none!important;
+    border-color:#f59e0b!important;
+}
+
+::-webkit-scrollbar {
+    width:7px;
+    height:7px;
+}
+
+::-webkit-scrollbar-track {
+    background:#020617;
+}
+
+::-webkit-scrollbar-thumb {
+    background:#475569;
+    border-radius:10px;
+}
+
+@media(max-width:768px) {
+
+    .desktop-sidebar {
+        display:none;
+    }
+
+    .mobile-sidebar-open {
+        display:block!important;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     AUTH LOADER
+========================================================= -->
+
+<div id="page-loader"
+     class="fixed inset-0 z-[9999]
+            bg-[#030712]
+            flex items-center
+            justify-center">
+
+    <div class="text-center">
+
+        <div
+            class="w-16 h-16
+                   border-4
+                   border-amber-400/30
+                   border-t-amber-400
+                   rounded-full
+                   animate-spin
+                   mx-auto">
+        </div>
+
+        <p class="mt-4
+                  text-amber-400
+                  font-black
+                  text-sm">
+
+            IOIS ADMIN SECURITY CHECK
+
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     LOGIN SCREEN
+========================================================= -->
+
+<section id="admin-login"
+         class="hidden min-h-screen
+                flex items-center
+                justify-center
+                px-4">
+
+    <div class="glass
+                rounded-3xl
+                p-7
+                w-full
+                max-w-md
+                shadow-2xl">
+
+        <div class="text-center">
+
+            <div
+                class="mx-auto
+                       w-16 h-16
+                       rounded-2xl
+                       bg-amber-400
+                       text-gray-950
+                       flex items-center
+                       justify-center
+                       text-2xl">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+            </div>
+
+            <h1
+                class="text-2xl
+                       font-black
+                       mt-5
+                       tiranga-text">
+
+                IOIS ADMIN PANEL
+
+            </h1>
+
+            <p class="text-gray-400
+                      text-xs mt-2">
+
+                Secure Administrator Login
+
+            </p>
+
+        </div>
+
+
+        <form id="admin-login-form"
+              class="mt-7 space-y-4">
+
+            <div>
+
+                <label class="text-xs
+                               text-amber-400
+                               font-bold">
+
+                    Admin Email
+
+                </label>
+
+                <input
+                    id="admin-email"
+                    type="email"
+                    autocomplete="username"
+                    required
+                    placeholder="Admin email"
+                    class="w-full
+                           mt-2
+                           rounded-xl
+                           px-4 py-3
+                           text-sm">
+
+            </div>
+
+
+            <div>
+
+                <label class="text-xs
+                               text-amber-400
+                               font-bold">
+
+                    Password
+
+                </label>
+
+                <div class="relative mt-2">
+
+                    <input
+                        id="admin-password"
+                        type="password"
+                        autocomplete="current-password"
+                        required
+                        placeholder="Admin password"
+                        class="w-full
+                               rounded-xl
+                               px-4 py-3
+                               text-sm
+                               pr-12">
+
+                    <button
+                        type="button"
+                        onclick="togglePassword('admin-password')"
+                        class="absolute
+                               right-3 top-1/2
+                               -translate-y-1/2
+                               text-gray-400">
+
+                        <i class="fa-solid fa-eye"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                id="admin-login-btn"
+                class="w-full
+                       py-3
+                       rounded-xl
+                       bg-gradient-to-r
+                       from-amber-400
+                       to-teal-400
+                       text-gray-950
+                       font-black">
+
+                <i class="fa-solid fa-right-to-bracket mr-2"></i>
+
+                Secure Login
+
+            </button>
+
+        </form>
+
+
+        <button
+            onclick="recoverAdminPassword()"
+            class="w-full
+                   mt-4
+                   text-xs
+                   text-gray-400
+                   hover:text-amber-400">
+
+            Forgot Password?
+
+        </button>
+
+
+        <div id="login-message"
+             class="hidden
+                    mt-4
+                    rounded-xl
+                    p-3
+                    text-xs
+                    text-center">
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     ADMIN APPLICATION
+========================================================= -->
+
+<div id="admin-app"
+     class="hidden min-h-screen">
+
+
+<!-- MOBILE TOP BAR -->
+
+<header
+    class="lg:hidden
+           sticky top-0 z-50
+           bg-[#050b18]
+           border-b
+           border-gray-800
+           px-4 py-3">
+
+    <div class="flex
+                justify-between
+                items-center">
+
+        <button
+            onclick="toggleSidebar()"
+            class="text-amber-400
+                   text-xl">
+
+            <i class="fa-solid fa-bars"></i>
+
+        </button>
+
+        <span class="font-black
+                     tiranga-text">
+
+            IOIS ADMIN
+
+        </span>
+
+        <button
+            onclick="logoutAdmin()"
+            class="text-red-400">
+
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- SIDEBAR -->
+
+<aside
+    id="admin-sidebar"
+    class="desktop-sidebar
+           fixed left-0 top-0
+           h-screen
+           w-64
+           sidebar
+           border-r
+           border-gray-800
+           z-40">
+
+    <div class="p-5
+                border-b
+                border-gray-800">
+
+        <div class="flex
+                    items-center
+                    gap-3">
+
+            <div
+                class="w-11 h-11
+                       rounded-xl
+                       bg-amber-400
+                       text-gray-950
+                       flex
+                       items-center
+                       justify-center">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+            </div>
+
+            <div>
+
+                <div class="font-black
+                            tiranga-text">
+
+                    IOIS
+
+                </div>
+
+                <div class="text-[9px]
+                            text-gray-500
+                            tracking-widest">
+
+                    ADMIN CONTROL
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <nav class="p-4 space-y-1">
+
+        <button
+            onclick="showSection('overview')"
+            class="nav-btn
+                   w-full
+                   text-left
+                   px-4 py-3
+                   rounded-xl
+                   text-sm
+                   text-amber-400">
+
+            <i class="fa-solid fa-chart-pie w-5"></i>
+            Overview
+
+        </button>
+
+
+        <button
+            onclick="showSection('members')"
+            class="nav-btn
+                   w-full
+                   text-left
+                   px-4 py-3
+                   rounded-xl
+                   text-sm
+                   text-gray-300
+                   hover:bg-gray-800">
+
+            <i class="fa-solid fa-users w-5"></i>
+            Members
+
+        </button>
+
+
+        <button
+            onclick="showSection('registrations')"
+            class="nav-btn
+                   w-full
+                   text-left
+                   px-4 py-3
+                   rounded-xl
+                   text-sm
+                   text-gray-300
+                   hover:bg-gray-800">
+
+            <i class="fa-solid fa-user-check w-5"></i>
+            Registrations
+
+        </button>
+
+
+        <button
+            onclick="showSection('payments')"
+            class="nav-btn
+                   w-full
+                   text-left
+                   px-4 py-3
+                   rounded-xl
+                   text-sm
+                   text-gray-300
+                   hover:bg-gray-800">
+
+            <i class="fa-solid fa-money-check-dollar w-5"></i>
+            Payments
+
+        </button>
+
+
+        <button
+            onclick="showSection('referrals')"
+            class="nav-btn
+                   w-full
+                   text-left
+                   px-4 py-3
+                   rounded-xl
+                   text-sm
+                   text-gray-300
+                   hover:bg-gray-800">
+
+            <i class="fa-solid fa-share-nodes w-5"></i>
+            Referrals
+
+        </button>
+
+
+        <button
+            onclick="showSection('plans')"
+            class="nav-btn
+                   w-full
+                   text-left
+                   px-4 py-3
+                   rounded-xl
+                   text-sm
+                   text-gray-300
+                   hover:bg-gray-800">
+
+            <i class="fa-solid fa-layer-group w-5"></i>
+            Membership Plans
+
+        </button>
+
+
+        <button
+            onclick="showSection('notifications')"
+            class="nav-btn
+                   w-full
+                   text-left
+                   px-4 py-3
+                   rounded-xl
+                   text-sm
+                   text-gray-300
+                   hover:bg-gray-800">
+
+            <i class="fa-solid fa-bell w-5"></i>
+            Notifications
+
+        </button>
+
+
+        <button
+            onclick="showSection('settings')"
+            class="nav-btn
+                   w-full
+                   text-left
+                   px-4 py-3
+                   rounded-xl
+                   text-sm
+                   text-gray-300
+                   hover:bg-gray-800">
+
+            <i class="fa-solid fa-gear w-5"></i>
+            Settings
+
+        </button>
+
+    </nav>
+
+
+    <div class="absolute
+                bottom-0
+                left-0
+                right-0
+                p-4
+                border-t
+                border-gray-800">
+
+        <button
+            onclick="logoutAdmin()"
+            class="w-full
+                   py-3
+                   rounded-xl
+                   bg-red-500/10
+                   text-red-400
+                   text-sm
+                   font-bold">
+
+            <i class="fa-solid fa-right-from-bracket mr-2"></i>
+
+            Logout
+
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main
+    class="lg:ml-64
+           p-4
+           md:p-7">
+
+
+<!-- HEADER -->
+
+<div
+    class="hidden lg:flex
+           justify-between
+           items-center
+           mb-7">
+
+    <div>
+
+        <p class="text-xs
+                  text-gray-500">
+
+            IOIS PLATFORM
+
+        </p>
+
+        <h1
+            class="text-2xl
+                   font-black">
+
+            Admin Control Center
+
+        </h1>
+
+    </div>
+
+
+    <div class="flex
+                items-center
+                gap-3">
+
+        <span
+            id="admin-email-display"
+            class="text-xs
+                   text-gray-400">
+        </span>
+
+        <button
+            onclick="logoutAdmin()"
+            class="px-4 py-2
+                   rounded-xl
+                   bg-red-500/10
+                   text-red-400
+                   text-xs
+                   font-bold">
+
+            Logout
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     OVERVIEW
+===================================================== -->
+
+<section id="section-overview"
+         class="admin-section">
+
+    <div class="mb-6">
+
+        <h2 class="text-xl
+                   font-black">
+
+            Dashboard Overview
+
+        </h2>
+
+        <p class="text-xs
+                  text-gray-500
+                  mt-1">
+
+            IOIS platform का real-time administrative summary.
+
+        </p>
+
+    </div>
+
+
+    <div
+        class="grid
+               grid-cols-2
+               lg:grid-cols-4
+               gap-4">
+
+
+        <div class="glass card
+                    rounded-2xl
+                    p-5">
+
+            <div class="text-teal-400">
+
+                <i class="fa-solid fa-users text-xl"></i>
+
+            </div>
+
+            <div
+                id="stat-members"
+                class="stat-number mt-3">
+
+                --
+
+            </div>
+
+            <div class="text-xs
+                        text-gray-500">
+
+                Total Members
+
+            </div>
+
+        </div>
+
+
+        <div class="glass card
+                    rounded-2xl
+                    p-5">
+
+            <div class="text-amber-400">
+
+                <i class="fa-solid fa-user-clock text-xl"></i>
+
+            </div>
+
+            <div
+                id="stat-pending"
+                class="stat-number mt-3">
+
+                --
+
+            </div>
+
+            <div class="text-xs
+                        text-gray-500">
+
+                Pending Registrations
+
+            </div>
+
+        </div>
+
+
+        <div class="glass card
+                    rounded-2xl
+                    p-5">
+
+            <div class="text-green-400">
+
+                <i class="fa-solid fa-indian-rupee-sign text-xl"></i>
+
+            </div>
+
+            <div
+                id="stat-revenue"
+                class="stat-number mt-3">
+
+                ₹--
+
+            </div>
+
+            <div class="text-xs
+                        text-gray-500">
+
+                Approved Payments
+
+            </div>
+
+        </div>
+
+
+        <div class="glass card
+                    rounded-2xl
+                    p-5">
+
+            <div class="text-purple-400">
+
+                <i class="fa-solid fa-share-nodes text-xl"></i>
+
+            </div>
+
+            <div
+                id="stat-referrals"
+                class="stat-number mt-3">
+
+                --
+
+            </div>
+
+            <div class="text-xs
+                        text-gray-500">
+
+                Referrals
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="glass
+                rounded-2xl
+                mt-6
+                p-5">
+
+        <div class="flex
+                    justify-between
+                    items-center">
+
+            <div>
+
+                <h3 class="font-black">
+
+                    Recent Registrations
+
+                </h3>
+
+                <p class="text-xs
+                          text-gray-500">
+
+                    Latest member activity
+
+                </p>
+
+            </div>
+
+            <button
+                onclick="showSection('registrations')"
+                class="text-xs
+                       text-amber-400">
+
+                View All
+
+            </button>
+
+        </div>
+
+        <div id="recent-registrations"
+             class="mt-5">
+
+            Loading...
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     MEMBERS
+===================================================== -->
+
+<section id="section-members"
+         class="admin-section hidden">
+
+    <div class="flex
+                flex-wrap
+                justify-between
+                gap-3
+                mb-5">
+
+        <div>
+
+            <h2 class="text-xl
+                       font-black">
+
+                Members
+
+            </h2>
+
+            <p class="text-xs
+                      text-gray-500">
+
+                Registered IOIS members
+
+            </p>
+
+        </div>
+
+        <button
+            onclick="loadMembers()"
+            class="px-4 py-2
+                   bg-amber-400
+                   text-gray-950
+                   rounded-xl
+                   text-xs
+                   font-black">
+
+            <i class="fa-solid fa-rotate mr-1"></i>
+            Refresh
+
+        </button>
+
+    </div>
+
+
+    <div class="glass
+                rounded-2xl
+                p-4">
+
+        <input
+            id="member-search"
+            oninput="filterMembers()"
+            placeholder="Search name, email, WhatsApp or User ID..."
+            class="w-full
+                   rounded-xl
+                   px-4 py-3
+                   text-sm
+                   mb-4">
+
+        <div class="table-scroll">
+
+            <table
+                class="w-full
+                       text-xs">
+
+                <thead>
+
+                    <tr>
+
+                        <th class="p-3 text-left">
+                            User ID
+                        </th>
+
+                        <th class="p-3 text-left">
+                            Member
+                        </th>
+
+                        <th class="p-3 text-left">
+                            Contact
+                        </th>
+
+                        <th class="p-3 text-left">
+                            Plan
+                        </th>
+
+                        <th class="p-3 text-left">
+                            Status
+                        </th>
+
+                        <th class="p-3 text-left">
+                            Joined
+                        </th>
+
+                        <th class="p-3 text-left">
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="members-table">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     REGISTRATIONS
+===================================================== -->
+
+<section id="section-registrations"
+         class="admin-section hidden">
+
+    <div class="flex
+                justify-between
+                items-center
+                mb-5">
+
+        <div>
+
+            <h2 class="text-xl
+                       font-black">
+
+                Registration Verification
+
+            </h2>
+
+            <p class="text-xs
+                      text-gray-500">
+
+                Member applications को verify करें।
+
+            </p>
+
+        </div>
+
+        <button
+            onclick="loadRegistrations()"
+            class="px-4 py-2
+                   rounded-xl
+                   bg-amber-400
+                   text-gray-950
+                   text-xs
+                   font-black">
+
+            Refresh
+
+        </button>
+
+    </div>
+
+
+    <div class="glass
+                rounded-2xl
+                p-4">
+
+        <div class="table-scroll">
+
+            <table
+                class="w-full
+                       text-xs">
+
+                <thead>
+
+                    <tr>
+
+                        <th class="p-3 text-left">
+                            Date
+                        </th>
+
+                        <th class="p-3 text-left">
+                            Applicant
+                        </th>
+
+                        <th class="p-3 text-left">
+                            User ID
+                        </th>
+
+                        <th class="p-3 text-left">
+                            Plan
+                        </th>
+
+                        <th class="p-3 text-left">
+                            Payment
+                        </th>
+
+                        <th class="p-3 text-left">
+                            Status
+                        </th>
+
+                        <th class="p-3 text-left">
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="registrations-table">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PAYMENTS
+===================================================== -->
+
+<section id="section-payments"
+         class="admin-section hidden">
+
+    <div class="mb-5">
+
+        <h2 class="text-xl
+                   font-black">
+
+            Payment Verification
+
+        </h2>
+
+        <p class="text-xs
+                  text-gray-500">
+
+            Payment proof और transaction information verify करें।
+
+        </p>
+
+    </div>
+
+
+    <div class="glass
+                rounded-2xl
+                p-4">
+
+        <div class="table-scroll">
+
+            <table class="w-full text-xs">
+
+                <thead>
+
+                    <tr>
+
+                        <th class="p-3 text-left">
+                            Member
+                        </th>
+
+                        <th class="p-3 text-left">
+                            Plan
+                        </th>
+
+                        <th class="p-3 text-left">
+                            Amount
+                        </th>
+
+                        <th class="p-3 text-left">
+                            Transaction
+                        </th>
+
+                        <th class="p-3 text-left">
+                            Proof
+                        </th>
+
+                        <th class="p-3 text-left">
+                            Status
+                        </th>
+
+                        <th class="p-3 text-left">
+                            Action
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="payments-table">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     REFERRALS
+===================================================== -->
+
+<section id="section-referrals"
+         class="admin-section hidden">
+
+    <div class="mb-5">
+
+        <h2 class="text-xl
+                   font-black">
+
+            Referral Management
+
+        </h2>
+
+        <p class="text-xs
+                  text-gray-500">
+
+            Referral relationships और payout records.
+
+        </p>
+
+    </div>
+
+
+    <div class="glass
+                rounded-2xl
+                p-4">
+
+        <div class="table-scroll">
+
+            <table class="w-full text-xs">
+
+                <thead>
+
+                    <tr>
+
+                        <th class="p-3 text-left">
+                            Sponsor
+                        </th>
+
+                        <th class="p-3 text-left">
+                            Referred Member
+                        </th>
+
+                        <th class="p-3 text-left">
+                            Plan
+                        </th>
+
+                        <th class="p-3 text-left">
+                            Amount
+                        </th>
+
+                        <th class="p-3 text-left">
+                            Payout
+                        </th>
+
+                        <th class="p-3 text-left">
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="referrals-table">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     PLANS
+===================================================== -->
+
+<section id="section-plans"
+         class="admin-section hidden">
+
+    <div class="flex
+                justify-between
+                items-center
+                mb-5">
+
+        <div>
+
+            <h2 class="text-xl
+                       font-black">
+
+                Membership Plans
+
+            </h2>
+
+            <p class="text-xs
+                      text-gray-500">
+
+                Current IOIS membership structure
+
+            </p>
+
+        </div>
+
+        <button
+            onclick="loadPlans()"
+            class="px-4 py-2
+                   rounded-xl
+                   bg-amber-400
+                   text-gray-950
+                   text-xs
+                   font-black">
+
+            Refresh
+
+        </button>
+
+    </div>
+
+
+    <div
+        id="plans-grid"
+        class="grid
+               grid-cols-1
+               md:grid-cols-2
+               xl:grid-cols-3
+               gap-4">
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     NOTIFICATIONS
+===================================================== -->
+
+<section id="section-notifications"
+         class="admin-section hidden">
+
+    <div class="mb-5">
+
+        <h2 class="text-xl
+                   font-black">
+
+            Notification Center
+
+        </h2>
+
+        <p class="text-xs
+                  text-gray-500">
+
+            System notification status.
+
+        </p>
+
+    </div>
+
+
+    <div class="glass
+                rounded-2xl
+                p-6">
+
+        <div class="flex
+                    items-center
+                    gap-4">
+
+            <div
+                class="w-12 h-12
+                       rounded-xl
+                       bg-blue-500/10
+                       text-blue-400
+                       flex
+                       items-center
+                       justify-center">
+
+                <i class="fa-brands fa-telegram text-xl"></i>
+
+            </div>
+
+            <div>
+
+                <h3 class="font-black">
+
+                    Telegram Notification System
+
+                </h3>
+
+                <p class="text-xs
+                          text-gray-500
+                          mt-1">
+
+                    Telegram bot credentials frontend में expose नहीं किए जाएंगे।
+
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="mt-5
+                   p-4
+                   rounded-xl
+                   bg-gray-950
+                   border
+                   border-gray-800">
+
+            <p class="text-xs
+                      text-gray-400">
+
+                Registration, payment और approval events के लिए
+                secure server-side notification function इस्तेमाल किया जाएगा।
+
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SETTINGS
+===================================================== -->
+
+<section id="section-settings"
+         class="admin-section hidden">
+
+    <div class="mb-5">
+
+        <h2 class="text-xl
+                   font-black">
+
+            Admin Settings
+
+        </h2>
+
+    </div>
+
+
+    <div class="grid
+                grid-cols-1
+                lg:grid-cols-2
+                gap-5">
+
+
+        <div class="glass
+                    rounded-2xl
+                    p-6">
+
+            <h3 class="font-black
+                       text-amber-400">
+
+                Admin Account
+
+            </h3>
+
+            <div class="mt-5
+                        space-y-3">
+
+                <div>
+
+                    <label class="text-xs
+                                   text-gray-500">
+
+                        Current Admin
+
+                    </label>
+
+                    <div
+                        id="settings-admin-email"
+                        class="mt-1
+                               text-sm
+                               font-bold">
+
+                        --
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    onclick="recoverAdminPassword()"
+                    class="w-full
+                           py-3
+                           rounded-xl
+                           border
+                           border-amber-400
+                           text-amber-400
+                           text-xs
+                           font-bold">
+
+                    Reset Admin Password
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="glass
+                    rounded-2xl
+                    p-6">
+
+            <h3 class="font-black
+                       text-teal-400">
+
+                Security Rules
+
+            </h3>
+
+            <ul
+                class="mt-4
+                       text-xs
+                       text-gray-400
+                       space-y-3">
+
+                <li>
+                    <i class="fa-solid fa-check text-green-400 mr-2"></i>
+                    Unique User ID immutable
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-check text-green-400 mr-2"></i>
+                    Member records direct delete नहीं
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-check text-green-400 mr-2"></i>
+                    Admin access authenticated
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-check text-green-400 mr-2"></i>
+                    Supabase RLS required
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-check text-green-400 mr-2"></i>
+                    Service-role key frontend में नहीं
+                </li>
+
+                <li>
+                    <i class="fa-solid fa-check text-green-400 mr-2"></i>
+                    Telegram bot token frontend में नहीं
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+</div>
+
+
+<!-- =========================================================
+     MEMBER DETAILS MODAL
+========================================================= -->
+
+<div id="member-modal"
+     class="hidden
+            fixed inset-0 z-[100]
+            modal-bg
+            items-center
+            justify-center
+            p-4">
+
+    <div
+        class="glass
+               rounded-3xl
+               max-w-2xl
+               w-full
+               max-h-[90vh]
+               overflow-y-auto
+               p-6">
+
+        <div class="flex
+                    justify-between
+                    items-center
+                    mb-5">
+
+            <h3 class="text-xl
+                       font-black
+                       text-amber-400">
+
+                Member Details
+
+            </h3>
+
+            <button
+                onclick="closeMemberModal()"
+                class="text-gray-400
+                       text-xl">
+
+                &times;
+
+            </button>
+
+        </div>
+
+
+        <div id="member-details"
+             class="space-y-3">
+
+        </div>
+
+
+        <div
+            class="mt-6
+                   p-4
+                   rounded-xl
+                   bg-red-500/5
+                   border
+                   border-red-500/20">
+
+            <p class="text-xs
+                      text-red-300">
+
+                User ID को edit/delete नहीं किया जा सकता।
+                Member deletion को भी इस frontend से allow नहीं किया गया है।
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+========================================================= -->
+
+<script>
+
+/* =========================================================
+   SUPABASE CONFIGURATION
+=========================================================
+
+   IMPORTANT:
+   केवल PUBLIC ANON/PUBLISHABLE KEY यहाँ इस्तेमाल करें।
+
+   SERVICE ROLE KEY यहाँ कभी न डालें।
+   TELEGRAM BOT TOKEN यहाँ कभी न डालें।
+
+========================================================= */
+
+const IOIS_SUPABASE_URL =
+    window.IOIS_SUPABASE_URL || "";
+
+const IOIS_SUPABASE_ANON_KEY =
+    window.IOIS_SUPABASE_ANON_KEY || "";
+
+let supabaseClient = null;
+
+if (
+    IOIS_SUPABASE_URL &&
+    IOIS_SUPABASE_ANON_KEY
+) {
+
+    supabaseClient =
+        window.supabase.createClient(
+            IOIS_SUPABASE_URL,
+            IOIS_SUPABASE_ANON_KEY
+        );
+
+}
+
+
+/* =========================================================
+   STATE
+========================================================= */
+
+let currentAdmin = null;
+
+let membersCache = [];
+
+let registrationsCache = [];
+
+let plansCache = [];
+
+let referralsCache = [];
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function $(id) {
+    return document.getElementById(id);
+}
+
+
+function escapeHTML(value) {
+
+    if (value === null ||
+        value === undefined) {
+
+        return "";
+
+    }
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+
+function formatDate(value) {
+
+    if (!value) return "--";
+
+    try {
+
+        return new Date(value)
+            .toLocaleString("en-IN");
+
+    } catch {
+
+        return value;
+
+    }
+
+}
+
+
+function money(value) {
+
+    if (
+        value === null ||
+        value === undefined ||
+        value === ""
+    ) {
+
+        return "₹0";
+
+    }
+
+    return "₹" +
+        Number(value).toLocaleString("en-IN");
+
+}
+
+
+function showMessage(
+    element,
+    message,
+    success = false
+) {
+
+    if (!element) return;
+
+    element.textContent = message;
+
+    element.className =
+        "mt-4 rounded-xl p-3 text-xs text-center " +
+        (
+            success
+            ? "bg-green-500/10 text-green-400 border border-green-500/20"
+            : "bg-red-500/10 text-red-400 border border-red-500/20"
+        );
+
+    element.classList.remove("hidden");
+
+}
+
+
+/* =========================================================
+   PASSWORD
+========================================================= */
+
+function togglePassword(id) {
+
+    const input = $(id);
+
+    if (!input) return;
+
+    input.type =
+        input.type === "password"
+        ? "text"
+        : "password";
+
+}
+
+
+/* =========================================================
+   AUTH
+========================================================= */
+
+async function checkAdminSession() {
+
+    if (!supabaseClient) {
+
+        showLogin();
+
+        $("page-loader")
+            .classList.add("hidden");
+
+        return;
+
+    }
+
+    try {
+
+        const {
+            data: {
+                session
+            }
+        } =
+            await supabaseClient.auth
+            .getSession();
+
+
+        if (!session) {
+
+            showLogin();
+
+            return;
+
+        }
+
+
+        const user =
+            session.user;
+
+
+        const isAdmin =
+            await verifyAdmin(user);
+
+
+        if (!isAdmin) {
+
+            await supabaseClient.auth.signOut();
+
+            showLogin();
+
+            showMessage(
+                $("login-message"),
+                "यह account Admin access के लिए authorized नहीं है।"
+            );
+
+            return;
+
+        }
+
+
+        currentAdmin = user;
+
+        showAdmin();
+
+        await loadAll();
+
+    }
+
+    catch(error) {
+
+        console.error(error);
+
+        showLogin();
+
+    }
+
+    finally {
+
+        $("page-loader")
+            .classList.add("hidden");
+
+    }
+
+}
+
+
+async function verifyAdmin(user) {
+
+    /*
+      Admin verification:
+
+      Preferred:
+      profiles.role = 'admin'
+
+      यदि आपके database में role claim/RPC है,
+      उसी server-side policy को authoritative रखें।
+    */
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+            .from("profiles")
+            .select("role,is_admin")
+            .eq("id",user.id)
+            .maybeSingle();
+
+
+        if (error) {
+
+            console.warn(
+                "Admin profile verification:",
+                error.message
+            );
+
+            return false;
+
+        }
+
+
+        return (
+            data &&
+            (
+                data.role === "admin" ||
+                data.is_admin === true
+            )
+        );
+
+    }
+
+    catch {
+
+        return false;
+
+    }
+
+}
+
+
+async function loginAdmin(event) {
+
+    event.preventDefault();
+
+    const email =
+        $("admin-email").value.trim();
+
+    const password =
+        $("admin-password").value;
+
+
+    if (!supabaseClient) {
+
+        showMessage(
+            $("login-message"),
+            "Supabase configuration available नहीं है।"
+        );
+
+        return;
+
+    }
+
+
+    const button =
+        $("admin-login-btn");
+
+    button.disabled = true;
+
+    button.textContent =
+        "Checking...";
+
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.auth
+            .signInWithPassword({
+                email,
+                password
+            });
+
+
+        if (error)
+            throw error;
+
+
+        const isAdmin =
+            await verifyAdmin(data.user);
+
+
+        if (!isAdmin) {
+
+            await supabaseClient.auth.signOut();
+
+            throw new Error(
+                "Admin authorization failed."
+            );
+
+        }
+
+
+        currentAdmin =
+            data.user;
+
+        showAdmin();
+
+        await loadAll();
+
+    }
+
+    catch(error) {
+
+        showMessage(
+            $("login-message"),
+            "Login failed: " +
+            error.message
+        );
+
+    }
+
+    finally {
+
+        button.disabled = false;
+
+        button.innerHTML =
+            '<i class="fa-solid fa-right-to-bracket mr-2"></i>Secure Login';
+
+    }
+
+}
+
+
+async function logoutAdmin() {
+
+    if (supabaseClient) {
+
+        await supabaseClient.auth.signOut();
+
+    }
+
+    currentAdmin = null;
+
+    showLogin();
+
+}
+
+
+async function recoverAdminPassword() {
+
+    const email =
+        $("admin-email")?.value.trim();
+
+    if (!email) {
+
+        alert(
+            "पहले Admin email डालें।"
+        );
+
+        return;
+
+    }
+
+    if (!supabaseClient) return;
+
+
+    try {
+
+        const {
+            error
+        } =
+            await supabaseClient.auth
+            .resetPasswordForEmail(
+                email,
+                {
+                    redirectTo:
+                        window.location.origin +
+                        window.location.pathname
+                }
+            );
+
+
+        if (error)
+            throw error;
+
+
+        alert(
+            "Password recovery email भेज दिया गया है।"
+        );
+
+    }
+
+    catch(error) {
+
+        alert(
+            "Recovery failed: " +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   UI
+========================================================= */
+
+function showLogin() {
+
+    $("admin-login")
+        .classList.remove("hidden");
+
+    $("admin-app")
+        .classList.add("hidden");
+
+}
+
+
+function showAdmin() {
+
+    $("admin-login")
+        .classList.add("hidden");
+
+    $("admin-app")
+        .classList.remove("hidden");
+
+
+    if (currentAdmin) {
+
+        $("admin-email-display")
+            .textContent =
+            currentAdmin.email || "";
+
+        $("settings-admin-email")
+            .textContent =
+            currentAdmin.email || "";
+
+    }
+
+}
+
+
+function toggleSidebar() {
+
+    const sidebar =
+        $("admin-sidebar");
+
+    sidebar.classList.toggle(
+        "mobile-sidebar-open"
+    );
+
+}
+
+
+function showSection(name) {
+
+    document
+        .querySelectorAll(".admin-section")
+        .forEach(section => {
+
+            section.classList.add("hidden");
+
+        });
+
+
+    const section =
+        $("section-" + name);
+
+    if (section)
+        section.classList.remove("hidden");
+
+
+    if (name === "members")
+        loadMembers();
+
+    if (name === "registrations")
+        loadRegistrations();
+
+    if (name === "payments")
+        loadPayments();
+
+    if (name === "referrals")
+        loadReferrals();
+
+    if (name === "plans")
+        loadPlans();
+
+    if (
+        window.innerWidth < 1024
+    ) {
+
+        $("admin-sidebar")
+            .classList.remove(
+                "mobile-sidebar-open"
+            );
+
+    }
+
+}
+
+
+/* =========================================================
+   LOAD ALL
+========================================================= */
+
+async function loadAll() {
+
+    await Promise.allSettled([
+
+        loadMembers(),
+
+        loadRegistrations(),
+
+        loadPayments(),
+
+        loadReferrals(),
+
+        loadPlans()
+
+    ]);
+
+    updateStats();
+
+}
+
+
+/* =========================================================
+   MEMBERS
+========================================================= */
+
+async function loadMembers() {
+
+    if (!supabaseClient)
+        return;
+
+
+    const table =
+        $("members-table");
+
+    table.innerHTML =
+        `<tr>
+            <td colspan="7"
+                class="p-5 text-center text-gray-500">
+                Loading...
+            </td>
+        </tr>`;
+
+
+    try {
+
+        /*
+          profiles is intentionally used for member identity.
+          Unique ID should remain immutable at database/RLS level.
+        */
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+            .from("profiles")
+            .select("*")
+            .order(
+                "created_at",
+                {
+                    ascending:false
+                }
+            )
+            .limit(500);
+
+
+        if (error)
+            throw error;
+
+
+        membersCache =
+            data || [];
+
+
+        renderMembers(
+            membersCache
+        );
+
+
+        $("stat-members")
+            .textContent =
+            membersCache.length;
+
+
+    }
+
+    catch(error) {
+
+        table.innerHTML =
+            `<tr>
+                <td colspan="7"
+                    class="p-5 text-center text-red-400">
+                    ${escapeHTML(error.message)}
+                </td>
+            </tr>`;
+
+    }
+
+}
+
+
+function renderMembers(list) {
+
+    const table =
+        $("members-table");
+
+
+    if (!list.length) {
+
+        table.innerHTML =
+            `<tr>
+                <td colspan="7"
+                    class="p-5 text-center text-gray-500">
+                    No members found.
+                </td>
+            </tr>`;
+
+        return;
+
+    }
+
+
+    table.innerHTML =
+        list.map(member => {
+
+            const uid =
+                member.user_id ||
+                member.id ||
+                member.unique_user_id ||
+                "--";
+
+
+            const name =
+                member.full_name ||
+                member.name ||
+                "Unnamed";
+
+
+            const email =
+                member.email ||
+                "--";
+
+
+            const phone =
+                member.whatsapp ||
+                member.phone ||
+                member.phone_number ||
+                "--";
+
+
+            const plan =
+                member.plan_name ||
+                member.membership_plan ||
+                member.plan ||
+                "--";
+
+
+            const status =
+                member.status ||
+                member.account_status ||
+                "active";
+
+
+            return `
+            <tr class="border-t border-gray-800">
+
+                <td class="p-3 font-mono text-amber-400">
+                    ${escapeHTML(uid)}
+                </td>
+
+                <td class="p-3">
+                    <div class="font-bold">
+                        ${escapeHTML(name)}
+                    </div>
+                    <div class="text-gray-500">
+                        ${escapeHTML(email)}
+                    </div>
+                </td>
+
+                <td class="p-3 text-gray-300">
+                    ${escapeHTML(phone)}
+                </td>
+
+                <td class="p-3 text-gray-300">
+                    ${escapeHTML(plan)}
+                </td>
+
+                <td class="p-3">
+                    <span class="text-green-400">
+                        ${escapeHTML(status)}
+                    </span>
+                </td>
+
+                <td class="p-3 text-gray-500">
+                    ${formatDate(member.created_at)}
+                </td>
+
+                <td class="p-3">
+
+                    <button
+                        onclick="viewMember('${escapeHTML(member.id || '')}')"
+                        class="px-3 py-2
+                               rounded-lg
+                               bg-amber-400/10
+                               text-amber-400">
+
+                        View
+
+                    </button>
+
+                </td>
+
+            </tr>`;
+
+        }).join("");
+
+}
+
+
+function filterMembers() {
+
+    const search =
+        $("member-search")
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    if (!search) {
+
+        renderMembers(
+            membersCache
+        );
+
+        return;
+
+    }
+
+
+    const filtered =
+        membersCache.filter(member => {
+
+            return JSON.stringify(member)
+                .toLowerCase()
+                .includes(search);
+
+        });
+
+
+    renderMembers(filtered);
+
+}
+
+
+/* =========================================================
+   MEMBER VIEW
+========================================================= */
+
+function viewMember(id) {
+
+    const member =
+        membersCache.find(
+            m => String(m.id) === String(id)
+        );
+
+
+    if (!member)
+        return;
+
+
+    const container =
+        $("member-details");
+
+
+    container.innerHTML =
+        Object.entries(member)
+        .map(([key,value]) => {
+
+            /*
+              Never expose password/hash fields.
+            */
+
+            const forbidden =
+                [
+                    "password",
+                    "password_hash",
+                    "token",
+                    "access_token",
+                    "refresh_token"
+                ];
+
+
+            if (
+                forbidden.includes(
+                    key.toLowerCase()
+                )
+            ) {
+
+                return "";
+
+            }
+
+
+            return `
+            <div class="p-3
+                        rounded-xl
+                        bg-[#020617]
+                        border
+                        border-gray-800">
+
+                <div class="text-[10px]
+                            text-gray-500
+                            uppercase">
+
+                    ${escapeHTML(key)}
+
+                </div>
+
+                <div class="text-sm
+                            mt-1
+                            break-all">
+
+                    ${escapeHTML(
+                        typeof value === "object"
+                        ? JSON.stringify(value)
+                        : value
+                    )}
+
+                </div>
+
+            </div>`;
+
+        })
+        .join("");
+
+
+    $("member-modal")
+        .classList.remove("hidden");
+
+    $("member-modal")
+        .classList.add("flex");
+
+}
+
+
+function closeMemberModal() {
+
+    $("member-modal")
+        .classList.add("hidden");
+
+    $("member-modal")
+        .classList.remove("flex");
+
+}
+
+
+/* =========================================================
+   REGISTRATIONS
+========================================================= */
+
+async function loadRegistrations() {
+
+    if (!supabaseClient)
+        return;
+
+
+    const table =
+        $("registrations-table");
+
+
+    table.innerHTML =
+        `<tr>
+            <td colspan="7"
+                class="p-5 text-center text-gray-500">
+                Loading...
+            </td>
+        </tr>`;
+
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+            .from("registrations")
+            .select("*")
+            .order(
+                "created_at",
+                {
+                    ascending:false
+                }
+            )
+            .limit(500);
+
+
+        if (error)
+            throw error;
+
+
+        registrationsCache =
+            data || [];
+
+
+        renderRegistrations(
+            registrationsCache
+        );
+
+
+        $("stat-pending")
+            .textContent =
+            registrationsCache.filter(
+                r =>
+                String(
+                    r.status || ""
+                ).toLowerCase()
+                === "pending"
+            ).length;
+
+
+    }
+
+    catch(error) {
+
+        table.innerHTML =
+            `<tr>
+                <td colspan="7"
+                    class="p-5 text-center text-red-400">
+                    ${escapeHTML(error.message)}
+                </td>
+            </tr>`;
+
+    }
+
+}
+
+
+function renderRegistrations(list) {
+
+    const table =
+        $("registrations-table");
+
+
+    if (!list.length) {
+
+        table.innerHTML =
+            `<tr>
+                <td colspan="7"
+                    class="p-5 text-center text-gray-500">
+                    No registrations found.
+                </td>
+            </tr>`;
+
+        return;
+
+    }
+
+
+    table.innerHTML =
+        list.map(row => {
+
+            const status =
+                String(
+                    row.status ||
+                    "pending"
+                ).toLowerCase();
+
+
+            return `
+            <tr class="border-t border-gray-800">
+
+                <td class="p-3 text-gray-500">
+                    ${formatDate(row.created_at)}
+                </td>
+
+                <td class="p-3 font-bold">
+                    ${escapeHTML(
+                        row.full_name ||
+                        row.name ||
+                        "--"
+                    )}
+                </td>
+
+                <td class="p-3 font-mono text-amber-400">
+                    ${escapeHTML(
+                        row.user_id ||
+                        row.unique_user_id ||
+                        "--"
+                    )}
+                </td>
+
+                <td class="p-3">
+                    ${escapeHTML(
+                        row.plan_name ||
+                        row.plan ||
+                        row.membership_plan ||
+                        "--"
+                    )}
+                </td>
+
+                <td class="p-3">
+                    ${money(
+                        row.amount ||
+                        row.plan_amount ||
+                        0
+                    )}
+                </td>
+
+                <td class="p-3">
+
+                    <span class="${
+                        status === "approved"
+                        ? "status-approved"
+                        : status === "rejected"
+                        ? "status-rejected"
+                        : "status-pending"
+                    } font-bold">
+
+                        ${escapeHTML(status)}
+
+                    </span>
+
+                </td>
+
+                <td class="p-3">
+
+                    <div class="flex gap-2">
+
+                        <button
+                            onclick="approveRegistration('${escapeHTML(row.id || '')}')"
+                            class="px-3 py-2
+                                   rounded-lg
+                                   bg-green-500/10
+                                   text-green-400">
+
+                            Approve
+
+                        </button>
+
+                        <button
+                            onclick="rejectRegistration('${escapeHTML(row.id || '')}')"
+                            class="px-3 py-2
+                                   rounded-lg
+                                   bg-red-500/10
+                                   text-red-400">
+
+                            Reject
+
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>`;
+
+        }).join("");
+
+}
+
+
+/* =========================================================
+   REGISTRATION ACTIONS
+========================================================= */
+
+async function updateRegistrationStatus(
+    id,
+    status
+) {
+
+    if (!supabaseClient || !id)
+        return;
+
+
+    /*
+      These updates must ALSO be protected by
+      Supabase RLS / admin policy.
+    */
+
+    try {
+
+        const {
+            error
+        } =
+            await supabaseClient
+            .from("registrations")
+            .update({
+                status
+            })
+            .eq("id",id);
+
+
+        if (error)
+            throw error;
+
+
+        await loadRegistrations();
+
+        await loadMembers();
+
+        updateStats();
+
+
+        /*
+          Telegram notification should be handled
+          by a secure Edge Function / database trigger.
+        */
+
+    }
+
+    catch(error) {
+
+        alert(
+            "Action failed: " +
+            error.message
+        );
+
+    }
+
+}
+
+
+function approveRegistration(id) {
+
+    if (
+        !confirm(
+            "इस registration को APPROVE करना है?"
+        )
+    ) return;
+
+
+    updateRegistrationStatus(
+        id,
+        "approved"
+    );
+
+}
+
+
+function rejectRegistration(id) {
+
+    if (
+        !confirm(
+            "इस registration को REJECT करना है?"
+        )
+    ) return;
+
+
+    updateRegistrationStatus(
+        id,
+        "rejected"
+    );
+
+}
+
+
+/* =========================================================
+   PAYMENTS
+========================================================= */
+
+async function loadPayments() {
+
+    if (!supabaseClient)
+        return;
+
+
+    const table =
+        $("payments-table");
+
+
+    table.innerHTML =
+        `<tr>
+            <td colspan="7"
+                class="p-5 text-center text-gray-500">
+                Loading...
+            </td>
+        </tr>`;
+
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+            .from("payments")
+            .select("*")
+            .order(
+                "created_at",
+                {
+                    ascending:false
+                }
+            )
+            .limit(500);
+
+
+        if (error)
+            throw error;
+
+
+        renderPayments(
+            data || []
+        );
+
+
+        const approvedTotal =
+            (data || [])
+            .filter(
+                p =>
+                String(
+                    p.status || ""
+                ).toLowerCase()
+                === "approved"
+            )
+            .reduce(
+                (sum,p) =>
+                sum +
+                Number(
+                    p.amount ||
+                    p.plan_amount ||
+                    0
+                ),
+                0
+            );
+
+
+        $("stat-revenue")
+            .textContent =
+            money(approvedTotal);
+
+    }
+
+    catch(error) {
+
+        table.innerHTML =
+            `<tr>
+                <td colspan="7"
+                    class="p-5 text-center text-red-400">
+                    ${escapeHTML(error.message)}
+                </td>
+            </tr>`;
+
+    }
+
+}
+
+
+function renderPayments(list) {
+
+    const table =
+        $("payments-table");
+
+
+    if (!list.length) {
+
+        table.innerHTML =
+            `<tr>
+                <td colspan="7"
+                    class="p-5 text-center text-gray-500">
+                    No payments found.
+                </td>
+            </tr>`;
+
+        return;
+
+    }
+
+
+    table.innerHTML =
+        list.map(row => {
+
+            const proof =
+                row.payment_screenshot ||
+                row.payment_proof ||
+                row.proof_url ||
+                row.screenshot_url;
+
+
+            return `
+            <tr class="border-t border-gray-800">
+
+                <td class="p-3">
+                    ${escapeHTML(
+                        row.full_name ||
+                        row.name ||
+                        row.user_id ||
+                        "--"
+                    )}
+                </td>
+
+                <td class="p-3">
+                    ${escapeHTML(
+                        row.plan_name ||
+                        row.plan ||
+                        "--"
+                    )}
+                </td>
+
+                <td class="p-3 text-amber-400 font-bold">
+                    ${money(
+                        row.amount ||
+                        row.plan_amount
+                    )}
+                </td>
+
+                <td class="p-3 font-mono">
+                    ${escapeHTML(
+                        row.transaction_id ||
+                        row.utr ||
+                        "--"
+                    )}
+                </td>
+
+                <td class="p-3">
+
+                    ${
+                        proof
+                        ?
+                        `<a
+                            href="${escapeHTML(proof)}"
+                            target="_blank"
+                            rel="noopener"
+                            class="text-teal-400">
+
+                            View Proof
+
+                         </a>`
+                        :
+                        `<span class="text-gray-600">
+                            Not available
+                         </span>`
+                    }
+
+                </td>
+
+                <td class="p-3">
+
+                    ${escapeHTML(
+                        row.status ||
+                        "pending"
+                    )}
+
+                </td>
+
+                <td class="p-3">
+
+                    <button
+                        onclick="approvePayment('${escapeHTML(row.id || '')}')"
+                        class="px-3 py-2
+                               rounded-lg
+                               bg-green-500/10
+                               text-green-400">
+
+                        Approve
+
+                    </button>
+
+                </td>
+
+            </tr>`;
+
+        }).join("");
+
+}
+
+
+async function approvePayment(id) {
+
+    if (!id)
+        return;
+
+
+    if (
+        !confirm(
+            "Payment approve करना है?"
+        )
+    ) return;
+
+
+    try {
+
+        const {
+            error
+        } =
+            await supabaseClient
+            .from("payments")
+            .update({
+                status:"approved"
+            })
+            .eq("id",id);
+
+
+        if (error)
+            throw error;
+
+
+        await loadPayments();
+
+    }
+
+    catch(error) {
+
+        alert(
+            "Payment approval failed: " +
+            error.message
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   REFERRALS
+========================================================= */
+
+async function loadReferrals() {
+
+    if (!supabaseClient)
+        return;
+
+
+    const table =
+        $("referrals-table");
+
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+            .from("referrals")
+            .select("*")
+            .order(
+                "created_at",
+                {
+                    ascending:false
+                }
+            )
+            .limit(500);
+
+
+        if (error)
+            throw error;
+
+
+        referralsCache =
+            data || [];
+
+
+        renderReferrals(
+            referralsCache
+        );
+
+
+        $("stat-referrals")
+            .textContent =
+            referralsCache.length;
+
+    }
+
+    catch(error) {
+
+        table.innerHTML =
+            `<tr>
+                <td colspan="6"
+                    class="p-5 text-center text-red-400">
+                    ${escapeHTML(error.message)}
+                </td>
+            </tr>`;
+
+    }
+
+}
+
+
+function renderReferrals(list) {
+
+    const table =
+        $("referrals-table");
+
+
+    if (!list.length) {
+
+        table.innerHTML =
+            `<tr>
+                <td colspan="6"
+                    class="p-5 text-center text-gray-500">
+
+                    No referrals found.
+
+                </td>
+            </tr>`;
+
+        return;
+
+    }
+
+
+    table.innerHTML =
+        list.map(row => {
+
+            return `
+            <tr class="border-t border-gray-800">
+
+                <td class="p-3 text-amber-400">
+                    ${escapeHTML(
+                        row.sponsor_id ||
+                        row.referrer_id ||
+                        "--"
+                    )}
+                </td>
+
+                <td class="p-3">
+                    ${escapeHTML(
+                        row.referred_user_id ||
+                        row.user_id ||
+                        "--"
+                    )}
+                </td>
+
+                <td class="p-3">
+                    ${escapeHTML(
+                        row.plan_name ||
+                        row.plan ||
+                        "--"
+                    )}
+                </td>
+
+                <td class="p-3">
+                    ${money(
+                        row.amount
+                    )}
+                </td>
+
+                <td class="p-3 text-green-400 font-bold">
+                    ${money(
+                        row.payout ||
+                        row.commission
+                    )}
+                </td>
+
+                <td class="p-3">
+                    ${escapeHTML(
+                        row.status ||
+                        "pending"
+                    )}
+                </td>
+
+            </tr>`;
+
+        }).join("");
+
+}
+
+
+/* =========================================================
+   PLANS
+========================================================= */
+
+async function loadPlans() {
+
+    if (!supabaseClient)
+        return;
+
+
+    const grid =
+        $("plans-grid");
+
+
+    grid.innerHTML =
+        `<div class="text-gray-500 text-sm">
+            Loading plans...
+         </div>`;
+
+
+    try {
+
+        const {
+            data,
+            error
+        } =
+            await supabaseClient
+            .from("membership_plans")
+            .select("*")
+            .order(
+                "amount",
+                {
+                    ascending:true
+                }
+            );
+
+
+        if (error)
+            throw error;
+
+
+        plansCache =
+            data || [];
+
+
+        if (!plansCache.length) {
+
+            grid.innerHTML =
+                `<div class="text-gray-500 text-sm">
+                    No membership plans found.
+                 </div>`;
+
+            return;
+
+        }
+
+
+        grid.innerHTML =
+            plansCache.map(plan => {
+
+                const title =
+                    plan.plan_name ||
+                    plan.title ||
+                    plan.plan_title ||
+                    plan.display_name ||
+                    "IOIS Plan";
+
+
+                const amount =
+                    plan.amount ??
+                    plan.price ??
+                    0;
+
+
+                const direct =
+                    plan.direct_payout ??
+                    plan.direct_commission ??
+                    plan.commission ??
+                    0;
+
+
+                return `
+                <div
+                    class="glass
+                           card
+                           rounded-2xl
+                           p-5">
+
+                    <div class="text-xs
+                                text-gray-500">
+
+                        ${escapeHTML(
+                            plan.plan_code ||
+                            plan.code ||
+                            ""
+                        )}
+
+                    </div>
+
+                    <h3
+                        class="font-black
+                               text-lg
+                               mt-2">
+
+                        ${escapeHTML(title)}
+
+                    </h3>
+
+                    <div
+                        class="text-3xl
+                               font-black
+                               text-amber-400
+                               mt-3">
+
+                        ${money(amount)}
+
+                    </div>
+
+                    <div
+                        class="text-xs
+                               text-teal-400
+                               mt-2">
+
+                        Direct payout:
+                        ${money(direct)}
+
+                    </div>
+
+                    <div
+                        class="text-xs
+                               text-gray-500
+                               mt-3">
+
+                        Status:
+                        ${escapeHTML(
+                            String(
+                                plan.active ??
+                                plan.is_active ??
+                                true
+                            )
+                        )}
+
+                    </div>
+
+                </div>`;
+
+            }).join("");
+
+    }
+
+    catch(error) {
+
+        grid.innerHTML =
+            `<div class="text-red-400 text-sm">
+                ${escapeHTML(error.message)}
+             </div>`;
+
+    }
+
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+async function updateStats() {
+
+    /*
+      Counts are refreshed through loaded datasets.
+    */
+
+    $("stat-members")
+        .textContent =
+        membersCache.length || 0;
+
+
+    $("stat-pending")
+        .textContent =
+        registrationsCache
+        .filter(
+            r =>
+            String(
+                r.status || ""
+            ).toLowerCase()
+            === "pending"
+        ).length;
+
+
+    $("stat-referrals")
+        .textContent =
+        referralsCache.length || 0;
+
+}
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        $("admin-login-form")
+            .addEventListener(
+                "submit",
+                loginAdmin
+            );
+
+
+        checkAdminSession();
+
+    }
+);
+
+
+/* =========================================================
+   AUTH STATE CHANGE
+========================================================= */
+
+if (window.supabase &&
+    typeof window.supabase.createClient === "function") {
+
+    /*
+      Listener is attached after client initialization
+      when configuration is available.
+    */
+
+    if (supabaseClient) {
+
+        supabaseClient.auth
+        .onAuthStateChange(
+            async (event,session) => {
+
+                if (
+                    event ===
+                    "SIGNED_OUT"
+                ) {
+
+                    showLogin();
+
+                }
+
+            }
+        );
+
+    }
+
+}
+
+</script>
+
+
+<!-- =========================================================
+     SAFE CONFIG HOOK
+=========================================================
+
+     Production में इन्हें अपने public configuration
+     loader से provide करें:
+
+     window.IOIS_SUPABASE_URL
+     window.IOIS_SUPABASE_ANON_KEY
+
+     Service-role key / Telegram bot token NEVER यहाँ रखें.
+
+========================================================= -->
+
+</body>
+</html>
