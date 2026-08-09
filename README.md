@@ -1,7 +1,17 @@
-# IOIS Platform — GitHub Ready
+# IOIS PLATFORM — Final Frontend
 
-Membership plans: ₹10, ₹49, ₹99, ₹199, ₹299, ₹499, ₹999.
+Upload all files/folders in this directory to the GitHub repository root.
 
-This package is a frontend foundation wired to Supabase using the publishable browser key. Secret/service-role keys must never be committed to GitHub.
+## Pages
+- index.html
+- membership.html
+- news.html
+- jobs.html
+- chat.html
+- panchang.html
+- style.css
+- script.js
+- assets/logo.png (optional; add your actual IOIS logo)
 
-Important: the database RLS/functions must be compatible with the registration workflow before production launch. The frontend does not expose any secret Telegram credential.
+## Notes
+This is a static frontend. Weather uses Open-Meteo client-side. Registration demo stores leads in browser localStorage. Do not expose private Telegram/Supabase service keys in frontend code. Use a secure backend/serverless function for private credentials.

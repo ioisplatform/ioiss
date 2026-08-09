@@ -1,0 +1,1 @@
+Place your IOIS logo here as assets/logo.png. The site works without it.
