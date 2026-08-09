@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#0b1020">
+
+    <meta name="description"
+          content="IOIS - Indian Online Income Supporting System">
+
+    <title>IOIS Platform | Indian Online Income Supporting System</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+            background: #f5f7fb;
+            color: #172033;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        /* =========================
+           TOP BAR
+        ========================= */
+
+        .topbar {
+            background: #07111f;
+            color: #fff;
+            padding: 8px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .topbar-left,
+        .topbar-right {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            background: #ffffff;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,.08);
+        }
+
+        .navbar {
+            max-width: 1250px;
+            margin: auto;
+            min-height: 75px;
+            padding: 10px 5%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+        }
+
+        .logo-circle {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(
+                135deg,
+                #075eff,
+                #00bfff
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 19px;
+            font-weight: 900;
+            box-shadow: 0 5px 15px rgba(0,100,255,.25);
+        }
+
+        .logo-text strong {
+            display: block;
+            font-size: 22px;
+            color: #0b4fd8;
+        }
+
+        .logo-text small {
+            display: block;
+            font-size: 10px;
+            color: #687386;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        nav a {
+            padding: 9px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            background: #edf4ff;
+            color: #075eff;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 11px 19px;
+            border-radius: 9px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: #075eff;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #0048cf;
+        }
+
+        .btn-outline {
+            border: 1px solid #075eff;
+            color: #075eff;
+            background: #fff;
+        }
+
+        .btn-outline:hover {
+            background: #075eff;
+            color: #fff;
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 27px;
+            cursor: pointer;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            background:
+                radial-gradient(
+                    circle at 20% 20%,
+                    rgba(0,173,255,.22),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #07152b,
+                    #0b3270,
+                    #075eff
+                );
+
+            color: #fff;
+            padding: 80px 5%;
+        }
+
+        .hero-inner {
+            max-width: 1250px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1.2fr .8fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(36px, 5vw, 66px);
+            line-height: 1.08;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #57d8ff;
+        }
+
+        .hero p {
+            max-width: 700px;
+            color: #e6f1ff;
+            font-size: 18px;
+            margin-bottom: 28px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .hero-card {
+            background: rgba(255,255,255,.1);
+            border: 1px solid rgba(255,255,255,.2);
+            border-radius: 22px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,.25);
+        }
+
+        .hero-card h3 {
+            font-size: 25px;
+            margin-bottom: 15px;
+        }
+
+        .hero-card-item {
+            background: rgba(255,255,255,.09);
+            margin: 10px 0;
+            padding: 13px;
+            border-radius: 10px;
+        }
+
+        /* =========================
+           LIVE INFO
+        ========================= */
+
+        .live-section {
+            padding: 25px 5%;
+            background: #fff;
+        }
+
+        .live-grid {
+            max-width: 1250px;
+            margin: auto;
+            display: grid;
+            grid-template-columns:
+                repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .live-card {
+            padding: 18px;
+            border-radius: 14px;
+            background: #f5f8ff;
+            border: 1px solid #e2e9f5;
+        }
+
+        .live-card strong {
+            display: block;
+            color: #075eff;
+            margin-bottom: 5px;
+        }
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        section {
+            padding: 75px 5%;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .section-heading span {
+            color: #075eff;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+
+        .section-heading h2 {
+            font-size: 36px;
+            margin: 8px 0;
+        }
+
+        .section-heading p {
+            max-width: 700px;
+            margin: auto;
+            color: #667085;
+        }
+
+        /* =========================
+           SERVICES
+        ========================= */
+
+        .service-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .service-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+            border: 1px solid #e6eaf0;
+            transition: .25s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-6px);
+            box-shadow:
+                0 15px 35px rgba(0,0,0,.09);
+        }
+
+        .service-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: #eaf2ff;
+            color: #075eff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .service-card h3 {
+            margin-bottom: 7px;
+        }
+
+        .service-card p {
+            color: #697386;
+            font-size: 14px;
+        }
+
+        /* =========================
+           MEMBERSHIP
+        ========================= */
+
+        .membership-section {
+            background: #eef4ff;
+        }
+
+        .plan-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .plan-card {
+            background: #fff;
+            padding: 25px;
+            border-radius: 18px;
+            border: 1px solid #dfe7f5;
+            position: relative;
+        }
+
+        .plan-card.featured {
+            border: 2px solid #075eff;
+            transform: scale(1.02);
+        }
+
+        .plan-badge {
+            position: absolute;
+            top: -12px;
+            right: 18px;
+            background: #075eff;
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .plan-name {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .plan-price {
+            font-size: 38px;
+            font-weight: 900;
+            color: #075eff;
+            margin: 10px 0;
+        }
+
+        .plan-list {
+            list-style: none;
+            margin: 18px 0;
+        }
+
+        .plan-list li {
+            padding: 6px 0;
+            font-size: 13px;
+        }
+
+        /* =========================
+           HOW IT WORKS
+        ========================= */
+
+        .steps {
+            display: grid;
+            grid-template-columns:
+                repeat(5, 1fr);
+            gap: 15px;
+        }
+
+        .step {
+            text-align: center;
+            padding: 25px 15px;
+            background: #fff;
+            border: 1px solid #e5eaf2;
+            border-radius: 15px;
+        }
+
+        .step-number {
+            width: 45px;
+            height: 45px;
+            margin: auto auto 12px;
+            background: #075eff;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+        }
+
+        /* =========================
+           ABOUT
+        ========================= */
+
+        .about-grid {
+            display: grid;
+            grid-template-columns:
+                1fr 1fr;
+            gap: 45px;
+            align-items: center;
+        }
+
+        .about-box {
+            background: #fff;
+            padding: 30px;
+            border-radius: 18px;
+            border: 1px solid #e4e9f1;
+        }
+
+        .about-list {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .about-list li {
+            padding: 9px 0;
+        }
+
+        /* =========================
+           CTA
+        ========================= */
+
+        .cta {
+            background:
+                linear-gradient(
+                    135deg,
+                    #075eff,
+                    #07358b
+                );
+            color: #fff;
+            border-radius: 25px;
+            padding: 55px;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 38px;
+            margin-bottom: 12px;
+        }
+
+        .cta p {
+            color: #e6efff;
+            max-width: 700px;
+            margin: 0 auto 25px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #07111f;
+            color: #fff;
+            padding: 55px 5% 20px;
+        }
+
+        .footer-grid {
+            max-width: 1250px;
+            margin: auto;
+            display: grid;
+            grid-template-columns:
+                1.4fr 1fr 1fr 1fr;
+            gap: 30px;
+        }
+
+        footer h3 {
+            margin-bottom: 15px;
+        }
+
+        footer p,
+        footer li,
+        footer a {
+            color: #b7c1d2;
+            font-size: 14px;
+        }
+
+        footer ul {
+            list-style: none;
+        }
+
+        footer li {
+            margin: 8px 0;
+        }
+
+        footer a:hover {
+            color: #fff;
+        }
+
+        .copyright {
+            max-width: 1250px;
+            margin: 35px auto 0;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,.1);
+            text-align: center;
+            color: #8995a9;
+            font-size: 13px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media(max-width: 1000px) {
+
+            .hero-inner,
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .plan-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .steps {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .footer-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            nav {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+        }
+
+        @media(max-width: 600px) {
+
+            .topbar {
+                justify-content: center;
+            }
+
+            .navbar {
+                min-height: 65px;
+            }
+
+            .hero {
+                padding: 55px 5%;
+            }
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .live-grid,
+            .service-grid,
+            .plan-grid,
+            .steps,
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            section {
+                padding: 55px 5%;
+            }
+
+            .section-heading h2 {
+                font-size: 29px;
+            }
+
+            .cta {
+                padding: 35px 20px;
+            }
+
+            .cta h2 {
+                font-size: 29px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =========================
+     TOP BAR
+========================= -->
+
+<div class="topbar">
+
+    <div class="topbar-left">
+        <span>🇮🇳 बदलते भारत की शान</span>
+        <span>💼 Digital Opportunity Platform</span>
+    </div>
+
+    <div class="topbar-right">
+        <span>📧 IOIS Platform</span>
+        <span>📱 Online Support</span>
+    </div>
+
+</div>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <div class="navbar">
+
+        <a href="index.html" class="logo-box">
+
+            <div class="logo-circle">
+                IOIS
+            </div>
+
+            <div class="logo-text">
+                <strong>IOIS</strong>
+                <small>
+                    Indian Online Income Supporting System
+                </small>
+            </div>
+
+        </a>
+
+
+        <nav>
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="about.html">
+                About
+            </a>
+
+            <a href="services.html">
+                Services
+            </a>
+
+            <a href="membership.html">
+                Membership
+            </a>
+
+            <a href="news.html">
+                News
+            </a>
+
+            <a href="panchang.html">
+                पंचांग
+            </a>
+
+            <a href="contact.html">
+                Contact
+            </a>
+
+            <a href="login.html"
+               class="btn btn-outline">
+                Login
+            </a>
+
+            <a href="register.html"
+               class="btn btn-primary">
+                Join Now
+            </a>
+
+        </nav>
+
+
+        <div class="mobile-menu"
+             onclick="toggleMobileMenu()">
+            ☰
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+    <div class="hero-inner">
+
+        <div>
+
+            <div style="
+                display:inline-block;
+                background:rgba(255,255,255,.12);
+                padding:7px 13px;
+                border-radius:30px;
+                margin-bottom:15px;
+                font-size:13px;
+            ">
+                🚀 Welcome to IOIS Platform
+            </div>
+
+            <h1>
+                डिजिटल अवसरों को
+                <span>नई दिशा</span>
+                दें
+            </h1>
+
+            <p>
+                IOIS — Indian Online Income Supporting System
+                एक digital assistance platform है जहाँ
+                students, job seekers और digital users को
+                useful digital services, resources और
+                opportunities एक ही जगह मिलती हैं।
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="register.html"
+                   class="btn btn-primary"
+                   style="background:#fff;color:#075eff;">
+                    🚀 अभी Join करें
+                </a>
+
+                <a href="membership.html"
+                   class="btn btn-outline"
+                   style="border-color:#fff;color:#fff;background:transparent;">
+                    💎 Membership देखें
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-card">
+
+            <h3>
+                🇮🇳 IOIS Digital Platform
+            </h3>
+
+            <div class="hero-card-item">
+                ✅ Digital Services
+            </div>
+
+            <div class="hero-card-item">
+                ✅ Resume & Career Resources
+            </div>
+
+            <div class="hero-card-item">
+                ✅ Membership System
+            </div>
+
+            <div class="hero-card-item">
+                ✅ Referral & Support System
+            </div>
+
+            <div class="hero-card-item">
+                ✅ Digital Resources
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     LIVE INFORMATION
+========================= -->
+
+<section class="live-section">
+
+    <div class="live-grid">
+
+        <div class="live-card">
+
+            <strong>🕐 Live Time</strong>
+
+            <span id="liveTime">
+                Loading...
+            </span>
+
+        </div>
+
+
+        <div class="live-card">
+
+            <strong>📅 आज की तारीख</strong>
+
+            <span id="liveDate">
+                Loading...
+            </span>
+
+        </div>
+
+
+        <div class="live-card">
+
+            <strong>☀️ उपयोगी जानकारी</strong>
+
+            <a href="panchang.html"
+               style="color:#075eff;font-weight:700;">
+                पंचांग देखें →
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     SERVICES
+========================= -->
+
+<section>
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span>IOIS Services</span>
+
+            <h2>
+                हमारी प्रमुख सेवाएँ
+            </h2>
+
+            <p>
+                IOIS platform पर users के लिए
+                विभिन्न digital और career-support
+                resources उपलब्ध होंगे।
+            </p>
+
+        </div>
+
+
+        <div class="service-grid">
+
+
+            <div class="service-card">
+
+                <div class="service-icon">
+                    📄
+                </div>
+
+                <h3>
+                    Resume & CV
+                </h3>
+
+                <p>
+                    Professional resume और CV
+                    resources के साथ career support।
+                </p>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="service-icon">
+                    💼
+                </div>
+
+                <h3>
+                    Job Support
+                </h3>
+
+                <p>
+                    Job application, cover letter
+                    और career resources।
+                </p>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="service-icon">
+                    🤖
+                </div>
+
+                <h3>
+                    AI Prompts
+                </h3>
+
+                <p>
+                    Productivity और career के लिए
+                    useful AI prompt resources।
+                </p>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="service-icon">
+                    🌐
+                </div>
+
+                <h3>
+                    Digital Resources
+                </h3>
+
+                <p>
+                    Important websites और useful
+                    digital resources एक जगह।
+                </p>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="service-icon">
+                    🎓
+                </div>
+
+                <h3>
+                    Student Support
+                </h3>
+
+                <p>
+                    Students के लिए useful digital
+                    और learning resources।
+                </p>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="service-icon">
+                    🪪
+                </div>
+
+                <h3>
+                    Digital ID
+                </h3>
+
+                <p>
+                    Membership और digital identity
+                    related सुविधाएँ।
+                </p>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="service-icon">
+                    🏆
+                </div>
+
+                <h3>
+                    Digital Certificate
+                </h3>
+
+                <p>
+                    Eligible users के लिए digital
+                    certificate system।
+                </p>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="service-icon">
+                    🤝
+                </div>
+
+                <h3>
+                    Referral Support
+                </h3>
+
+                <p>
+                    Platform referral और member
+                    support system।
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     MEMBERSHIP
+========================= -->
+
+<section class="membership-section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span>Membership Plans</span>
+
+            <h2>
+                अपनी Membership चुनें
+            </h2>
+
+            <p>
+                IOIS के current active membership plans।
+            </p>
+
+        </div>
+
+
+        <div class="plan-grid">
+
+
+            <div class="plan-card">
+
+                <div class="plan-name">
+                    STARTER
+                </div>
+
+                <div class="plan-price">
+                    ₹10
+                </div>
+
+                <ul class="plan-list">
+
+                    <li>✅ Basic Digital Resources</li>
+                    <li>✅ Starter Services</li>
+                    <li>✅ Member Access</li>
+
+                </ul>
+
+                <a href="register.html?plan=10"
+                   class="btn btn-primary">
+                    Join ₹10
+                </a>
+
+            </div>
+
+
+            <div class="plan-card">
+
+                <div class="plan-name">
+                    BASIC
+                </div>
+
+                <div class="plan-price">
+                    ₹49
+                </div>
+
+                <ul class="plan-list">
+
+                    <li>✅ Basic Services</li>
+                    <li>✅ Career Resources</li>
+                    <li>✅ Member Support</li>
+
+                </ul>
+
+                <a href="register.html?plan=49"
+                   class="btn btn-primary">
+                    Join ₹49
+                </a>
+
+            </div>
+
+
+            <div class="plan-card featured">
+
+                <div class="plan-badge">
+                    POPULAR
+                </div>
+
+                <div class="plan-name">
+                    PLUS
+                </div>
+
+                <div class="plan-price">
+                    ₹99
+                </div>
+
+                <ul class="plan-list">
+
+                    <li>✅ Extended Services</li>
+                    <li>✅ Career Resources</li>
+                    <li>✅ AI Resources</li>
+                    <li>✅ Priority Support</li>
+
+                </ul>
+
+                <a href="register.html?plan=99"
+                   class="btn btn-primary">
+                    Join ₹99
+                </a>
+
+            </div>
+
+
+            <div class="plan-card">
+
+                <div class="plan-name">
+                    PREMIUM
+                </div>
+
+                <div class="plan-price">
+                    ₹199
+                </div>
+
+                <ul class="plan-list">
+
+                    <li>✅ Premium Resources</li>
+                    <li>✅ Digital Services</li>
+                    <li>✅ Priority Support</li>
+
+                </ul>
+
+                <a href="register.html?plan=199"
+                   class="btn btn-primary">
+                    Join ₹199
+                </a>
+
+            </div>
+
+
+            <div class="plan-card">
+
+                <div class="plan-name">
+                    PRO
+                </div>
+
+                <div class="plan-price">
+                    ₹299
+                </div>
+
+                <ul class="plan-list">
+
+                    <li>✅ Pro Services</li>
+                    <li>✅ Premium Resources</li>
+                    <li>✅ Priority Support</li>
+
+                </ul>
+
+                <a href="register.html?plan=299"
+                   class="btn btn-primary">
+                    Join ₹299
+                </a>
+
+            </div>
+
+
+            <div class="plan-card">
+
+                <div class="plan-name">
+                    BUSINESS
+                </div>
+
+                <div class="plan-price">
+                    ₹499
+                </div>
+
+                <ul class="plan-list">
+
+                    <li>✅ Business Resources</li>
+                    <li>✅ Advanced Services</li>
+                    <li>✅ Business Support</li>
+
+                </ul>
+
+                <a href="register.html?plan=499"
+                   class="btn btn-primary">
+                    Join ₹499
+                </a>
+
+            </div>
+
+
+            <div class="plan-card">
+
+                <div class="plan-name">
+                    ENTERPRISE
+                </div>
+
+                <div class="plan-price">
+                    ₹999
+                </div>
+
+                <ul class="plan-list">
+
+                    <li>✅ Enterprise Resources</li>
+                    <li>✅ Advanced Digital Services</li>
+                    <li>✅ Priority Support</li>
+                    <li>✅ Premium Access</li>
+
+                </ul>
+
+                <a href="register.html?plan=999"
+                   class="btn btn-primary">
+                    Join ₹999
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     HOW IT WORKS
+========================= -->
+
+<section>
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span>Simple Process</span>
+
+            <h2>
+                IOIS कैसे काम करता है?
+            </h2>
+
+        </div>
+
+
+        <div class="steps">
+
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Register</h3>
+                <p>
+                    अपना account बनाइए।
+                </p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Plan चुनें</h3>
+                <p>
+                    अपनी membership चुनिए।
+                </p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Payment</h3>
+                <p>
+                    उपलब्ध payment method से भुगतान करें।
+                </p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Verification</h3>
+                <p>
+                    Payment verification पूरा होगा।
+                </p>
+            </div>
+
+            <div class="step">
+                <div class="step-number">5</div>
+                <h3>Access</h3>
+                <p>
+                    Approved member को services access मिलेगा।
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ABOUT
+========================= -->
+
+<section style="background:#f0f4fa;">
+
+    <div class="container">
+
+        <div class="about-grid">
+
+
+            <div>
+
+                <div class="section-heading"
+                     style="text-align:left;margin-bottom:20px;">
+
+                    <span>About IOIS</span>
+
+                    <h2>
+                        भारत के digital users के लिए
+                        एक supporting platform
+                    </h2>
+
+                </div>
+
+                <p>
+                    IOIS का उद्देश्य users को useful
+                    digital resources, career-support
+                    सामग्री और online productivity
+                    tools तक आसान पहुँच प्रदान करना है।
+                </p>
+
+                <br>
+
+                <p>
+                    Platform का focus simple,
+                    affordable और user-friendly
+                    digital services पर है।
+                </p>
+
+            </div>
+
+
+            <div class="about-box">
+
+                <h3>
+                    🇮🇳 IOIS Mission
+                </h3>
+
+                <ul class="about-list">
+
+                    <li>
+                        ✅ Digital access को आसान बनाना
+                    </li>
+
+                    <li>
+                        ✅ Students को useful resources देना
+                    </li>
+
+                    <li>
+                        ✅ Job seekers को career resources देना
+                    </li>
+
+                    <li>
+                        ✅ Digital skills को support करना
+                    </li>
+
+                    <li>
+                        ✅ Affordable membership उपलब्ध कराना
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CTA
+========================= -->
+
+<section>
+
+    <div class="container">
+
+        <div class="cta">
+
+            <h2>
+                आज ही IOIS से जुड़ें
+            </h2>
+
+            <p>
+                अपनी जरूरत के अनुसार membership चुनें
+                और IOIS digital platform का हिस्सा बनें।
+            </p>
+
+            <a href="register.html"
+               class="btn"
+               style="
+                    background:#fff;
+                    color:#075eff;
+               ">
+                🚀 Register Now
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div class="footer-grid">
+
+
+        <div>
+
+            <h3>
+                IOIS Platform
+            </h3>
+
+            <p>
+                Indian Online Income Supporting System
+            </p>
+
+            <br>
+
+            <p>
+                बदलते भारत की शान 🇮🇳
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Quick Links
+            </h3>
+
+            <ul>
+
+                <li>
+                    <a href="index.html">
+                        Home
+                    </a>
+                </li>
+
+                <li>
+                    <a href="about.html">
+                        About
+                    </a>
+                </li>
+
+                <li>
+                    <a href="services.html">
+                        Services
+                    </a>
+                </li>
+
+                <li>
+                    <a href="membership.html">
+                        Membership
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Member
+            </h3>
+
+            <ul>
+
+                <li>
+                    <a href="register.html">
+                        Register
+                    </a>
+                </li>
+
+                <li>
+                    <a href="login.html">
+                        Login
+                    </a>
+                </li>
+
+                <li>
+                    <a href="dashboard.html">
+                        Dashboard
+                    </a>
+                </li>
+
+                <li>
+                    <a href="payment.html">
+                        Payment
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Support
+            </h3>
+
+            <ul>
+
+                <li>
+                    <a href="contact.html">
+                        Contact Us
+                    </a>
+                </li>
+
+                <li>
+                    <a href="news.html">
+                        News
+                    </a>
+                </li>
+
+                <li>
+                    <a href="panchang.html">
+                        पंचांग
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+
+    <div class="copyright">
+
+        © <span id="year"></span>
+        IOIS Platform. All Rights Reserved.
+
+    </div>
+
+</footer>
+
+
+<!-- =========================
+     BASIC PAGE SCRIPT
+========================= -->
+
+<script>
+
+    function updateDateTime() {
+
+        const now = new Date();
+
+        const timeElement =
+            document.getElementById("liveTime");
+
+        const dateElement =
+            document.getElementById("liveDate");
+
+        if (timeElement) {
+
+            timeElement.textContent =
+                now.toLocaleTimeString(
+                    "en-IN",
+                    {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit"
+                    }
+                );
+
+        }
+
+        if (dateElement) {
+
+            dateElement.textContent =
+                now.toLocaleDateString(
+                    "hi-IN",
+                    {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric"
+                    }
+                );
+
+        }
+
+    }
+
+
+    function toggleMobileMenu() {
+
+        const nav =
+            document.querySelector("nav");
+
+        if (!nav) return;
+
+        if (
+            nav.style.display === "flex"
+        ) {
+
+            nav.style.display = "";
+
+        } else {
+
+            nav.style.display = "flex";
+            nav.style.flexDirection = "column";
+            nav.style.position = "absolute";
+            nav.style.top = "65px";
+            nav.style.right = "5%";
+            nav.style.background = "#fff";
+            nav.style.padding = "15px";
+            nav.style.borderRadius = "12px";
+            nav.style.boxShadow =
+                "0 10px 30px rgba(0,0,0,.15)";
+
+        }
+
+    }
+
+
+    document.getElementById("year").textContent =
+        new Date().getFullYear();
+
+    updateDateTime();
+
+    setInterval(
+        updateDateTime,
+        1000
+    );
+
+</script>
+
+</body>
+</html>
