@@ -1,1614 +1,247 @@
 <!DOCTYPE html>
 <html lang="hi">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
 
-    <title>IOIS Login | Indian Online Income Supporting System</title>
-
-    <meta name="description"
-          content="IOIS Platform Member Login - Securely access your IOIS account and member dashboard.">
-
-    <meta name="theme-color" content="#030712">
-
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Font Awesome -->
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
     >
 
-    <!-- Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>Login | IOIS</title>
 
     <style>
-
-        html {
-            scroll-behavior: smooth;
+        * {
+            box-sizing: border-box;
         }
 
         body {
             margin: 0;
             min-height: 100vh;
+            font-family: Arial, sans-serif;
             background:
-                radial-gradient(
-                    circle at top,
-                    rgba(245,158,11,.10),
-                    transparent 35%
-                ),
-                #030712;
+                radial-gradient(circle at top, #123a3a, #071313 55%, #030707);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 470px;
+            background: rgba(10,20,20,.95);
+            border: 1px solid rgba(212,175,55,.35);
+            border-radius: 22px;
+            padding: 32px;
+            box-shadow: 0 20px 70px rgba(0,0,0,.45);
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-size: 36px;
+            color: #d4af37;
+        }
+
+        .brand p {
+            color: #aebbbb;
+            line-height: 1.5;
+        }
+
+        label {
+            display: block;
+            margin: 17px 0 7px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid #345050;
+            background: #0d1b1b;
             color: white;
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
-        }
-
-        .tiranga-text {
-            background:
-                linear-gradient(
-                    90deg,
-                    #f97316 0%,
-                    #ffffff 50%,
-                    #10b981 100%
-                );
-
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .glass {
-            background: rgba(15,23,42,.82);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-
-            border:
-                1px solid
-                rgba(245,158,11,.25);
-
-            box-shadow:
-                0 25px 70px rgba(0,0,0,.55),
-                inset 0 0 40px rgba(15,23,42,.45);
-        }
-
-        .input-box {
-            background: #080d1e;
-            border:
-                1px solid
-                rgba(100,116,139,.65);
-
-            transition:
-                border-color .2s ease,
-                box-shadow .2s ease;
-        }
-
-        .input-box:focus {
-            border-color: #f59e0b;
-
-            box-shadow:
-                0 0 0 3px
-                rgba(245,158,11,.10);
-
+            font-size: 16px;
             outline: none;
         }
 
-        .login-btn {
-            background:
-                linear-gradient(
-                    90deg,
-                    #fbbf24,
-                    #14b8a6
-                );
-
-            transition:
-                transform .2s ease,
-                box-shadow .2s ease;
+        input:focus {
+            border-color: #d4af37;
         }
 
-        .login-btn:hover {
-            transform: translateY(-2px);
-
-            box-shadow:
-                0 12px 30px
-                rgba(20,184,166,.20);
+        .password-wrap {
+            position: relative;
         }
 
-        .pulse {
-            animation: pulse 2s infinite;
+        .password-wrap input {
+            padding-right: 55px;
         }
 
-        @keyframes pulse {
-
-            0% {
-                box-shadow:
-                    0 0 0 0
-                    rgba(245,158,11,.45);
-            }
-
-            70% {
-                box-shadow:
-                    0 0 0 12px
-                    rgba(245,158,11,0);
-            }
-
-            100% {
-                box-shadow:
-                    0 0 0 0
-                    rgba(245,158,11,0);
-            }
+        .toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: auto;
+            padding: 5px;
+            background: transparent;
+            color: #d4af37;
         }
 
-        .spinner {
-            width: 18px;
-            height: 18px;
-
-            border:
-                2px solid
-                rgba(0,0,0,.25);
-
-            border-top-color: #020617;
-
-            border-radius: 50%;
-
-            animation:
-                spin .7s linear infinite;
+        button {
+            width: 100%;
+            border: 0;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 22px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            background: linear-gradient(135deg,#d4af37,#f1d46a);
+            color: #071313;
         }
 
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+        button:disabled {
+            opacity: .6;
         }
 
-        .toast {
-            animation:
-                toastIn .25s ease;
+        .message {
+            display: none;
+            padding: 13px;
+            border-radius: 10px;
+            margin-bottom: 18px;
+            line-height: 1.5;
         }
 
-        @keyframes toastIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .message.success {
+            display: block;
+            background: rgba(25,135,84,.18);
+            border: 1px solid rgba(25,135,84,.45);
+            color: #a8f0c8;
         }
 
+        .message.error {
+            display: block;
+            background: rgba(220,53,69,.15);
+            border: 1px solid rgba(220,53,69,.45);
+            color: #ffb4bd;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 22px;
+            line-height: 2;
+        }
+
+        a {
+            color: #d4af37;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .home {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #aebbbb;
+            font-weight: normal;
+        }
     </style>
 </head>
 
-
 <body>
 
+<div class="card">
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
+    <div class="brand">
+        <h1>IOIS</h1>
+        <p>
+            Indian Online Income Supporting System
+            <br>
+            अपने account में Login करें
+        </p>
+    </div>
 
-<header
-    class="border-b border-gray-800
-           bg-[#030712]/95
-           backdrop-blur-xl
-           sticky top-0 z-50">
+    <div id="message" class="message"></div>
 
-    <div
-        class="max-w-7xl mx-auto
-               px-4 py-3
-               flex items-center
-               justify-between">
+    <form id="loginForm">
 
-        <!-- LOGO -->
+        <label for="email">Email</label>
 
-        <a
-            href="index.html"
-            class="flex items-center gap-3">
+        <input
+            id="email"
+            type="email"
+            autocomplete="email"
+            placeholder="example@email.com"
+            required
+        >
 
-            <img
-                src="assets/logo.png"
-                alt="IOIS Logo"
-                class="w-11 h-11
-                       rounded-full
-                       border-2
-                       border-amber-400
-                       object-cover"
-                onerror="this.style.display='none'"
+        <label for="password">Password</label>
+
+        <div class="password-wrap">
+
+            <input
+                id="password"
+                type="password"
+                autocomplete="current-password"
+                placeholder="Password"
+                required
             >
 
-            <div>
-
-                <div
-                    class="text-xl
-                           font-black
-                           tracking-wider
-                           tiranga-text">
-
-                    IOIS PLATFORM
-
-                </div>
-
-                <div
-                    class="text-[8px]
-                           text-teal-400
-                           font-bold
-                           tracking-widest
-                           uppercase">
-
-                    Indian Online Income Supporting System
-
-                </div>
-
-            </div>
-
-        </a>
-
-
-        <!-- BACK HOME -->
-
-        <a
-            href="index.html"
-            class="text-xs
-                   text-gray-300
-                   hover:text-amber-400
-                   transition">
-
-            <i class="fa-solid fa-house mr-1"></i>
-
-            Home
-
-        </a>
-
-    </div>
-
-</header>
-
-
-
-<!-- =====================================================
-     MAIN
-===================================================== -->
-
-<main
-    class="min-h-[calc(100vh-75px)]
-           flex items-center
-           justify-center
-           px-4 py-10">
-
-    <div
-        class="w-full
-               max-w-md">
-
-
-        <!-- BRAND -->
-
-        <div class="text-center mb-7">
-
-            <div
-                class="mx-auto
-                       w-16 h-16
-                       rounded-2xl
-                       bg-amber-400
-                       text-gray-950
-                       flex items-center
-                       justify-center
-                       text-2xl
-                       pulse">
-
-                <i class="fa-solid fa-right-to-bracket"></i>
-
-            </div>
-
-
-            <h1
-                class="text-3xl
-                       md:text-4xl
-                       font-black
-                       mt-5">
-
-                IOIS Member Login
-
-            </h1>
-
-
-            <p
-                class="text-gray-400
-                       text-xs
-                       mt-2">
-
-                अपने IOIS Member Account में सुरक्षित Login करें।
-
-            </p>
-
-        </div>
-
-
-
-        <!-- =================================================
-             LOGIN CARD
-        ================================================= -->
-
-        <div
-            class="glass
-                   rounded-3xl
-                   p-6 md:p-8">
-
-
-            <!-- STATUS -->
-
-            <div
-                id="status-message"
-                class="hidden
-                       mb-5
-                       rounded-xl
-                       px-4 py-3
-                       text-xs
-                       font-semibold">
-            </div>
-
-
-            <!-- LOGIN FORM -->
-
-            <form
-                id="login-form"
-                class="space-y-5">
-
-
-                <!-- USER ID / EMAIL -->
-
-                <div>
-
-                    <label
-                        for="login-identifier"
-                        class="block
-                               text-xs
-                               text-amber-400
-                               font-bold
-                               mb-2">
-
-                        <i class="fa-solid fa-user mr-1"></i>
-
-                        User ID / Email *
-
-                    </label>
-
-
-                    <div class="relative">
-
-                        <i
-                            class="fa-solid
-                                   fa-user
-                                   absolute
-                                   left-4
-                                   top-1/2
-                                   -translate-y-1/2
-                                   text-gray-500
-                                   text-sm">
-                        </i>
-
-
-                        <input
-                            id="login-identifier"
-                            name="identifier"
-                            type="text"
-                            autocomplete="username"
-                            required
-                            placeholder="User ID या Email"
-                            class="input-box
-                                   w-full
-                                   rounded-xl
-                                   py-3.5
-                                   pl-11
-                                   pr-4
-                                   text-sm
-                                   text-white">
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- PASSWORD -->
-
-                <div>
-
-                    <div
-                        class="flex
-                               justify-between
-                               items-center
-                               mb-2">
-
-                        <label
-                            for="login-password"
-                            class="text-xs
-                                   text-amber-400
-                                   font-bold">
-
-                            <i class="fa-solid fa-lock mr-1"></i>
-
-                            Password *
-
-                        </label>
-
-
-                        <button
-                            type="button"
-                            id="forgot-password-btn"
-                            class="text-[11px]
-                                   text-teal-400
-                                   hover:text-amber-400
-                                   font-bold">
-
-                            Forgot Password?
-
-                        </button>
-
-                    </div>
-
-
-                    <div class="relative">
-
-                        <i
-                            class="fa-solid
-                                   fa-lock
-                                   absolute
-                                   left-4
-                                   top-1/2
-                                   -translate-y-1/2
-                                   text-gray-500
-                                   text-sm">
-                        </i>
-
-
-                        <input
-                            id="login-password"
-                            name="password"
-                            type="password"
-                            autocomplete="current-password"
-                            required
-                            placeholder="अपना Password"
-                            class="input-box
-                                   w-full
-                                   rounded-xl
-                                   py-3.5
-                                   pl-11
-                                   pr-12
-                                   text-sm
-                                   text-white">
-
-
-                        <button
-                            type="button"
-                            id="toggle-password"
-                            class="absolute
-                                   right-4
-                                   top-1/2
-                                   -translate-y-1/2
-                                   text-gray-500
-                                   hover:text-amber-400">
-
-                            <i
-                                id="password-icon"
-                                class="fa-solid fa-eye">
-                            </i>
-
-                        </button>
-
-                    </div>
-
-                </div>
-
-
-
-                <!-- REMEMBER -->
-
-                <div
-                    class="flex
-                           items-center
-                           justify-between
-                           text-[11px]">
-
-                    <label
-                        class="flex
-                               items-center
-                               gap-2
-                               text-gray-400">
-
-                        <input
-                            id="remember-me"
-                            type="checkbox"
-                            class="accent-amber-400">
-
-                        Remember this device
-
-                    </label>
-
-
-                    <span
-                        class="text-green-400
-                               font-bold">
-
-                        <i class="fa-solid fa-shield-halved mr-1"></i>
-
-                        Secure Login
-
-                    </span>
-
-                </div>
-
-
-
-                <!-- LOGIN BUTTON -->
-
-                <button
-                    id="login-btn"
-                    type="submit"
-                    class="login-btn
-                           w-full
-                           rounded-xl
-                           py-3.5
-                           text-gray-950
-                           font-black
-                           text-sm
-                           flex
-                           items-center
-                           justify-center
-                           gap-2">
-
-                    <span id="login-btn-text">
-
-                        <i class="fa-solid fa-right-to-bracket mr-1"></i>
-
-                        Login to IOIS
-
-                    </span>
-
-
-                    <span
-                        id="login-spinner"
-                        class="spinner hidden">
-                    </span>
-
-                </button>
-
-            </form>
-
-
-
-            <!-- DIVIDER -->
-
-            <div
-                class="flex
-                       items-center
-                       gap-3
-                       my-6">
-
-                <div
-                    class="h-px
-                           flex-1
-                           bg-gray-800">
-                </div>
-
-                <span
-                    class="text-[10px]
-                           text-gray-500">
-
-                    OR
-
-                </span>
-
-                <div
-                    class="h-px
-                           flex-1
-                           bg-gray-800">
-                </div>
-
-            </div>
-
-
-
-            <!-- REGISTER -->
-
-            <div
-                class="text-center">
-
-                <p
-                    class="text-xs
-                           text-gray-400">
-
-                    अभी IOIS Member नहीं हैं?
-
-                </p>
-
-
-                <a
-                    href="register.html"
-                    class="inline-block
-                           mt-3
-                           px-6 py-2.5
-                           border
-                           border-amber-400
-                           text-amber-400
-                           rounded-xl
-                           text-xs
-                           font-black
-                           hover:bg-amber-400
-                           hover:text-gray-950
-                           transition">
-
-                    <i class="fa-solid fa-user-plus mr-1"></i>
-
-                    Register Now
-
-                </a>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- SECURITY NOTE -->
-
-        <div
-            class="mt-5
-                   glass
-                   rounded-2xl
-                   p-4">
-
-            <div
-                class="flex
-                       gap-3
-                       items-start">
-
-                <i
-                    class="fa-solid
-                           fa-shield-halved
-                           text-green-400
-                           mt-0.5">
-                </i>
-
-                <div>
-
-                    <h3
-                        class="text-xs
-                               font-bold
-                               text-green-400">
-
-                        सुरक्षित Account Access
-
-                    </h3>
-
-                    <p
-                        class="text-[10px]
-                               text-gray-500
-                               leading-5
-                               mt-1">
-
-                        आपका Password frontend में
-                        plain text के रूप में store नहीं किया जाता।
-                        Authentication Supabase Auth द्वारा handle
-                        किया जाता है।
-
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- FOOTER -->
-
-        <div
-            class="text-center
-                   mt-6">
-
-            <p
-                class="text-[10px]
-                       text-gray-600">
-
-                © 2026 IOIS PLATFORM.
-                All Rights Reserved.
-
-            </p>
-
-        </div>
-
-    </div>
-
-</main>
-
-
-
-<!-- =====================================================
-     FORGOT PASSWORD MODAL
-===================================================== -->
-
-<div
-    id="forgot-modal"
-    class="hidden
-           fixed inset-0
-           z-[100]
-           bg-black/80
-           backdrop-blur-sm
-           flex items-center
-           justify-center
-           px-4">
-
-
-    <div
-        class="glass
-               rounded-3xl
-               p-6
-               max-w-md
-               w-full
-               relative">
-
-
-        <button
-            type="button"
-            id="close-forgot"
-            class="absolute
-                   right-5
-                   top-4
-                   text-gray-400
-                   hover:text-white
-                   text-xl">
-
-            &times;
-
-        </button>
-
-
-        <div class="text-center mb-6">
-
-            <div
-                class="mx-auto
-                       w-14 h-14
-                       rounded-2xl
-                       bg-teal-400
-                       text-gray-950
-                       flex items-center
-                       justify-center
-                       text-xl">
-
-                <i class="fa-solid fa-key"></i>
-
-            </div>
-
-
-            <h2
-                class="text-xl
-                       font-black
-                       text-teal-400
-                       mt-4">
-
-                Password Recovery
-
-            </h2>
-
-
-            <p
-                class="text-xs
-                       text-gray-400
-                       mt-2">
-
-                अपने registered Email पर
-                password reset link प्राप्त करें।
-
-            </p>
-
-        </div>
-
-
-        <form
-            id="forgot-form"
-            class="space-y-4">
-
-
-            <div>
-
-                <label
-                    class="block
-                           text-xs
-                           text-gray-300
-                           mb-2">
-
-                    Registered Email *
-
-                </label>
-
-
-                <input
-                    id="forgot-email"
-                    type="email"
-                    required
-                    placeholder="example@email.com"
-                    class="input-box
-                           w-full
-                           rounded-xl
-                           p-3.5
-                           text-sm
-                           text-white">
-
-            </div>
-
-
             <button
-                id="reset-btn"
-                type="submit"
-                class="w-full
-                       py-3.5
-                       rounded-xl
-                       bg-teal-400
-                       text-gray-950
-                       font-black
-                       text-xs">
-
-                <span id="reset-btn-text">
-
-                    <i class="fa-solid fa-paper-plane mr-1"></i>
-
-                    Send Reset Link
-
-                </span>
-
-                <span
-                    id="reset-spinner"
-                    class="spinner hidden
-                           mx-auto">
-                </span>
-
+                type="button"
+                id="togglePassword"
+                class="toggle"
+            >
+                👁
             </button>
 
+        </div>
 
-        </form>
+        <button
+            id="loginButton"
+            type="submit"
+        >
+            Login
+        </button>
+
+    </form>
+
+    <div class="links">
+
+        <div>
+            <a href="reset-password.html">
+                Password भूल गए?
+            </a>
+        </div>
+
+        <div>
+            Account नहीं है?
+            <a href="register.html">
+                Register करें
+            </a>
+        </div>
 
     </div>
+
+    <a href="index.html" class="home">
+        ← Home पर वापस जाएँ
+    </a>
 
 </div>
 
-
-
-<script>
-
-/* =========================================================
-   IOIS SUPABASE CONFIGURATION
-=========================================================
-
-   यहाँ केवल Supabase PROJECT URL और
-   publishable/anon key frontend में रखें।
-
-   SERVICE ROLE KEY यहाँ कभी नहीं डालें।
-========================================================= */
-
-const SUPABASE_URL =
-    "YOUR_SUPABASE_PROJECT_URL";
-
-const SUPABASE_ANON_KEY =
-    "YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY";
-
-
-/* =========================================================
-   SUPABASE CLIENT
-========================================================= */
-
-let supabaseClient = null;
-
-
-try {
-
-    if (
-        SUPABASE_URL !== "YOUR_SUPABASE_PROJECT_URL" &&
-        SUPABASE_ANON_KEY !== "YOUR_SUPABASE_PUBLISHABLE_OR_ANON_KEY"
-    ) {
-
-        supabaseClient =
-            window.supabase.createClient(
-                SUPABASE_URL,
-                SUPABASE_ANON_KEY
-            );
-
-    }
-
-} catch (error) {
-
-    console.error(
-        "Supabase initialization error:",
-        error
-    );
-
-}
-
-
-
-/* =========================================================
-   DOM
-========================================================= */
-
-const loginForm =
-    document.getElementById("login-form");
-
-const loginIdentifier =
-    document.getElementById("login-identifier");
-
-const loginPassword =
-    document.getElementById("login-password");
-
-const loginBtn =
-    document.getElementById("login-btn");
-
-const loginBtnText =
-    document.getElementById("login-btn-text");
-
-const loginSpinner =
-    document.getElementById("login-spinner");
-
-const statusMessage =
-    document.getElementById("status-message");
-
-const forgotModal =
-    document.getElementById("forgot-modal");
-
-const forgotForm =
-    document.getElementById("forgot-form");
-
-const forgotEmail =
-    document.getElementById("forgot-email");
-
-const resetBtn =
-    document.getElementById("reset-btn");
-
-const resetBtnText =
-    document.getElementById("reset-btn-text");
-
-const resetSpinner =
-    document.getElementById("reset-spinner");
-
-
-
-/* =========================================================
-   STATUS MESSAGE
-========================================================= */
-
-function showStatus(
-    message,
-    type = "error"
-) {
-
-    statusMessage.className =
-        "mb-5 rounded-xl px-4 py-3 text-xs font-semibold toast";
-
-    if (type === "success") {
-
-        statusMessage.classList.add(
-            "bg-green-500/10",
-            "border",
-            "border-green-500/30",
-            "text-green-300"
-        );
-
-    } else {
-
-        statusMessage.classList.add(
-            "bg-red-500/10",
-            "border",
-            "border-red-500/30",
-            "text-red-300"
-        );
-
-    }
-
-    statusMessage.innerHTML =
-        message;
-
-    statusMessage.classList.remove(
-        "hidden"
-    );
-
-}
-
-
-function hideStatus() {
-
-    statusMessage.classList.add(
-        "hidden"
-    );
-
-}
-
-
-
-/* =========================================================
-   PASSWORD SHOW / HIDE
-========================================================= */
-
-document
-    .getElementById("toggle-password")
-    .addEventListener(
-        "click",
-        function () {
-
-            const icon =
-                document.getElementById(
-                    "password-icon"
-                );
-
-            if (
-                loginPassword.type ===
-                "password"
-            ) {
-
-                loginPassword.type =
-                    "text";
-
-                icon.className =
-                    "fa-solid fa-eye-slash";
-
-            } else {
-
-                loginPassword.type =
-                    "password";
-
-                icon.className =
-                    "fa-solid fa-eye";
-
-            }
-
-        }
-    );
-
-
-
-/* =========================================================
-   LOADING STATE
-========================================================= */
-
-function setLoginLoading(
-    loading
-) {
-
-    loginBtn.disabled =
-        loading;
-
-    if (loading) {
-
-        loginBtnText.classList.add(
-            "hidden"
-        );
-
-        loginSpinner.classList.remove(
-            "hidden"
-        );
-
-    } else {
-
-        loginBtnText.classList.remove(
-            "hidden"
-        );
-
-        loginSpinner.classList.add(
-            "hidden"
-        );
-
-    }
-
-}
-
-
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-loginForm.addEventListener(
-    "submit",
-    async function (event) {
-
-        event.preventDefault();
-
-        hideStatus();
-
-
-        if (!supabaseClient) {
-
-            showStatus(
-                "Supabase configuration अभी connect नहीं है। अपनी Supabase Project URL और Publishable/Anon Key लगाएँ।"
-            );
-
-            return;
-
-        }
-
-
-        const identifier =
-            loginIdentifier.value
-                .trim();
-
-        const password =
-            loginPassword.value;
-
-
-        if (!identifier) {
-
-            showStatus(
-                "कृपया User ID या Email दर्ज करें।"
-            );
-
-            return;
-
-        }
-
-
-        if (!password) {
-
-            showStatus(
-                "कृपया Password दर्ज करें।"
-            );
-
-            return;
-
-        }
-
-
-        setLoginLoading(true);
-
-
-        try {
-
-            /*
-             * Primary login:
-             * Email + Password
-             */
-
-            let email =
-                identifier;
-
-
-            /*
-             * यदि User ID दी गई है,
-             * तो profiles/members table से
-             * registered email खोजने की कोशिश।
-             *
-             * Table/column आपके Supabase schema
-             * के अनुसार होना चाहिए।
-             */
-
-            if (
-                !identifier.includes("@")
-            ) {
-
-                const {
-                    data: member,
-                    error: memberError
-                } =
-                    await supabaseClient
-                        .from("profiles")
-                        .select("email")
-                        .eq(
-                            "user_id",
-                            identifier
-                        )
-                        .maybeSingle();
-
-
-                if (
-                    !memberError &&
-                    member &&
-                    member.email
-                ) {
-
-                    email =
-                        member.email;
-
-                } else {
-
-                    showStatus(
-                        "User ID नहीं मिली। कृपया सही User ID या registered Email से Login करें।"
-                    );
-
-                    setLoginLoading(false);
-
-                    return;
-
-                }
-
-            }
-
-
-            const {
-                data,
-                error
-            } =
-                await supabaseClient.auth.signInWithPassword(
-                    {
-                        email: email,
-                        password: password
-                    }
-                );
-
-
-            if (error) {
-
-                console.error(
-                    "Login error:",
-                    error
-                );
-
-                let message =
-                    "Login failed. कृपया Email/User ID और Password जाँचें।";
-
-
-                if (
-                    error.message
-                        .toLowerCase()
-                        .includes("email not confirmed")
-                ) {
-
-                    message =
-                        "आपका Email अभी verify नहीं हुआ है। पहले Email verification पूरा करें।";
-
-                }
-
-
-                if (
-                    error.message
-                        .toLowerCase()
-                        .includes("invalid login credentials")
-                ) {
-
-                    message =
-                        "गलत User ID/Email या Password।";
-
-                }
-
-
-                showStatus(
-                    message
-                );
-
-                setLoginLoading(false);
-
-                return;
-
-            }
-
-
-            if (
-                data &&
-                data.user
-            ) {
-
-                showStatus(
-                    "Login सफल हुआ। Dashboard खोला जा रहा है...",
-                    "success"
-                );
-
-
-                /*
-                 * छोटी delay ताकि success message
-                 * user को दिखाई दे।
-                 */
-
-                setTimeout(
-                    function () {
-
-                        window.location.href =
-                            "dashboard.html";
-
-                    },
-                    700
-                );
-
-            }
-
-        } catch (error) {
-
-            console.error(
-                error
-            );
-
-            showStatus(
-                "Login के दौरान unexpected error आया। कृपया दोबारा प्रयास करें।"
-            );
-
-            setLoginLoading(false);
-
-        }
-
-    }
-);
-
-
-
-/* =========================================================
-   FORGOT PASSWORD MODAL
-========================================================= */
-
-document
-    .getElementById("forgot-password-btn")
-    .addEventListener(
-        "click",
-        function () {
-
-            forgotModal.classList.remove(
-                "hidden"
-            );
-
-            forgotEmail.focus();
-
-        }
-    );
-
-
-document
-    .getElementById("close-forgot")
-    .addEventListener(
-        "click",
-        function () {
-
-            forgotModal.classList.add(
-                "hidden"
-            );
-
-        }
-    );
-
-
-forgotModal.addEventListener(
-    "click",
-    function (event) {
-
-        if (
-            event.target ===
-            forgotModal
-        ) {
-
-            forgotModal.classList.add(
-                "hidden"
-            );
-
-        }
-
-    }
-);
-
-
-
-/* =========================================================
-   PASSWORD RESET
-========================================================= */
-
-forgotForm.addEventListener(
-    "submit",
-    async function (event) {
-
-        event.preventDefault();
-
-
-        if (!supabaseClient) {
-
-            alert(
-                "Supabase configuration connect नहीं है।"
-            );
-
-            return;
-
-        }
-
-
-        const email =
-            forgotEmail.value
-                .trim();
-
-
-        if (!email) {
-
-            return;
-
-        }
-
-
-        resetBtn.disabled =
-            true;
-
-        resetBtnText.classList.add(
-            "hidden"
-        );
-
-        resetSpinner.classList.remove(
-            "hidden"
-        );
-
-
-        try {
-
-            const {
-                error
-            } =
-                await supabaseClient.auth
-                    .resetPasswordForEmail(
-                        email,
-                        {
-                            redirectTo:
-                                window.location.origin +
-                                "/reset-password.html"
-                        }
-                    );
-
-
-            if (error) {
-
-                throw error;
-
-            }
-
-
-            resetBtnText.innerHTML =
-                `
-                <i class="fa-solid fa-check mr-1"></i>
-                Reset Link Sent
-                `;
-
-            resetBtnText.classList.remove(
-                "hidden"
-            );
-
-            resetSpinner.classList.add(
-                "hidden"
-            );
-
-
-            setTimeout(
-                function () {
-
-                    forgotModal.classList.add(
-                        "hidden"
-                    );
-
-                    alert(
-                        "Password reset link आपके registered Email पर भेज दिया गया है।"
-                    );
-
-                },
-                500
-            );
-
-
-        } catch (error) {
-
-            console.error(
-                "Password reset error:",
-                error
-            );
-
-
-            resetBtnText.classList.remove(
-                "hidden"
-            );
-
-            resetSpinner.classList.add(
-                "hidden"
-            );
-
-
-            alert(
-                "Password reset request failed. कृपया registered Email जाँचें और दोबारा प्रयास करें।"
-            );
-
-        }
-
-
-        resetBtn.disabled =
-            false;
-
-    }
-);
-
-
-
-/* =========================================================
-   CHECK EXISTING SESSION
-========================================================= */
-
-async function checkExistingSession() {
-
-    if (!supabaseClient) {
-
-        return;
-
-    }
-
-
-    try {
-
-        const {
-            data
-        } =
-            await supabaseClient.auth
-                .getSession();
-
-
-        if (
-            data &&
-            data.session &&
-            data.session.user
-        ) {
-
-            /*
-             * Already logged-in user
-             * dashboard पर जा सकता है।
-             */
-
-            window.location.href =
-                "dashboard.html";
-
-        }
-
-    } catch (error) {
-
-        console.error(
-            "Session check error:",
-            error
-        );
-
-    }
-
-}
-
-
-checkExistingSession();
-
-
-
-/* =========================================================
-   AUTH STATE LISTENER
-========================================================= */
-
-if (supabaseClient) {
-
-    supabaseClient.auth.onAuthStateChange(
-        function (
-            event,
-            session
-        ) {
-
-            console.log(
-                "IOIS Auth Event:",
-                event
-            );
-
-        }
-    );
-
-}
-
-
-
-/* =========================================================
-   ENTER KEY / UX
-========================================================= */
-
-loginIdentifier.addEventListener(
-    "input",
-    hideStatus
-);
-
-loginPassword.addEventListener(
-    "input",
-    hideStatus
-);
-
-</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="supabase.js"></script>
+<script src="auth.js"></script>
+<script src="login.js"></script>
 
 </body>
 </html>
