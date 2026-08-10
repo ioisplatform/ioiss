@@ -1,1 +1,161 @@
-async function r(){if(window.supabaseClient)return;await new Promise(x=>document.addEventListener('iois-ready',x,{once:true}))}async function load(){await r();const s=document.getElementById('plan');const {data,error}=await supabaseClient.from('membership_plans').select('id,plan_name,amount').eq('is_active',true).order('amount');if(error){s.innerHTML='<option>Plans unavailable</option>';return}s.innerHTML='<option value="">Plan चुनें</option>'+data.map(p=>`<option value="${p.id}" data-amount="${p.amount}">₹${p.amount} — ${p.plan_name}</option>`).join('');const q=new URLSearchParams(location.search).get('plan');const o=[...s.options].find(x=>x.dataset.amount===q);if(o)s.value=o.value}document.getElementById('registerForm').onsubmit=async e=>{e.preventDefault();await r();const m=document.getElementById('message');const sel=document.getElementById('plan');const {data:p,error:pe}=await supabaseClient.from('membership_plans').select('id,plan_name,amount').eq('id',sel.value).eq('is_active',true).single();if(pe||!p){m.textContent='Invalid membership plan.';return}const {error}=await supabaseClient.auth.signUp({email:email.value.trim(),password:password.value,options:{data:{full_name:fullName.value.trim(),mobile:mobile.value.trim(),sponsor_id:sponsorId.value.trim(),plan_id:p.id,plan_name:p.plan_name,plan_amount:p.amount}}});m.textContent=error?error.message:'Account created. Email verify करें, फिर Login करें.'};load();
+// =========================================================
+// IOIS - REGISTRATION
+// =========================================================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form = document.getElementById("registerForm");
+    const message = document.getElementById("message");
+    const button = document.getElementById("registerButton");
+
+    const fullName = document.getElementById("fullName");
+    const mobile = document.getElementById("mobile");
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const confirmPassword = document.getElementById("confirmPassword");
+    const terms = document.getElementById("terms");
+
+    function showMessage(text, type) {
+        message.textContent = text;
+        message.className = "message " + type;
+    }
+
+    function validMobile(value) {
+        return /^[6-9]\d{9}$/.test(value);
+    }
+
+    function validPassword(value) {
+        return value.length >= 8;
+    }
+
+    function setLoading(loading) {
+        button.disabled = loading;
+        button.textContent = loading
+            ? "Account बनाया जा रहा है..."
+            : "Create IOIS Account";
+    }
+
+    function togglePassword(inputId, buttonId) {
+        const input = document.getElementById(inputId);
+        const toggle = document.getElementById(buttonId);
+
+        toggle.addEventListener("click", function () {
+            input.type =
+                input.type === "password"
+                    ? "text"
+                    : "password";
+        });
+    }
+
+    togglePassword("password", "togglePassword");
+    togglePassword("confirmPassword", "toggleConfirmPassword");
+
+    form.addEventListener("submit", async function (event) {
+
+        event.preventDefault();
+
+        showMessage("", "");
+
+        const nameValue = fullName.value.trim();
+        const mobileValue = mobile.value.trim();
+        const emailValue = email.value.trim().toLowerCase();
+        const passwordValue = password.value;
+        const confirmValue = confirmPassword.value;
+
+        if (nameValue.length < 2) {
+            showMessage("कृपया अपना सही नाम दर्ज करें।", "error");
+            return;
+        }
+
+        if (!validMobile(mobileValue)) {
+            showMessage(
+                "कृपया सही 10 digit Indian mobile number दर्ज करें।",
+                "error"
+            );
+            return;
+        }
+
+        if (!emailValue.includes("@")) {
+            showMessage(
+                "कृपया सही email address दर्ज करें।",
+                "error"
+            );
+            return;
+        }
+
+        if (!validPassword(passwordValue)) {
+            showMessage(
+                "Password कम से कम 8 characters का होना चाहिए।",
+                "error"
+            );
+            return;
+        }
+
+        if (passwordValue !== confirmValue) {
+            showMessage(
+                "दोनों passwords समान होने चाहिए।",
+                "error"
+            );
+            return;
+        }
+
+        if (!terms.checked) {
+            showMessage(
+                "Registration जारी रखने के लिए confirmation स्वीकार करें।",
+                "error"
+            );
+            return;
+        }
+
+        setLoading(true);
+
+        try {
+
+            const result = await window.IOIS_AUTH.signUp({
+                fullName: nameValue,
+                mobile: mobileValue,
+                email: emailValue,
+                password: passwordValue
+            });
+
+            if (!result.success) {
+                showMessage(result.message, "error");
+                setLoading(false);
+                return;
+            }
+
+            if (result.session) {
+
+                showMessage(
+                    "Registration successful! आपका dashboard खोला जा रहा है...",
+                    "success"
+                );
+
+                setTimeout(function () {
+                    window.location.href = "dashboard.html";
+                }, 1200);
+
+            } else {
+
+                showMessage(
+                    "Registration successful! आपके email पर verification link भेजा गया है। Email verify करने के बाद Login करें।",
+                    "success"
+                );
+
+                form.reset();
+                setLoading(false);
+            }
+
+        } catch (error) {
+
+            console.error("IOIS Registration Error:", error);
+
+            showMessage(
+                "Registration के दौरान unexpected error आया। कृपया दोबारा कोशिश करें।",
+                "error"
+            );
+
+            setLoading(false);
+        }
+    });
+});
