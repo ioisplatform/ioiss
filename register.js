@@ -191,55 +191,101 @@
     return null;
   }
 
-  const DB_NAME = "iois-registration-v2", STORE = "pending";
+  // Registration state.
+  // Do not block initial registration on browser IndexedDB. Some Android browsers
+  // can delay/block IndexedDB startup; that was causing the registration spinner.
+  let pendingMemory = null;
+
+  const DB_NAME = "iois-registration-v3";
+  const STORE = "pending";
 
   function openDB() {
-    return new Promise((resolve,reject)=>{
-      const req = indexedDB.open(DB_NAME,1);
-      req.onupgradeneeded=()=>{
-        if(!req.result.objectStoreNames.contains(STORE))
-          req.result.createObjectStore(STORE,{keyPath:"email"});
+    return new Promise((resolve, reject) => {
+      if (!window.indexedDB) {
+        reject(new Error("इस browser में local registration storage उपलब्ध नहीं है।"));
+        return;
+      }
+      let settled = false;
+      const req = indexedDB.open(DB_NAME, 1);
+
+      const finish = (fn, value) => {
+        if (settled) return;
+        settled = true;
+        fn(value);
       };
-      req.onsuccess=()=>resolve(req.result);
-      req.onerror=()=>reject(req.error);
+
+      req.onupgradeneeded = () => {
+        const db = req.result;
+        if (!db.objectStoreNames.contains(STORE)) {
+          db.createObjectStore(STORE, { keyPath: "email" });
+        }
+      };
+      req.onsuccess = () => finish(resolve, req.result);
+      req.onerror = () => finish(reject, req.error || new Error("Local storage unavailable."));
+      req.onblocked = () => finish(reject, new Error("Local registration storage blocked. कृपया इस page की दूसरी IOIS tab बंद करें।"));
     });
   }
 
   async function savePending(d) {
-    const db=await withTimeout(openDB(),10000,"Local registration storage");
-    await withTimeout(new Promise((resolve,reject)=>{
-      const tx=db.transaction(STORE,"readwrite");
-      tx.objectStore(STORE).put({
-        email:d.email, fullName:d.fullName, phone:d.phone, address:d.address,
-        withdrawal:d.withdrawal, sponsorId:d.sponsorId, sponsorName:d.sponsorName,
-        plan:selectedPlan, screenshot:d.screenshot, proof:d.proof, savedAt:Date.now()
+    // Keep a memory copy immediately. This is the important fix: IndexedDB
+    // must never prevent the user from creating the Auth account.
+    pendingMemory = {
+      email:d.email, fullName:d.fullName, phone:d.phone, address:d.address,
+      withdrawal:d.withdrawal, sponsorId:d.sponsorId, sponsorName:d.sponsorName,
+      plan:{...selectedPlan}, screenshot:d.screenshot, proof:d.proof, savedAt:Date.now()
+    };
+
+    // Best-effort persistence for email-verification reload.
+    try {
+      const db = await openDB();
+      await new Promise((resolve,reject)=>{
+        const tx=db.transaction(STORE,"readwrite");
+        tx.objectStore(STORE).put(pendingMemory);
+        tx.oncomplete=resolve;
+        tx.onerror=()=>reject(tx.error);
+        tx.onabort=()=>reject(tx.error || new Error("Local storage transaction aborted."));
       });
-      tx.oncomplete=resolve;
-      tx.onerror=()=>reject(tx.error);
-    }),10000,"Local registration storage");
-    db.close();
+      db.close();
+      return true;
+    } catch (e) {
+      console.warn("IOIS: IndexedDB unavailable; continuing with in-memory registration.", e);
+      return false;
+    }
   }
 
   async function getPending(email) {
-    const db=await withTimeout(openDB(),10000,"Local registration storage");
-    const item=await withTimeout(new Promise((resolve,reject)=>{
-      const r=db.transaction(STORE,"readonly").objectStore(STORE).get(email);
-      r.onsuccess=()=>resolve(r.result);
-      r.onerror=()=>reject(r.error);
-    }),10000,"Local registration storage");
-    db.close();
-    return item;
+    if (pendingMemory && pendingMemory.email === email) return pendingMemory;
+
+    try {
+      const db=await openDB();
+      const item=await new Promise((resolve,reject)=>{
+        const r=db.transaction(STORE,"readonly").objectStore(STORE).get(email);
+        r.onsuccess=()=>resolve(r.result);
+        r.onerror=()=>reject(r.error);
+      });
+      db.close();
+      if (item) pendingMemory=item;
+      return item || null;
+    } catch(e) {
+      console.warn("IOIS: Could not restore pending registration:", e);
+      return null;
+    }
   }
 
   async function deletePending(email) {
-    const db=await withTimeout(openDB(),10000,"Local registration storage");
-    await withTimeout(new Promise((resolve,reject)=>{
-      const tx=db.transaction(STORE,"readwrite");
-      tx.objectStore(STORE).delete(email);
-      tx.oncomplete=resolve;
-      tx.onerror=()=>reject(tx.error);
-    }),10000,"Local registration storage");
-    db.close();
+    pendingMemory = null;
+    try {
+      const db=await openDB();
+      await new Promise((resolve,reject)=>{
+        const tx=db.transaction(STORE,"readwrite");
+        tx.objectStore(STORE).delete(email);
+        tx.oncomplete=resolve;
+        tx.onerror=()=>reject(tx.error);
+      });
+      db.close();
+    } catch(e) {
+      console.warn("IOIS: pending cleanup skipped:", e);
+    }
   }
 
   function storageName(userId, kind, file) {
@@ -447,6 +493,9 @@
 
       if(/already registered|already exists|user already registered/i.test(m))
         m="यह email पहले से registered है। Login करें या Password Reset इस्तेमाल करें।";
+
+      if(/local registration storage|indexeddb|local storage/i.test(m))
+        m="इस browser का local storage उपलब्ध नहीं है। Registration फिर भी जारी रह सकता है; कृपया दूसरी IOIS tab बंद करके Chrome में दोबारा प्रयास करें।";
 
       if(/bucket.*not found/i.test(m))
         m="Storage bucket 'member-documents' नहीं मिला। Supabase Storage में यही bucket नाम verify करें।";
