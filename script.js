@@ -98,13 +98,10 @@ function scrollToPlans(){ $("plans")?.scrollIntoView({behavior:"smooth"}); }
 function openVideo(){window.open("https://www.youtube.com/watch?v=0gYd3mIxksc","_blank","noopener");}
 function openRegistrationFlow(){openRegistrationFlowWithTier("starter");}
 function openRegistrationFlowWithTier(tier){
-  const overlay=$("modal-overlay"); $("registration-modal").classList.add("active"); $("login-modal").classList.remove("active"); overlay.classList.add("active");
-  if($("reg-plan")) $("reg-plan").value=tier;
-  document.body.classList.add("modal-open");
+  const safeTier=encodeURIComponent(tier||"starter");
+  window.location.href=`register.html?plan=${safeTier}`;
 }
-function openLoginModal(){
-  $("login-modal").classList.add("active"); $("registration-modal").classList.remove("active"); $("modal-overlay").classList.add("active"); document.body.classList.add("modal-open");
-}
+function openLoginModal(){ window.location.href="login.html"; }
 function closeModals(e){
   if(e && e.target!==$("modal-overlay"))return;
   $("modal-overlay").classList.remove("active"); $("registration-modal").classList.remove("active"); $("login-modal").classList.remove("active"); document.body.classList.remove("modal-open");

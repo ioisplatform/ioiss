@@ -3,7 +3,7 @@
    FINAL REGISTRATION SYSTEM
    =========================================================
    Works with:
-   - registration.html
+   - register.html
    - Supabase Auth
    - Supabase Database
    - Membership Plans
@@ -25,11 +25,11 @@
 
 const IOIS_SUPABASE_URL =
     window.IOIS_SUPABASE_URL ||
-    "YOUR_SUPABASE_PROJECT_URL";
+    "https://hrvwzviprlnpkhrgzdrc.supabase.co";
 
 const IOIS_SUPABASE_ANON_KEY =
     window.IOIS_SUPABASE_ANON_KEY ||
-    "YOUR_SUPABASE_ANON_KEY";
+    "sb_publishable_tXoFuC0rz0JeDOQvmpjz7w_ZAJhKOVF";
 
 
 /* =========================================================
@@ -63,7 +63,7 @@ const IOIS_CONFIG = {
         `${IOIS_SUPABASE_URL}/functions/v1/iois-registration-notification`,
 
     registrationPage:
-        "registration.html",
+        "register.html",
 
     loginPage:
         "login.html",

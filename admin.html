@@ -1,185 +1,327 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<title>IOIS Admin Panel | Indian Online Income Supporting System</title>
+    <meta
+        name="theme-color"
+        content="#030712"
+    >
 
-<meta name="description"
-      content="IOIS Platform secure administrator dashboard.">
+    <meta
+        name="robots"
+        content="noindex,nofollow"
+    >
 
-<meta name="theme-color"
-      content="#030712">
+    <title>
+        IOIS Admin Panel
+    </title>
 
-<script src="https://cdn.tailwindcss.com"></script>
+    <meta
+        name="description"
+        content="IOIS secure administrator panel"
+    >
 
-<link
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-rel="stylesheet">
+    <!-- =====================================================
+         TAILWIND
+    ====================================================== -->
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 
-<style>
 
-html {
-    scroll-behavior:smooth;
-}
+    <!-- =====================================================
+         FONT AWESOME
+    ====================================================== -->
 
-body {
-    margin:0;
-    background:#030712;
-    color:#f8fafc;
-    font-family:Arial,Helvetica,sans-serif;
-}
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
 
-.glass {
-    background:rgba(15,23,42,.78);
-    border:1px solid rgba(245,158,11,.20);
-    backdrop-filter:blur(15px);
-}
 
-.card {
-    transition:.25s ease;
-}
+    <!-- =====================================================
+         SUPABASE
+    ====================================================== -->
 
-.card:hover {
-    transform:translateY(-3px);
-    border-color:rgba(245,158,11,.55);
-}
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
 
-.tiranga-text {
-    background:linear-gradient(
-        90deg,
-        #f97316,
-        #fff,
-        #10b981
-    );
 
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
+    <!-- =====================================================
+         IOIS CONFIG
+    ====================================================== -->
 
-.sidebar {
-    background:
-    linear-gradient(
-        180deg,
-        #071022 0%,
-        #030712 100%
-    );
-}
+    <script src="config.js"></script>
 
-.stat-number {
-    font-size:28px;
-    font-weight:900;
-}
+    <script src="supabase-config.js"></script>
 
-.modal-bg {
-    background:rgba(0,0,0,.75);
-    backdrop-filter:blur(7px);
-}
 
-.status-pending {
-    color:#fbbf24;
-}
+    <!-- =====================================================
+         PAGE STYLE
+    ====================================================== -->
 
-.status-approved {
-    color:#34d399;
-}
+    <style>
 
-.status-rejected {
-    color:#f87171;
-}
+        * {
+            box-sizing: border-box;
+        }
 
-.table-scroll {
-    overflow-x:auto;
-}
 
-table {
-    min-width:900px;
-}
+        html {
+            scroll-behavior: smooth;
+        }
 
-th {
-    background:#0f172a;
-}
 
-input,
-select,
-textarea {
-    background:#020617!important;
-    color:white!important;
-    border:1px solid #334155!important;
-}
+        body {
+            margin: 0;
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(245,158,11,.08),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at top right,
+                    rgba(20,184,166,.08),
+                    transparent 30%
+                ),
+                #030712;
 
-input:focus,
-select:focus,
-textarea:focus {
-    outline:none!important;
-    border-color:#f59e0b!important;
-}
+            color: #f8fafc;
 
-::-webkit-scrollbar {
-    width:7px;
-    height:7px;
-}
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+        }
 
-::-webkit-scrollbar-track {
-    background:#020617;
-}
 
-::-webkit-scrollbar-thumb {
-    background:#475569;
-    border-radius:10px;
-}
+        ::selection {
+            background: #f59e0b;
+            color: #030712;
+        }
 
-@media(max-width:768px) {
 
-    .desktop-sidebar {
-        display:none;
-    }
+        .glass {
+            background:
+                rgba(15,23,42,.78);
 
-    .mobile-sidebar-open {
-        display:block!important;
-    }
+            border:
+                1px solid
+                rgba(245,158,11,.18);
 
-}
+            backdrop-filter:
+                blur(18px);
 
-</style>
+            -webkit-backdrop-filter:
+                blur(18px);
+
+            box-shadow:
+                0 20px 60px
+                rgba(0,0,0,.25);
+        }
+
+
+        .admin-card {
+            background:
+                rgba(15,23,42,.72);
+
+            border:
+                1px solid
+                rgba(148,163,184,.12);
+
+            transition:
+                transform .2s ease,
+                border-color .2s ease,
+                box-shadow .2s ease;
+        }
+
+
+        .admin-card:hover {
+            transform: translateY(-2px);
+
+            border-color:
+                rgba(245,158,11,.25);
+
+            box-shadow:
+                0 15px 40px
+                rgba(0,0,0,.20);
+        }
+
+
+        .sidebar-item {
+            transition:
+                background .2s ease,
+                color .2s ease,
+                transform .2s ease;
+        }
+
+
+        .sidebar-item:hover {
+            background:
+                rgba(245,158,11,.08);
+
+            color: #fbbf24;
+
+            transform:
+                translateX(2px);
+        }
+
+
+        .table-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+
+        table {
+            min-width: 850px;
+        }
+
+
+        th {
+            white-space: nowrap;
+        }
+
+
+        td {
+            vertical-align: middle;
+        }
+
+
+        .stat-number {
+            font-variant-numeric:
+                tabular-nums;
+        }
+
+
+        .loader {
+            width: 18px;
+            height: 18px;
+
+            border:
+                2px solid
+                rgba(255,255,255,.2);
+
+            border-top-color:
+                #f59e0b;
+
+            border-radius: 50%;
+
+            animation:
+                spin .8s linear infinite;
+        }
+
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: #020617;
+        }
+
+
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 999px;
+        }
+
+
+        .mobile-menu {
+            transform:
+                translateX(-110%);
+
+            transition:
+                transform .25s ease;
+        }
+
+
+        .mobile-menu.open {
+            transform:
+                translateX(0);
+        }
+
+
+        @media (min-width: 1024px) {
+
+            .desktop-sidebar {
+                display: block !important;
+            }
+
+        }
+
+    </style>
+
 </head>
 
-<body>
+
+<body class="min-h-screen">
+
 
 <!-- =========================================================
-     AUTH LOADER
-========================================================= -->
+     LOADING SCREEN
+========================================================== -->
 
-<div id="page-loader"
-     class="fixed inset-0 z-[9999]
-            bg-[#030712]
-            flex items-center
-            justify-center">
+<div
+    id="page-loader"
+    class="
+        fixed
+        inset-0
+        z-[99999]
+        bg-gray-950
+        flex
+        items-center
+        justify-center
+    "
+>
 
     <div class="text-center">
 
+        <img
+            src="assets/logo.png"
+            alt="IOIS"
+            class="
+                w-20
+                h-20
+                rounded-2xl
+                mx-auto
+                object-cover
+                shadow-2xl
+            "
+        >
+
         <div
-            class="w-16 h-16
-                   border-4
-                   border-amber-400/30
-                   border-t-amber-400
-                   rounded-full
-                   animate-spin
-                   mx-auto">
-        </div>
+            class="
+                loader
+                mx-auto
+                mt-5
+            "
+        ></div>
 
-        <p class="mt-4
-                  text-amber-400
-                  font-black
-                  text-sm">
-
-            IOIS ADMIN SECURITY CHECK
-
+        <p
+            class="
+                mt-4
+                text-xs
+                text-gray-400
+            "
+        >
+            Checking administrator access...
         </p>
 
     </div>
@@ -187,1321 +329,1023 @@ textarea:focus {
 </div>
 
 
-<!-- =========================================================
-     LOGIN SCREEN
-========================================================= -->
-
-<section id="admin-login"
-         class="hidden min-h-screen
-                flex items-center
-                justify-center
-                px-4">
-
-    <div class="glass
-                rounded-3xl
-                p-7
-                w-full
-                max-w-md
-                shadow-2xl">
-
-        <div class="text-center">
-
-            <div
-                class="mx-auto
-                       w-16 h-16
-                       rounded-2xl
-                       bg-amber-400
-                       text-gray-950
-                       flex items-center
-                       justify-center
-                       text-2xl">
-
-                <i class="fa-solid fa-shield-halved"></i>
-
-            </div>
-
-            <h1
-                class="text-2xl
-                       font-black
-                       mt-5
-                       tiranga-text">
-
-                IOIS ADMIN PANEL
-
-            </h1>
-
-            <p class="text-gray-400
-                      text-xs mt-2">
-
-                Secure Administrator Login
-
-            </p>
-
-        </div>
-
-
-        <form id="admin-login-form"
-              class="mt-7 space-y-4">
-
-            <div>
-
-                <label class="text-xs
-                               text-amber-400
-                               font-bold">
-
-                    Admin Email
-
-                </label>
-
-                <input
-                    id="admin-email"
-                    type="email"
-                    autocomplete="username"
-                    required
-                    placeholder="Admin email"
-                    class="w-full
-                           mt-2
-                           rounded-xl
-                           px-4 py-3
-                           text-sm">
-
-            </div>
-
-
-            <div>
-
-                <label class="text-xs
-                               text-amber-400
-                               font-bold">
-
-                    Password
-
-                </label>
-
-                <div class="relative mt-2">
-
-                    <input
-                        id="admin-password"
-                        type="password"
-                        autocomplete="current-password"
-                        required
-                        placeholder="Admin password"
-                        class="w-full
-                               rounded-xl
-                               px-4 py-3
-                               text-sm
-                               pr-12">
-
-                    <button
-                        type="button"
-                        onclick="togglePassword('admin-password')"
-                        class="absolute
-                               right-3 top-1/2
-                               -translate-y-1/2
-                               text-gray-400">
-
-                        <i class="fa-solid fa-eye"></i>
-
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <button
-                type="submit"
-                id="admin-login-btn"
-                class="w-full
-                       py-3
-                       rounded-xl
-                       bg-gradient-to-r
-                       from-amber-400
-                       to-teal-400
-                       text-gray-950
-                       font-black">
-
-                <i class="fa-solid fa-right-to-bracket mr-2"></i>
-
-                Secure Login
-
-            </button>
-
-        </form>
-
-
-        <button
-            onclick="recoverAdminPassword()"
-            class="w-full
-                   mt-4
-                   text-xs
-                   text-gray-400
-                   hover:text-amber-400">
-
-            Forgot Password?
-
-        </button>
-
-
-        <div id="login-message"
-             class="hidden
-                    mt-4
-                    rounded-xl
-                    p-3
-                    text-xs
-                    text-center">
-        </div>
-
-    </div>
-
-</section>
-
 
 <!-- =========================================================
-     ADMIN APPLICATION
-========================================================= -->
-
-<div id="admin-app"
-     class="hidden min-h-screen">
-
-
-<!-- MOBILE TOP BAR -->
-
-<header
-    class="lg:hidden
-           sticky top-0 z-50
-           bg-[#050b18]
-           border-b
-           border-gray-800
-           px-4 py-3">
-
-    <div class="flex
-                justify-between
-                items-center">
-
-        <button
-            onclick="toggleSidebar()"
-            class="text-amber-400
-                   text-xl">
-
-            <i class="fa-solid fa-bars"></i>
-
-        </button>
-
-        <span class="font-black
-                     tiranga-text">
-
-            IOIS ADMIN
-
-        </span>
-
-        <button
-            onclick="logoutAdmin()"
-            class="text-red-400">
-
-            <i class="fa-solid fa-right-from-bracket"></i>
-
-        </button>
-
-    </div>
-
-</header>
-
-
-<!-- SIDEBAR -->
-
-<aside
-    id="admin-sidebar"
-    class="desktop-sidebar
-           fixed left-0 top-0
-           h-screen
-           w-64
-           sidebar
-           border-r
-           border-gray-800
-           z-40">
-
-    <div class="p-5
-                border-b
-                border-gray-800">
-
-        <div class="flex
-                    items-center
-                    gap-3">
-
-            <div
-                class="w-11 h-11
-                       rounded-xl
-                       bg-amber-400
-                       text-gray-950
-                       flex
-                       items-center
-                       justify-center">
-
-                <i class="fa-solid fa-shield-halved"></i>
-
-            </div>
-
-            <div>
-
-                <div class="font-black
-                            tiranga-text">
-
-                    IOIS
-
-                </div>
-
-                <div class="text-[9px]
-                            text-gray-500
-                            tracking-widest">
-
-                    ADMIN CONTROL
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <nav class="p-4 space-y-1">
-
-        <button
-            onclick="showSection('overview')"
-            class="nav-btn
-                   w-full
-                   text-left
-                   px-4 py-3
-                   rounded-xl
-                   text-sm
-                   text-amber-400">
-
-            <i class="fa-solid fa-chart-pie w-5"></i>
-            Overview
-
-        </button>
-
-
-        <button
-            onclick="showSection('members')"
-            class="nav-btn
-                   w-full
-                   text-left
-                   px-4 py-3
-                   rounded-xl
-                   text-sm
-                   text-gray-300
-                   hover:bg-gray-800">
-
-            <i class="fa-solid fa-users w-5"></i>
-            Members
-
-        </button>
-
-
-        <button
-            onclick="showSection('registrations')"
-            class="nav-btn
-                   w-full
-                   text-left
-                   px-4 py-3
-                   rounded-xl
-                   text-sm
-                   text-gray-300
-                   hover:bg-gray-800">
-
-            <i class="fa-solid fa-user-check w-5"></i>
-            Registrations
-
-        </button>
-
-
-        <button
-            onclick="showSection('payments')"
-            class="nav-btn
-                   w-full
-                   text-left
-                   px-4 py-3
-                   rounded-xl
-                   text-sm
-                   text-gray-300
-                   hover:bg-gray-800">
-
-            <i class="fa-solid fa-money-check-dollar w-5"></i>
-            Payments
-
-        </button>
-
-
-        <button
-            onclick="showSection('referrals')"
-            class="nav-btn
-                   w-full
-                   text-left
-                   px-4 py-3
-                   rounded-xl
-                   text-sm
-                   text-gray-300
-                   hover:bg-gray-800">
-
-            <i class="fa-solid fa-share-nodes w-5"></i>
-            Referrals
-
-        </button>
-
-
-        <button
-            onclick="showSection('plans')"
-            class="nav-btn
-                   w-full
-                   text-left
-                   px-4 py-3
-                   rounded-xl
-                   text-sm
-                   text-gray-300
-                   hover:bg-gray-800">
-
-            <i class="fa-solid fa-layer-group w-5"></i>
-            Membership Plans
-
-        </button>
-
-
-        <button
-            onclick="showSection('notifications')"
-            class="nav-btn
-                   w-full
-                   text-left
-                   px-4 py-3
-                   rounded-xl
-                   text-sm
-                   text-gray-300
-                   hover:bg-gray-800">
-
-            <i class="fa-solid fa-bell w-5"></i>
-            Notifications
-
-        </button>
-
-
-        <button
-            onclick="showSection('settings')"
-            class="nav-btn
-                   w-full
-                   text-left
-                   px-4 py-3
-                   rounded-xl
-                   text-sm
-                   text-gray-300
-                   hover:bg-gray-800">
-
-            <i class="fa-solid fa-gear w-5"></i>
-            Settings
-
-        </button>
-
-    </nav>
-
-
-    <div class="absolute
-                bottom-0
-                left-0
-                right-0
-                p-4
-                border-t
-                border-gray-800">
-
-        <button
-            onclick="logoutAdmin()"
-            class="w-full
-                   py-3
-                   rounded-xl
-                   bg-red-500/10
-                   text-red-400
-                   text-sm
-                   font-bold">
-
-            <i class="fa-solid fa-right-from-bracket mr-2"></i>
-
-            Logout
-
-        </button>
-
-    </div>
-
-</aside>
-
-
-<!-- MAIN -->
-
-<main
-    class="lg:ml-64
-           p-4
-           md:p-7">
-
-
-<!-- HEADER -->
+     MAIN ADMIN APPLICATION
+========================================================== -->
 
 <div
-    class="hidden lg:flex
-           justify-between
-           items-center
-           mb-7">
-
-    <div>
-
-        <p class="text-xs
-                  text-gray-500">
-
-            IOIS PLATFORM
-
-        </p>
-
-        <h1
-            class="text-2xl
-                   font-black">
-
-            Admin Control Center
-
-        </h1>
-
-    </div>
-
-
-    <div class="flex
-                items-center
-                gap-3">
-
-        <span
-            id="admin-email-display"
-            class="text-xs
-                   text-gray-400">
-        </span>
-
-        <button
-            onclick="logoutAdmin()"
-            class="px-4 py-2
-                   rounded-xl
-                   bg-red-500/10
-                   text-red-400
-                   text-xs
-                   font-bold">
-
-            Logout
-
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- =====================================================
-     OVERVIEW
-===================================================== -->
-
-<section id="section-overview"
-         class="admin-section">
-
-    <div class="mb-6">
-
-        <h2 class="text-xl
-                   font-black">
-
-            Dashboard Overview
-
-        </h2>
-
-        <p class="text-xs
-                  text-gray-500
-                  mt-1">
-
-            IOIS platform का real-time administrative summary.
-
-        </p>
-
-    </div>
-
-
-    <div
-        class="grid
-               grid-cols-2
-               lg:grid-cols-4
-               gap-4">
-
-
-        <div class="glass card
-                    rounded-2xl
-                    p-5">
-
-            <div class="text-teal-400">
-
-                <i class="fa-solid fa-users text-xl"></i>
-
-            </div>
-
-            <div
-                id="stat-members"
-                class="stat-number mt-3">
-
-                --
-
-            </div>
-
-            <div class="text-xs
-                        text-gray-500">
-
-                Total Members
-
-            </div>
-
-        </div>
-
-
-        <div class="glass card
-                    rounded-2xl
-                    p-5">
-
-            <div class="text-amber-400">
-
-                <i class="fa-solid fa-user-clock text-xl"></i>
-
-            </div>
-
-            <div
-                id="stat-pending"
-                class="stat-number mt-3">
-
-                --
-
-            </div>
-
-            <div class="text-xs
-                        text-gray-500">
-
-                Pending Registrations
-
-            </div>
-
-        </div>
-
-
-        <div class="glass card
-                    rounded-2xl
-                    p-5">
-
-            <div class="text-green-400">
-
-                <i class="fa-solid fa-indian-rupee-sign text-xl"></i>
-
-            </div>
-
-            <div
-                id="stat-revenue"
-                class="stat-number mt-3">
-
-                ₹--
-
-            </div>
-
-            <div class="text-xs
-                        text-gray-500">
-
-                Approved Payments
-
-            </div>
-
-        </div>
-
-
-        <div class="glass card
-                    rounded-2xl
-                    p-5">
-
-            <div class="text-purple-400">
-
-                <i class="fa-solid fa-share-nodes text-xl"></i>
-
-            </div>
-
-            <div
-                id="stat-referrals"
-                class="stat-number mt-3">
-
-                --
-
-            </div>
-
-            <div class="text-xs
-                        text-gray-500">
-
-                Referrals
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="glass
-                rounded-2xl
-                mt-6
-                p-5">
-
-        <div class="flex
-                    justify-between
-                    items-center">
+    id="admin-app"
+    class="hidden min-h-screen"
+>
+
+
+    <!-- =====================================================
+         MOBILE HEADER
+    ====================================================== -->
+
+    <header
+        class="
+            lg:hidden
+            sticky
+            top-0
+            z-50
+            glass
+            px-4
+            py-3
+            flex
+            items-center
+            justify-between
+        "
+    >
+
+        <div class="flex items-center gap-3">
+
+            <img
+                src="assets/logo.png"
+                alt="IOIS"
+                class="
+                    w-10
+                    h-10
+                    rounded-xl
+                    object-cover
+                "
+            >
 
             <div>
 
-                <h3 class="font-black">
-
-                    Recent Registrations
-
-                </h3>
-
-                <p class="text-xs
-                          text-gray-500">
-
-                    Latest member activity
-
-                </p>
-
-            </div>
-
-            <button
-                onclick="showSection('registrations')"
-                class="text-xs
-                       text-amber-400">
-
-                View All
-
-            </button>
-
-        </div>
-
-        <div id="recent-registrations"
-             class="mt-5">
-
-            Loading...
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     MEMBERS
-===================================================== -->
-
-<section id="section-members"
-         class="admin-section hidden">
-
-    <div class="flex
-                flex-wrap
-                justify-between
-                gap-3
-                mb-5">
-
-        <div>
-
-            <h2 class="text-xl
-                       font-black">
-
-                Members
-
-            </h2>
-
-            <p class="text-xs
-                      text-gray-500">
-
-                Registered IOIS members
-
-            </p>
-
-        </div>
-
-        <button
-            onclick="loadMembers()"
-            class="px-4 py-2
-                   bg-amber-400
-                   text-gray-950
-                   rounded-xl
-                   text-xs
-                   font-black">
-
-            <i class="fa-solid fa-rotate mr-1"></i>
-            Refresh
-
-        </button>
-
-    </div>
-
-
-    <div class="glass
-                rounded-2xl
-                p-4">
-
-        <input
-            id="member-search"
-            oninput="filterMembers()"
-            placeholder="Search name, email, WhatsApp or User ID..."
-            class="w-full
-                   rounded-xl
-                   px-4 py-3
-                   text-sm
-                   mb-4">
-
-        <div class="table-scroll">
-
-            <table
-                class="w-full
-                       text-xs">
-
-                <thead>
-
-                    <tr>
-
-                        <th class="p-3 text-left">
-                            User ID
-                        </th>
-
-                        <th class="p-3 text-left">
-                            Member
-                        </th>
-
-                        <th class="p-3 text-left">
-                            Contact
-                        </th>
-
-                        <th class="p-3 text-left">
-                            Plan
-                        </th>
-
-                        <th class="p-3 text-left">
-                            Status
-                        </th>
-
-                        <th class="p-3 text-left">
-                            Joined
-                        </th>
-
-                        <th class="p-3 text-left">
-                            Action
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody id="members-table">
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     REGISTRATIONS
-===================================================== -->
-
-<section id="section-registrations"
-         class="admin-section hidden">
-
-    <div class="flex
-                justify-between
-                items-center
-                mb-5">
-
-        <div>
-
-            <h2 class="text-xl
-                       font-black">
-
-                Registration Verification
-
-            </h2>
-
-            <p class="text-xs
-                      text-gray-500">
-
-                Member applications को verify करें।
-
-            </p>
-
-        </div>
-
-        <button
-            onclick="loadRegistrations()"
-            class="px-4 py-2
-                   rounded-xl
-                   bg-amber-400
-                   text-gray-950
-                   text-xs
-                   font-black">
-
-            Refresh
-
-        </button>
-
-    </div>
-
-
-    <div class="glass
-                rounded-2xl
-                p-4">
-
-        <div class="table-scroll">
-
-            <table
-                class="w-full
-                       text-xs">
-
-                <thead>
-
-                    <tr>
-
-                        <th class="p-3 text-left">
-                            Date
-                        </th>
-
-                        <th class="p-3 text-left">
-                            Applicant
-                        </th>
-
-                        <th class="p-3 text-left">
-                            User ID
-                        </th>
-
-                        <th class="p-3 text-left">
-                            Plan
-                        </th>
-
-                        <th class="p-3 text-left">
-                            Payment
-                        </th>
-
-                        <th class="p-3 text-left">
-                            Status
-                        </th>
-
-                        <th class="p-3 text-left">
-                            Action
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody id="registrations-table">
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     PAYMENTS
-===================================================== -->
-
-<section id="section-payments"
-         class="admin-section hidden">
-
-    <div class="mb-5">
-
-        <h2 class="text-xl
-                   font-black">
-
-            Payment Verification
-
-        </h2>
-
-        <p class="text-xs
-                  text-gray-500">
-
-            Payment proof और transaction information verify करें।
-
-        </p>
-
-    </div>
-
-
-    <div class="glass
-                rounded-2xl
-                p-4">
-
-        <div class="table-scroll">
-
-            <table class="w-full text-xs">
-
-                <thead>
-
-                    <tr>
-
-                        <th class="p-3 text-left">
-                            Member
-                        </th>
-
-                        <th class="p-3 text-left">
-                            Plan
-                        </th>
-
-                        <th class="p-3 text-left">
-                            Amount
-                        </th>
-
-                        <th class="p-3 text-left">
-                            Transaction
-                        </th>
-
-                        <th class="p-3 text-left">
-                            Proof
-                        </th>
-
-                        <th class="p-3 text-left">
-                            Status
-                        </th>
-
-                        <th class="p-3 text-left">
-                            Action
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody id="payments-table">
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     REFERRALS
-===================================================== -->
-
-<section id="section-referrals"
-         class="admin-section hidden">
-
-    <div class="mb-5">
-
-        <h2 class="text-xl
-                   font-black">
-
-            Referral Management
-
-        </h2>
-
-        <p class="text-xs
-                  text-gray-500">
-
-            Referral relationships और payout records.
-
-        </p>
-
-    </div>
-
-
-    <div class="glass
-                rounded-2xl
-                p-4">
-
-        <div class="table-scroll">
-
-            <table class="w-full text-xs">
-
-                <thead>
-
-                    <tr>
-
-                        <th class="p-3 text-left">
-                            Sponsor
-                        </th>
-
-                        <th class="p-3 text-left">
-                            Referred Member
-                        </th>
-
-                        <th class="p-3 text-left">
-                            Plan
-                        </th>
-
-                        <th class="p-3 text-left">
-                            Amount
-                        </th>
-
-                        <th class="p-3 text-left">
-                            Payout
-                        </th>
-
-                        <th class="p-3 text-left">
-                            Status
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody id="referrals-table">
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     PLANS
-===================================================== -->
-
-<section id="section-plans"
-         class="admin-section hidden">
-
-    <div class="flex
-                justify-between
-                items-center
-                mb-5">
-
-        <div>
-
-            <h2 class="text-xl
-                       font-black">
-
-                Membership Plans
-
-            </h2>
-
-            <p class="text-xs
-                      text-gray-500">
-
-                Current IOIS membership structure
-
-            </p>
-
-        </div>
-
-        <button
-            onclick="loadPlans()"
-            class="px-4 py-2
-                   rounded-xl
-                   bg-amber-400
-                   text-gray-950
-                   text-xs
-                   font-black">
-
-            Refresh
-
-        </button>
-
-    </div>
-
-
-    <div
-        id="plans-grid"
-        class="grid
-               grid-cols-1
-               md:grid-cols-2
-               xl:grid-cols-3
-               gap-4">
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     NOTIFICATIONS
-===================================================== -->
-
-<section id="section-notifications"
-         class="admin-section hidden">
-
-    <div class="mb-5">
-
-        <h2 class="text-xl
-                   font-black">
-
-            Notification Center
-
-        </h2>
-
-        <p class="text-xs
-                  text-gray-500">
-
-            System notification status.
-
-        </p>
-
-    </div>
-
-
-    <div class="glass
-                rounded-2xl
-                p-6">
-
-        <div class="flex
-                    items-center
-                    gap-4">
-
-            <div
-                class="w-12 h-12
-                       rounded-xl
-                       bg-blue-500/10
-                       text-blue-400
-                       flex
-                       items-center
-                       justify-center">
-
-                <i class="fa-brands fa-telegram text-xl"></i>
-
-            </div>
-
-            <div>
-
-                <h3 class="font-black">
-
-                    Telegram Notification System
-
-                </h3>
-
-                <p class="text-xs
-                          text-gray-500
-                          mt-1">
-
-                    Telegram bot credentials frontend में expose नहीं किए जाएंगे।
-
-                </p>
+                <div
+                    class="
+                        font-black
+                        text-sm
+                    "
+                >
+                    IOIS ADMIN
+                </div>
+
+                <div
+                    class="
+                        text-[10px]
+                        text-gray-500
+                    "
+                >
+                    Administrator Panel
+                </div>
 
             </div>
 
         </div>
 
+
+        <button
+            type="button"
+            onclick="toggleMobileMenu()"
+            class="
+                w-10
+                h-10
+                rounded-xl
+                bg-white/5
+                text-gray-300
+            "
+        >
+
+            <i
+                class="
+                    fa-solid
+                    fa-bars
+                "
+            ></i>
+
+        </button>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside
+        id="admin-sidebar"
+        class="
+            desktop-sidebar
+            hidden
+            lg:flex
+            fixed
+            left-0
+            top-0
+            bottom-0
+            z-40
+            w-72
+            flex-col
+            glass
+            border-r
+            border-white/10
+        "
+    >
+
+        <!-- LOGO -->
 
         <div
-            class="mt-5
-                   p-4
-                   rounded-xl
-                   bg-gray-950
-                   border
-                   border-gray-800">
+            class="
+                px-6
+                py-6
+                border-b
+                border-white/10
+            "
+        >
 
-            <p class="text-xs
-                      text-gray-400">
+            <div
+                class="
+                    flex
+                    items-center
+                    gap-3
+                "
+            >
 
-                Registration, payment और approval events के लिए
-                secure server-side notification function इस्तेमाल किया जाएगा।
-
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =====================================================
-     SETTINGS
-===================================================== -->
-
-<section id="section-settings"
-         class="admin-section hidden">
-
-    <div class="mb-5">
-
-        <h2 class="text-xl
-                   font-black">
-
-            Admin Settings
-
-        </h2>
-
-    </div>
-
-
-    <div class="grid
-                grid-cols-1
-                lg:grid-cols-2
-                gap-5">
-
-
-        <div class="glass
-                    rounded-2xl
-                    p-6">
-
-            <h3 class="font-black
-                       text-amber-400">
-
-                Admin Account
-
-            </h3>
-
-            <div class="mt-5
-                        space-y-3">
+                <img
+                    src="assets/logo.png"
+                    alt="IOIS Logo"
+                    class="
+                        w-14
+                        h-14
+                        rounded-2xl
+                        object-cover
+                        shadow-lg
+                    "
+                >
 
                 <div>
 
-                    <label class="text-xs
-                                   text-gray-500">
-
-                        Current Admin
-
-                    </label>
+                    <div
+                        class="
+                            text-xl
+                            font-black
+                            text-amber-400
+                        "
+                    >
+                        IOIS
+                    </div>
 
                     <div
-                        id="settings-admin-email"
-                        class="mt-1
-                               text-sm
-                               font-bold">
-
-                        --
-
+                        class="
+                            text-[10px]
+                            uppercase
+                            tracking-widest
+                            text-gray-500
+                        "
+                    >
+                        Admin Panel
                     </div>
 
                 </div>
 
+            </div>
+
+        </div>
+
+
+
+        <!-- ADMIN INFO -->
+
+        <div
+            class="
+                mx-4
+                mt-5
+                p-4
+                rounded-2xl
+                bg-white/[.03]
+                border
+                border-white/5
+            "
+        >
+
+            <div
+                class="
+                    text-[10px]
+                    text-gray-500
+                    uppercase
+                    tracking-wider
+                "
+            >
+                Logged in as
+            </div>
+
+            <div
+                id="admin-name"
+                class="
+                    mt-1
+                    font-bold
+                    text-sm
+                    truncate
+                "
+            >
+                Administrator
+            </div>
+
+            <div
+                class="
+                    mt-1
+                    text-[10px]
+                    text-green-400
+                "
+            >
+
+                <i
+                    class="
+                        fa-solid
+                        fa-circle
+                        text-[7px]
+                        mr-1
+                    "
+                ></i>
+
+                Secure Session
+
+            </div>
+
+        </div>
+
+
+
+        <!-- NAVIGATION -->
+
+        <nav
+            class="
+                flex-1
+                overflow-y-auto
+                scrollbar-thin
+                px-4
+                py-5
+            "
+        >
+
+            <div
+                class="
+                    text-[10px]
+                    text-gray-600
+                    uppercase
+                    tracking-widest
+                    px-3
+                    mb-2
+                "
+            >
+                Management
+            </div>
+
+
+            <button
+                type="button"
+                onclick="showSection('overview')"
+                class="
+                    sidebar-item
+                    w-full
+                    flex
+                    items-center
+                    gap-3
+                    px-3
+                    py-3
+                    rounded-xl
+                    text-left
+                    text-sm
+                    text-gray-300
+                "
+            >
+
+                <i
+                    class="
+                        fa-solid
+                        fa-chart-pie
+                        w-5
+                        text-amber-400
+                    "
+                ></i>
+
+                Overview
+
+            </button>
+
+
+            <button
+                type="button"
+                onclick="showSection('members')"
+                class="
+                    sidebar-item
+                    w-full
+                    flex
+                    items-center
+                    gap-3
+                    px-3
+                    py-3
+                    rounded-xl
+                    text-left
+                    text-sm
+                    text-gray-300
+                "
+            >
+
+                <i
+                    class="
+                        fa-solid
+                        fa-users
+                        w-5
+                        text-teal-400
+                    "
+                ></i>
+
+                Members
+
+            </button>
+
+
+            <button
+                type="button"
+                onclick="showSection('registrations')"
+                class="
+                    sidebar-item
+                    w-full
+                    flex
+                    items-center
+                    gap-3
+                    px-3
+                    py-3
+                    rounded-xl
+                    text-left
+                    text-sm
+                    text-gray-300
+                "
+            >
+
+                <i
+                    class="
+                        fa-solid
+                        fa-user-plus
+                        w-5
+                        text-blue-400
+                    "
+                ></i>
+
+                Registrations
+
+            </button>
+
+
+            <button
+                type="button"
+                onclick="showSection('payments')"
+                class="
+                    sidebar-item
+                    w-full
+                    flex
+                    items-center
+                    gap-3
+                    px-3
+                    py-3
+                    rounded-xl
+                    text-left
+                    text-sm
+                    text-gray-300
+                "
+            >
+
+                <i
+                    class="
+                        fa-solid
+                        fa-indian-rupee-sign
+                        w-5
+                        text-green-400
+                    "
+                ></i>
+
+                Payments
+
+            </button>
+
+
+            <button
+                type="button"
+                onclick="showSection('referrals')"
+                class="
+                    sidebar-item
+                    w-full
+                    flex
+                    items-center
+                    gap-3
+                    px-3
+                    py-3
+                    rounded-xl
+                    text-left
+                    text-sm
+                    text-gray-300
+                "
+            >
+
+                <i
+                    class="
+                        fa-solid
+                        fa-share-nodes
+                        w-5
+                        text-purple-400
+                    "
+                ></i>
+
+                Referrals
+
+            </button>
+
+
+            <button
+                type="button"
+                onclick="showSection('plans')"
+                class="
+                    sidebar-item
+                    w-full
+                    flex
+                    items-center
+                    gap-3
+                    px-3
+                    py-3
+                    rounded-xl
+                    text-left
+                    text-sm
+                    text-gray-300
+                "
+            >
+
+                <i
+                    class="
+                        fa-solid
+                        fa-layer-group
+                        w-5
+                        text-pink-400
+                    "
+                ></i>
+
+                Membership Plans
+
+            </button>
+
+
+            <button
+                type="button"
+                onclick="showSection('notifications')"
+                class="
+                    sidebar-item
+                    w-full
+                    flex
+                    items-center
+                    gap-3
+                    px-3
+                    py-3
+                    rounded-xl
+                    text-left
+                    text-sm
+                    text-gray-300
+                "
+            >
+
+                <i
+                    class="
+                        fa-solid
+                        fa-bell
+                        w-5
+                        text-yellow-400
+                    "
+                ></i>
+
+                Notifications
+
+            </button>
+
+
+            <button
+                type="button"
+                onclick="showSection('settings')"
+                class="
+                    sidebar-item
+                    w-full
+                    flex
+                    items-center
+                    gap-3
+                    px-3
+                    py-3
+                    rounded-xl
+                    text-left
+                    text-sm
+                    text-gray-300
+                "
+            >
+
+                <i
+                    class="
+                        fa-solid
+                        fa-gear
+                        w-5
+                        text-gray-400
+                    "
+                ></i>
+
+                Settings
+
+            </button>
+
+        </nav>
+
+
+
+        <!-- LOGOUT -->
+
+        <div
+            class="
+                p-4
+                border-t
+                border-white/10
+            "
+        >
+
+            <button
+                type="button"
+                onclick="IOISAdmin.logout()"
+                class="
+                    w-full
+                    py-3
+                    rounded-xl
+                    bg-red-500/10
+                    border
+                    border-red-500/20
+                    text-red-400
+                    text-sm
+                    font-bold
+                    hover:bg-red-500/20
+                    transition
+                "
+            >
+
+                <i
+                    class="
+                        fa-solid
+                        fa-right-from-bracket
+                        mr-2
+                    "
+                ></i>
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MOBILE SIDEBAR
+    ====================================================== -->
+
+    <div
+        id="mobile-menu"
+        class="
+            mobile-menu
+            lg:hidden
+            fixed
+            inset-y-0
+            left-0
+            z-[60]
+            w-80
+            max-w-[88vw]
+            glass
+            border-r
+            border-white/10
+            flex
+            flex-col
+        "
+    >
+
+        <div
+            class="
+                px-5
+                py-5
+                border-b
+                border-white/10
+                flex
+                items-center
+                justify-between
+            "
+        >
+
+            <div
+                class="
+                    flex
+                    items-center
+                    gap-3
+                "
+            >
+
+                <img
+                    src="assets/logo.png"
+                    alt="IOIS"
+                    class="
+                        w-12
+                        h-12
+                        rounded-xl
+                        object-cover
+                    "
+                >
+
+                <div>
+
+                    <div
+                        class="
+                            font-black
+                            text-amber-400
+                        "
+                    >
+                        IOIS ADMIN
+                    </div>
+
+                    <div
+                        class="
+                            text-[10px]
+                            text-gray-500
+                        "
+                    >
+                        Control Panel
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                onclick="toggleMobileMenu()"
+                class="
+                    w-9
+                    h-9
+                    rounded-lg
+                    bg-white/5
+                    text-gray-400
+                "
+            >
+
+                <i
+                    class="
+                        fa-solid
+                        fa-xmark
+                    "
+                ></i>
+
+            </button>
+
+        </div>
+
+
+        <div
+            class="
+                p-4
+                overflow-y-auto
+                flex-1
+            "
+        >
+
+            <button
+                type="button"
+                onclick="mobileNavigate('overview')"
+                class="
+                    sidebar-item
+                    w-full
+                    text-left
+                    px-4
+                    py-3
+                    rounded-xl
+                    text-sm
+                    mb-1
+                "
+            >
+                <i
+                    class="fa-solid fa-chart-pie w-5 text-amber-400"
+                ></i>
+                Overview
+            </button>
+
+
+            <button
+                type="button"
+                onclick="mobileNavigate('members')"
+                class="
+                    sidebar-item
+                    w-full
+                    text-left
+                    px-4
+                    py-3
+                    rounded-xl
+                    text-sm
+                    mb-1
+                "
+            >
+                <i
+                    class="fa-solid fa-users w-5 text-teal-400"
+                ></i>
+                Members
+            </button>
+
+
+            <button
+                type="button"
+                onclick="mobileNavigate('registrations')"
+                class="
+                    sidebar-item
+                    w-full
+                    text-left
+                    px-4
+                    py-3
+                    rounded-xl
+                    text-sm
+                    mb-1
+                "
+            >
+                <i
+                    class="fa-solid fa-user-plus w-5 text-blue-400"
+                ></i>
+                Registrations
+            </button>
+
+
+            <button
+                type="button"
+                onclick="mobileNavigate('payments')"
+                class="
+                    sidebar-item
+                    w-full
+                    text-left
+                    px-4
+                    py-3
+                    rounded-xl
+                    text-sm
+                    mb-1
+                "
+            >
+                <i
+                    class="fa-solid fa-indian-rupee-sign w-5 text-green-400"
+                ></i>
+                Payments
+            </button>
+
+
+            <button
+                type="button"
+                onclick="mobileNavigate('referrals')"
+                class="
+                    sidebar-item
+                    w-full
+                    text-left
+                    px-4
+                    py-3
+                    rounded-xl
+                    text-sm
+                    mb-1
+                "
+            >
+                <i
+                    class="fa-solid fa-share-nodes w-5 text-purple-400"
+                ></i>
+                Referrals
+            </button>
+
+
+            <button
+                type="button"
+                onclick="mobileNavigate('plans')"
+                class="
+                    sidebar-item
+                    w-full
+                    text-left
+                    px-4
+                    py-3
+                    rounded-xl
+                    text-sm
+                    mb-1
+                "
+            >
+                <i
+                    class="fa-solid fa-layer-group w-5 text-pink-400"
+                ></i>
+                Membership Plans
+            </button>
+
+
+            <button
+                type="button"
+                onclick="mobileNavigate('notifications')"
+                class="
+                    sidebar-item
+                    w-full
+                    text-left
+                    px-4
+                    py-3
+                    rounded-xl
+                    text-sm
+                    mb-1
+                "
+            >
+                <i
+                    class="fa-solid fa-bell w-5 text-yellow-400"
+                ></i>
+                Notifications
+            </button>
+
+
+            <button
+                type="button"
+                onclick="mobileNavigate('settings')"
+                class="
+                    sidebar-item
+                    w-full
+                    text-left
+                    px-4
+                    py-3
+                    rounded-xl
+                    text-sm
+                "
+            >
+                <i
+                    class="fa-solid fa-gear w-5 text-gray-400"
+                ></i>
+                Settings
+            </button>
+
+        </div>
+
+
+        <div
+            class="
+                p-4
+                border-t
+                border-white/10
+            "
+        >
+
+            <button
+                type="button"
+                onclick="IOISAdmin.logout()"
+                class="
+                    w-full
+                    py-3
+                    rounded-xl
+                    bg-red-500/10
+                    text-red-400
+                    font-bold
+                    text-sm
+                "
+            >
+
+                <i
+                    class="
+                        fa-solid
+                        fa-right-from-bracket
+                        mr-2
+                    "
+                ></i>
+
+                Logout
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- MOBILE OVERLAY -->
+
+    <div
+        id="mobile-overlay"
+        onclick="toggleMobileMenu()"
+        class="
+            hidden
+            fixed
+            inset-0
+            z-50
+            bg-black/60
+            backdrop-blur-sm
+            lg:hidden
+        "
+    ></div>
+
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main
+        class="
+            lg:ml-72
+            min-h-screen
+        "
+    >
+
+        <!-- TOP BAR -->
+
+        <div
+            class="
+                hidden
+                lg:flex
+                sticky
+                top-0
+                z-30
+                glass
+                px-8
+                py-4
+                items-center
+                justify-between
+                border-b
+                border-white/10
+            "
+        >
+
+            <div>
+
+                <h1
+                    class="
+                        text-lg
+                        font-black
+                    "
+                >
+                    IOIS Administration
+                </h1>
+
+                <p
+                    class="
+                        text-xs
+                        text-gray-500
+                    "
+                >
+                    Indian Online Income Supporting System
+                </p>
+
+            </div>
+
+
+            <div
+                class="
+                    flex
+                    items-center
+                    gap-3
+                "
+            >
+
+                <span
+                    class="
+                        px-3
+                        py-2
+                        rounded-xl
+                        bg-green-500/10
+                        border
+                        border-green-500/20
+                        text-green-400
+                        text-xs
+                        font-bold
+                    "
+                >
+
+                    <i
+                        class="
+                            fa-solid
+                            fa-circle
+                            text-[7px]
+                            mr-1
+                        "
+                    ></i>
+
+                    Secure
+
+                </span>
+
 
                 <button
-                    onclick="recoverAdminPassword()"
-                    class="w-full
-                           py-3
-                           rounded-xl
-                           border
-                           border-amber-400
-                           text-amber-400
-                           text-xs
-                           font-bold">
+                    type="button"
+                    onclick="IOISAdmin.refresh()"
+                    class="
+                        w-10
+                        h-10
+                        rounded-xl
+                        bg-white/5
+                        hover:bg-white/10
+                        text-gray-300
+                    "
+                    title="Refresh"
+                >
 
-                    Reset Admin Password
+                    <i
+                        class="
+                            fa-solid
+                            fa-rotate
+                        "
+                    ></i>
 
                 </button>
 
@@ -1510,2039 +1354,2284 @@ textarea:focus {
         </div>
 
 
-        <div class="glass
-                    rounded-2xl
-                    p-6">
 
-            <h3 class="font-black
-                       text-teal-400">
-
-                Security Rules
-
-            </h3>
-
-            <ul
-                class="mt-4
-                       text-xs
-                       text-gray-400
-                       space-y-3">
-
-                <li>
-                    <i class="fa-solid fa-check text-green-400 mr-2"></i>
-                    Unique User ID immutable
-                </li>
-
-                <li>
-                    <i class="fa-solid fa-check text-green-400 mr-2"></i>
-                    Member records direct delete नहीं
-                </li>
-
-                <li>
-                    <i class="fa-solid fa-check text-green-400 mr-2"></i>
-                    Admin access authenticated
-                </li>
-
-                <li>
-                    <i class="fa-solid fa-check text-green-400 mr-2"></i>
-                    Supabase RLS required
-                </li>
-
-                <li>
-                    <i class="fa-solid fa-check text-green-400 mr-2"></i>
-                    Service-role key frontend में नहीं
-                </li>
-
-                <li>
-                    <i class="fa-solid fa-check text-green-400 mr-2"></i>
-                    Telegram bot token frontend में नहीं
-                </li>
-
-            </ul>
-
-        </div>
-
-    </div>
-
-</section>
-
-</main>
-
-</div>
-
-
-<!-- =========================================================
-     MEMBER DETAILS MODAL
-========================================================= -->
-
-<div id="member-modal"
-     class="hidden
-            fixed inset-0 z-[100]
-            modal-bg
-            items-center
-            justify-center
-            p-4">
-
-    <div
-        class="glass
-               rounded-3xl
-               max-w-2xl
-               w-full
-               max-h-[90vh]
-               overflow-y-auto
-               p-6">
-
-        <div class="flex
-                    justify-between
-                    items-center
-                    mb-5">
-
-            <h3 class="text-xl
-                       font-black
-                       text-amber-400">
-
-                Member Details
-
-            </h3>
-
-            <button
-                onclick="closeMemberModal()"
-                class="text-gray-400
-                       text-xl">
-
-                &times;
-
-            </button>
-
-        </div>
-
-
-        <div id="member-details"
-             class="space-y-3">
-
-        </div>
-
+        <!-- CONTENT WRAPPER -->
 
         <div
-            class="mt-6
-                   p-4
-                   rounded-xl
-                   bg-red-500/5
-                   border
-                   border-red-500/20">
+            class="
+                p-4
+                sm:p-6
+                lg:p-8
+            "
+        >
 
-            <p class="text-xs
-                      text-red-300">
 
-                User ID को edit/delete नहीं किया जा सकता।
-                Member deletion को भी इस frontend से allow नहीं किया गया है।
+            <!-- =================================================
+                 OVERVIEW
+            ================================================== -->
 
-            </p>
+            <section
+                id="section-overview"
+                class="admin-section"
+            >
+
+                <div
+                    class="
+                        flex
+                        flex-col
+                        sm:flex-row
+                        sm:items-center
+                        justify-between
+                        gap-4
+                        mb-6
+                    "
+                >
+
+                    <div>
+
+                        <div
+                            class="
+                                text-xs
+                                text-amber-400
+                                font-bold
+                                uppercase
+                                tracking-widest
+                            "
+                        >
+                            Dashboard
+                        </div>
+
+                        <h2
+                            class="
+                                text-2xl
+                                sm:text-3xl
+                                font-black
+                                mt-1
+                            "
+                        >
+                            Overview
+                        </h2>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        onclick="IOISAdmin.refresh()"
+                        class="
+                            px-4
+                            py-3
+                            rounded-xl
+                            bg-white/5
+                            border
+                            border-white/10
+                            text-sm
+                            font-bold
+                        "
+                    >
+
+                        <i
+                            class="
+                                fa-solid
+                                fa-rotate
+                                mr-2
+                            "
+                        ></i>
+
+                        Refresh Data
+
+                    </button>
+
+                </div>
+
+
+                <!-- STAT CARDS -->
+
+                <div
+                    class="
+                        grid
+                        grid-cols-1
+                        sm:grid-cols-2
+                        xl:grid-cols-4
+                        gap-4
+                    "
+                >
+
+                    <div class="admin-card rounded-2xl p-5">
+
+                        <div
+                            class="
+                                flex
+                                items-center
+                                justify-between
+                            "
+                        >
+
+                            <div>
+
+                                <div
+                                    class="
+                                        text-xs
+                                        text-gray-500
+                                    "
+                                >
+                                    Total Members
+                                </div>
+
+                                <div
+                                    id="total-members"
+                                    class="
+                                        stat-number
+                                        text-3xl
+                                        font-black
+                                        mt-2
+                                    "
+                                >
+                                    0
+                                </div>
+
+                            </div>
+
+                            <div
+                                class="
+                                    w-12
+                                    h-12
+                                    rounded-xl
+                                    bg-teal-500/10
+                                    text-teal-400
+                                    flex
+                                    items-center
+                                    justify-center
+                                "
+                            >
+
+                                <i
+                                    class="
+                                        fa-solid
+                                        fa-users
+                                    "
+                                ></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-card rounded-2xl p-5">
+
+                        <div
+                            class="
+                                flex
+                                items-center
+                                justify-between
+                            "
+                        >
+
+                            <div>
+
+                                <div
+                                    class="
+                                        text-xs
+                                        text-gray-500
+                                    "
+                                >
+                                    Pending Registrations
+                                </div>
+
+                                <div
+                                    id="pending-registrations"
+                                    class="
+                                        stat-number
+                                        text-3xl
+                                        font-black
+                                        mt-2
+                                        text-amber-400
+                                    "
+                                >
+                                    0
+                                </div>
+
+                            </div>
+
+                            <div
+                                class="
+                                    w-12
+                                    h-12
+                                    rounded-xl
+                                    bg-amber-500/10
+                                    text-amber-400
+                                    flex
+                                    items-center
+                                    justify-center
+                                "
+                            >
+
+                                <i
+                                    class="
+                                        fa-solid
+                                        fa-user-clock
+                                    "
+                                ></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-card rounded-2xl p-5">
+
+                        <div
+                            class="
+                                flex
+                                items-center
+                                justify-between
+                            "
+                        >
+
+                            <div>
+
+                                <div
+                                    class="
+                                        text-xs
+                                        text-gray-500
+                                    "
+                                >
+                                    Total Payments
+                                </div>
+
+                                <div
+                                    id="total-payments"
+                                    class="
+                                        stat-number
+                                        text-3xl
+                                        font-black
+                                        mt-2
+                                        text-green-400
+                                    "
+                                >
+                                    0
+                                </div>
+
+                            </div>
+
+                            <div
+                                class="
+                                    w-12
+                                    h-12
+                                    rounded-xl
+                                    bg-green-500/10
+                                    text-green-400
+                                    flex
+                                    items-center
+                                    justify-center
+                                "
+                            >
+
+                                <i
+                                    class="
+                                        fa-solid
+                                        fa-indian-rupee-sign
+                                    "
+                                ></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="admin-card rounded-2xl p-5">
+
+                        <div
+                            class="
+                                flex
+                                items-center
+                                justify-between
+                            "
+                        >
+
+                            <div>
+
+                                <div
+                                    class="
+                                        text-xs
+                                        text-gray-500
+                                    "
+                                >
+                                    System Status
+                                </div>
+
+                                <div
+                                    class="
+                                        text-xl
+                                        font-black
+                                        mt-2
+                                        text-green-400
+                                    "
+                                >
+                                    Online
+                                </div>
+
+                            </div>
+
+                            <div
+                                class="
+                                    w-12
+                                    h-12
+                                    rounded-xl
+                                    bg-green-500/10
+                                    text-green-400
+                                    flex
+                                    items-center
+                                    justify-center
+                                "
+                            >
+
+                                <i
+                                    class="
+                                        fa-solid
+                                        fa-server
+                                    "
+                                ></i>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- QUICK ACTIONS -->
+
+                <div
+                    class="
+                        grid
+                        grid-cols-1
+                        md:grid-cols-3
+                        gap-4
+                        mt-6
+                    "
+                >
+
+                    <button
+                        type="button"
+                        onclick="showSection('registrations')"
+                        class="
+                            admin-card
+                            rounded-2xl
+                            p-5
+                            text-left
+                        "
+                    >
+
+                        <i
+                            class="
+                                fa-solid
+                                fa-user-check
+                                text-blue-400
+                                text-xl
+                            "
+                        ></i>
+
+                        <div
+                            class="
+                                mt-3
+                                font-black
+                            "
+                        >
+                            Review Registrations
+                        </div>
+
+                        <div
+                            class="
+                                text-xs
+                                text-gray-500
+                                mt-1
+                            "
+                        >
+                            Approve or reject new applications.
+                        </div>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        onclick="showSection('members')"
+                        class="
+                            admin-card
+                            rounded-2xl
+                            p-5
+                            text-left
+                        "
+                    >
+
+                        <i
+                            class="
+                                fa-solid
+                                fa-users
+                                text-teal-400
+                                text-xl
+                            "
+                        ></i>
+
+                        <div
+                            class="
+                                mt-3
+                                font-black
+                            "
+                        >
+                            Manage Members
+                        </div>
+
+                        <div
+                            class="
+                                text-xs
+                                text-gray-500
+                                mt-1
+                            "
+                        >
+                            Search and inspect member profiles.
+                        </div>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        onclick="showSection('payments')"
+                        class="
+                            admin-card
+                            rounded-2xl
+                            p-5
+                            text-left
+                        "
+                    >
+
+                        <i
+                            class="
+                                fa-solid
+                                fa-money-bill-transfer
+                                text-green-400
+                                text-xl
+                            "
+                        ></i>
+
+                        <div
+                            class="
+                                mt-3
+                                font-black
+                            "
+                        >
+                            Payment Records
+                        </div>
+
+                        <div
+                            class="
+                                text-xs
+                                text-gray-500
+                                mt-1
+                            "
+                        >
+                            View submitted payment records.
+                        </div>
+
+                    </button>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 MEMBERS
+            ================================================== -->
+
+            <section
+                id="section-members"
+                class="
+                    admin-section
+                    hidden
+                "
+            >
+
+                <div
+                    class="
+                        flex
+                        flex-col
+                        sm:flex-row
+                        sm:items-center
+                        justify-between
+                        gap-4
+                        mb-6
+                    "
+                >
+
+                    <div>
+
+                        <div
+                            class="
+                                text-xs
+                                text-teal-400
+                                font-bold
+                                uppercase
+                                tracking-widest
+                            "
+                        >
+                            User Management
+                        </div>
+
+                        <h2
+                            class="
+                                text-2xl
+                                sm:text-3xl
+                                font-black
+                                mt-1
+                            "
+                        >
+                            Members
+                        </h2>
+
+                    </div>
+
+
+                    <div
+                        class="
+                            flex
+                            gap-2
+                            w-full
+                            sm:w-auto
+                        "
+                    >
+
+                        <div
+                            class="
+                                relative
+                                flex-1
+                                sm:w-80
+                            "
+                        >
+
+                            <i
+                                class="
+                                    fa-solid
+                                    fa-magnifying-glass
+                                    absolute
+                                    left-4
+                                    top-1/2
+                                    -translate-y-1/2
+                                    text-gray-500
+                                "
+                            ></i>
+
+                            <input
+                                type="search"
+                                id="member-search"
+                                placeholder="Search member..."
+                                oninput="
+                                    IOISAdmin.searchMembers(this.value)
+                                "
+                                class="
+                                    w-full
+                                    rounded-xl
+                                    bg-white/5
+                                    border
+                                    border-white/10
+                                    px-11
+                                    py-3
+                                    text-sm
+                                    outline-none
+                                    focus:border-amber-400
+                                "
+                            >
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            onclick="IOISAdmin.refresh()"
+                            class="
+                                px-4
+                                rounded-xl
+                                bg-white/5
+                                border
+                                border-white/10
+                            "
+                        >
+
+                            <i
+                                class="
+                                    fa-solid
+                                    fa-rotate
+                                "
+                            ></i>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    class="
+                        glass
+                        rounded-2xl
+                        overflow-hidden
+                    "
+                >
+
+                    <div class="table-scroll">
+
+                        <table
+                            class="
+                                w-full
+                                text-left
+                                text-xs
+                            "
+                        >
+
+                            <thead
+                                class="
+                                    bg-white/[.03]
+                                    border-b
+                                    border-white/10
+                                "
+                            >
+
+                                <tr>
+
+                                    <th class="px-3 py-4">
+                                        Member
+                                    </th>
+
+                                    <th class="px-3 py-4">
+                                        User ID
+                                    </th>
+
+                                    <th class="px-3 py-4">
+                                        WhatsApp
+                                    </th>
+
+                                    <th class="px-3 py-4">
+                                        Sponsor
+                                    </th>
+
+                                    <th class="px-3 py-4">
+                                        Status
+                                    </th>
+
+                                    <th class="px-3 py-4">
+                                        Joined
+                                    </th>
+
+                                    <th class="px-3 py-4">
+                                        Action
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody
+                                id="members-table-body"
+                                class="
+                                    divide-y
+                                    divide-white/5
+                                "
+                            >
+
+                                <tr>
+
+                                    <td
+                                        colspan="7"
+                                        class="
+                                            text-center
+                                            py-10
+                                            text-gray-500
+                                        "
+                                    >
+                                        Loading members...
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 REGISTRATIONS
+            ================================================== -->
+
+            <section
+                id="section-registrations"
+                class="
+                    admin-section
+                    hidden
+                "
+            >
+
+                <div class="mb-6">
+
+                    <div
+                        class="
+                            text-xs
+                            text-blue-400
+                            font-bold
+                            uppercase
+                            tracking-widest
+                        "
+                    >
+                        Applications
+                    </div>
+
+                    <h2
+                        class="
+                            text-2xl
+                            sm:text-3xl
+                            font-black
+                            mt-1
+                        "
+                    >
+                        Registrations
+                    </h2>
+
+                </div>
+
+
+                <div
+                    class="
+                        glass
+                        rounded-2xl
+                        overflow-hidden
+                    "
+                >
+
+                    <div class="table-scroll">
+
+                        <table
+                            class="
+                                w-full
+                                text-left
+                                text-xs
+                            "
+                        >
+
+                            <thead
+                                class="
+                                    bg-white/[.03]
+                                    border-b
+                                    border-white/10
+                                "
+                            >
+
+                                <tr>
+
+                                    <th class="px-3 py-4">
+                                        Name
+                                    </th>
+
+                                    <th class="px-3 py-4">
+                                        Email
+                                    </th>
+
+                                    <th class="px-3 py-4">
+                                        WhatsApp
+                                    </th>
+
+                                    <th class="px-3 py-4">
+                                        Plan
+                                    </th>
+
+                                    <th class="px-3 py-4">
+                                        Status
+                                    </th>
+
+                                    <th class="px-3 py-4">
+                                        Date
+                                    </th>
+
+                                    <th class="px-3 py-4">
+                                        Action
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody
+                                id="registrations-table-body"
+                                class="
+                                    divide-y
+                                    divide-white/5
+                                "
+                            >
+
+                                <tr>
+
+                                    <td
+                                        colspan="7"
+                                        class="
+                                            text-center
+                                            py-10
+                                            text-gray-500
+                                        "
+                                    >
+                                        Loading registrations...
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 PAYMENTS
+            ================================================== -->
+
+            <section
+                id="section-payments"
+                class="
+                    admin-section
+                    hidden
+                "
+            >
+
+                <div class="mb-6">
+
+                    <div
+                        class="
+                            text-xs
+                            text-green-400
+                            font-bold
+                            uppercase
+                            tracking-widest
+                        "
+                    >
+                        Financial Records
+                    </div>
+
+                    <h2
+                        class="
+                            text-2xl
+                            sm:text-3xl
+                            font-black
+                            mt-1
+                        "
+                    >
+                        Payments
+                    </h2>
+
+                </div>
+
+
+                <div
+                    class="
+                        glass
+                        rounded-2xl
+                        overflow-hidden
+                    "
+                >
+
+                    <div class="table-scroll">
+
+                        <table
+                            class="
+                                w-full
+                                text-left
+                                text-xs
+                            "
+                        >
+
+                            <thead
+                                class="
+                                    bg-white/[.03]
+                                    border-b
+                                    border-white/10
+                                "
+                            >
+
+                                <tr>
+
+                                    <th class="px-3 py-4">
+                                        Payment ID
+                                    </th>
+
+                                    <th class="px-3 py-4">
+                                        Amount
+                                    </th>
+
+                                    <th class="px-3 py-4">
+                                        Plan
+                                    </th>
+
+                                    <th class="px-3 py-4">
+                                        Method
+                                    </th>
+
+                                    <th class="px-3 py-4">
+                                        Status
+                                    </th>
+
+                                    <th class="px-3 py-4">
+                                        Date
+                                    </th>
+
+                                    <th class="px-3 py-4">
+                                        Action
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody
+                                id="payments-table-body"
+                                class="
+                                    divide-y
+                                    divide-white/5
+                                "
+                            >
+
+                                <tr>
+
+                                    <td
+                                        colspan="7"
+                                        class="
+                                            text-center
+                                            py-10
+                                            text-gray-500
+                                        "
+                                    >
+                                        Loading payments...
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 REFERRALS
+            ================================================== -->
+
+            <section
+                id="section-referrals"
+                class="
+                    admin-section
+                    hidden
+                "
+            >
+
+                <div class="mb-6">
+
+                    <div
+                        class="
+                            text-xs
+                            text-purple-400
+                            font-bold
+                            uppercase
+                            tracking-widest
+                        "
+                    >
+                        Referral System
+                    </div>
+
+                    <h2
+                        class="
+                            text-2xl
+                            sm:text-3xl
+                            font-black
+                            mt-1
+                        "
+                    >
+                        Referrals
+                    </h2>
+
+                </div>
+
+
+                <div
+                    class="
+                        admin-card
+                        rounded-2xl
+                        p-6
+                    "
+                >
+
+                    <div
+                        class="
+                            w-14
+                            h-14
+                            rounded-2xl
+                            bg-purple-500/10
+                            text-purple-400
+                            flex
+                            items-center
+                            justify-center
+                            text-xl
+                        "
+                    >
+
+                        <i
+                            class="
+                                fa-solid
+                                fa-share-nodes
+                            "
+                        ></i>
+
+                    </div>
+
+
+                    <h3
+                        class="
+                            mt-5
+                            text-xl
+                            font-black
+                        "
+                    >
+                        Referral Management
+                    </h3>
+
+
+                    <p
+                        class="
+                            mt-2
+                            text-sm
+                            text-gray-400
+                            leading-6
+                        "
+                    >
+                        Referral records को देखने के लिए
+                        database में configured referral table
+                        और उसकी RLS policy जरूरी है।
+                    </p>
+
+
+                    <div
+                        class="
+                            mt-5
+                            p-4
+                            rounded-xl
+                            bg-yellow-500/5
+                            border
+                            border-yellow-500/10
+                            text-xs
+                            text-yellow-300
+                        "
+                    >
+
+                        <i
+                            class="
+                                fa-solid
+                                fa-shield-halved
+                                mr-1
+                            "
+                        ></i>
+
+                        Referral commission को केवल frontend
+                        JavaScript से calculate या approve न करें।
+                        Final calculation/approval server-side
+                        database function या secure backend से होना चाहिए।
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 PLANS
+            ================================================== -->
+
+            <section
+                id="section-plans"
+                class="
+                    admin-section
+                    hidden
+                "
+            >
+
+                <div class="mb-6">
+
+                    <div
+                        class="
+                            text-xs
+                            text-pink-400
+                            font-bold
+                            uppercase
+                            tracking-widest
+                        "
+                    >
+                        Membership
+                    </div>
+
+                    <h2
+                        class="
+                            text-2xl
+                            sm:text-3xl
+                            font-black
+                            mt-1
+                        "
+                    >
+                        Membership Plans
+                    </h2>
+
+                </div>
+
+
+                <div
+                    class="
+                        admin-card
+                        rounded-2xl
+                        p-6
+                    "
+                >
+
+                    <div
+                        class="
+                            w-14
+                            h-14
+                            rounded-2xl
+                            bg-pink-500/10
+                            text-pink-400
+                            flex
+                            items-center
+                            justify-center
+                            text-xl
+                        "
+                    >
+
+                        <i
+                            class="
+                                fa-solid
+                                fa-layer-group
+                            "
+                        ></i>
+
+                    </div>
+
+
+                    <h3
+                        class="
+                            mt-5
+                            text-xl
+                            font-black
+                        "
+                    >
+                        Membership Plan Management
+                    </h3>
+
+
+                    <p
+                        class="
+                            mt-2
+                            text-sm
+                            text-gray-400
+                            leading-6
+                        "
+                    >
+                        Membership plans की वास्तविक list और
+                        CRUD operations के लिए आपके Supabase
+                        database में <b>membership_plans</b>
+                        table की exact schema के अनुसार JS
+                        implementation जरूरी है।
+                    </p>
+
+
+                    <div
+                        class="
+                            mt-5
+                            grid
+                            grid-cols-1
+                            sm:grid-cols-3
+                            gap-3
+                        "
+                    >
+
+                        <div
+                            class="
+                                rounded-xl
+                                bg-white/[.03]
+                                border
+                                border-white/5
+                                p-4
+                            "
+                        >
+
+                            <div
+                                class="
+                                    text-xs
+                                    text-gray-500
+                                "
+                            >
+                                Plans
+                            </div>
+
+                            <div
+                                class="
+                                    font-black
+                                    mt-1
+                                "
+                            >
+                                Database
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="
+                                rounded-xl
+                                bg-white/[.03]
+                                border
+                                border-white/5
+                                p-4
+                            "
+                        >
+
+                            <div
+                                class="
+                                    text-xs
+                                    text-gray-500
+                                "
+                            >
+                                Pricing
+                            </div>
+
+                            <div
+                                class="
+                                    font-black
+                                    mt-1
+                                "
+                            >
+                                Database
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="
+                                rounded-xl
+                                bg-white/[.03]
+                                border
+                                border-white/5
+                                p-4
+                            "
+                        >
+
+                            <div
+                                class="
+                                    text-xs
+                                    text-gray-500
+                                "
+                            >
+                                Status
+                            </div>
+
+                            <div
+                                class="
+                                    font-black
+                                    mt-1
+                                "
+                            >
+                                Database
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 NOTIFICATIONS
+            ================================================== -->
+
+            <section
+                id="section-notifications"
+                class="
+                    admin-section
+                    hidden
+                "
+            >
+
+                <div class="mb-6">
+
+                    <div
+                        class="
+                            text-xs
+                            text-yellow-400
+                            font-bold
+                            uppercase
+                            tracking-widest
+                        "
+                    >
+                        Alerts
+                    </div>
+
+                    <h2
+                        class="
+                            text-2xl
+                            sm:text-3xl
+                            font-black
+                            mt-1
+                        "
+                    >
+                        Notifications
+                    </h2>
+
+                </div>
+
+
+                <div
+                    class="
+                        grid
+                        grid-cols-1
+                        lg:grid-cols-2
+                        gap-5
+                    "
+                >
+
+                    <div
+                        class="
+                            admin-card
+                            rounded-2xl
+                            p-6
+                        "
+                    >
+
+                        <div
+                            class="
+                                w-14
+                                h-14
+                                rounded-2xl
+                                bg-blue-500/10
+                                text-blue-400
+                                flex
+                                items-center
+                                justify-center
+                                text-xl
+                            "
+                        >
+
+                            <i
+                                class="
+                                    fa-brands
+                                    fa-telegram
+                                "
+                            ></i>
+
+                        </div>
+
+
+                        <h3
+                            class="
+                                mt-5
+                                text-xl
+                                font-black
+                            "
+                        >
+                            Telegram Notifications
+                        </h3>
+
+
+                        <p
+                            class="
+                                mt-2
+                                text-sm
+                                text-gray-400
+                                leading-6
+                            "
+                        >
+                            Registration और दूसरे important
+                            events की notification Telegram
+                            पर भेजने के लिए Supabase Edge Function
+                            इस्तेमाल करें।
+                        </p>
+
+
+                        <div
+                            class="
+                                mt-5
+                                p-4
+                                rounded-xl
+                                bg-green-500/5
+                                border
+                                border-green-500/10
+                            "
+                        >
+
+                            <div
+                                class="
+                                    text-xs
+                                    text-gray-500
+                                "
+                            >
+                                Chat ID
+                            </div>
+
+                            <div
+                                class="
+                                    mt-1
+                                    font-mono
+                                    text-sm
+                                    text-green-400
+                                "
+                            >
+                                964524685
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="
+                                mt-4
+                                p-4
+                                rounded-xl
+                                bg-red-500/5
+                                border
+                                border-red-500/10
+                                text-xs
+                                text-red-300
+                                leading-5
+                            "
+                        >
+
+                            <i
+                                class="
+                                    fa-solid
+                                    fa-lock
+                                    mr-1
+                                "
+                            ></i>
+
+                            Telegram Bot Token को कभी भी
+                            इस HTML, JavaScript या GitHub
+                            repository में न रखें।
+
+                            इसे Supabase Edge Function Secret
+                            में ही रखें।
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="
+                            admin-card
+                            rounded-2xl
+                            p-6
+                        "
+                    >
+
+                        <div
+                            class="
+                                w-14
+                                h-14
+                                rounded-2xl
+                                bg-amber-500/10
+                                text-amber-400
+                                flex
+                                items-center
+                                justify-center
+                                text-xl
+                            "
+                        >
+
+                            <i
+                                class="
+                                    fa-solid
+                                    fa-bell
+                                "
+                            ></i>
+
+                        </div>
+
+
+                        <h3
+                            class="
+                                mt-5
+                                text-xl
+                                font-black
+                            "
+                        >
+                            Special Updates
+                        </h3>
+
+
+                        <p
+                            class="
+                                mt-2
+                                text-sm
+                                text-gray-400
+                                leading-6
+                            "
+                        >
+                            Special update events को Telegram
+                            notification function के माध्यम से
+                            भेजा जा सकता है।
+                        </p>
+
+
+                        <div
+                            class="
+                                mt-5
+                                rounded-xl
+                                bg-white/[.03]
+                                border
+                                border-white/5
+                                p-4
+                                text-xs
+                                text-gray-400
+                            "
+                        >
+
+                            Event:
+
+                            <span
+                                class="
+                                    font-mono
+                                    text-amber-400
+                                "
+                            >
+                                special_update
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 SETTINGS
+            ================================================== -->
+
+            <section
+                id="section-settings"
+                class="
+                    admin-section
+                    hidden
+                "
+            >
+
+                <div class="mb-6">
+
+                    <div
+                        class="
+                            text-xs
+                            text-gray-400
+                            font-bold
+                            uppercase
+                            tracking-widest
+                        "
+                    >
+                        Configuration
+                    </div>
+
+                    <h2
+                        class="
+                            text-2xl
+                            sm:text-3xl
+                            font-black
+                            mt-1
+                        "
+                    >
+                        Settings
+                    </h2>
+
+                </div>
+
+
+                <div
+                    class="
+                        grid
+                        grid-cols-1
+                        lg:grid-cols-2
+                        gap-5
+                    "
+                >
+
+                    <div
+                        class="
+                            admin-card
+                            rounded-2xl
+                            p-6
+                        "
+                    >
+
+                        <h3
+                            class="
+                                font-black
+                                text-lg
+                            "
+                        >
+                            Administrator
+                        </h3>
+
+
+                        <div
+                            class="
+                                mt-5
+                                space-y-4
+                            "
+                        >
+
+                            <div>
+
+                                <div
+                                    class="
+                                        text-xs
+                                        text-gray-500
+                                    "
+                                >
+                                    Name
+                                </div>
+
+                                <div
+                                    id="admin-name-settings"
+                                    class="
+                                        mt-1
+                                        font-bold
+                                    "
+                                >
+                                    Administrator
+                                </div>
+
+                            </div>
+
+
+                            <div>
+
+                                <div
+                                    class="
+                                        text-xs
+                                        text-gray-500
+                                    "
+                                >
+                                    Access
+                                </div>
+
+                                <div
+                                    class="
+                                        mt-1
+                                        text-green-400
+                                        font-bold
+                                    "
+                                >
+                                    Admin Protected
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="
+                            admin-card
+                            rounded-2xl
+                            p-6
+                        "
+                    >
+
+                        <h3
+                            class="
+                                font-black
+                                text-lg
+                            "
+                        >
+                            Security
+                        </h3>
+
+
+                        <div
+                            class="
+                                mt-5
+                                space-y-3
+                            "
+                        >
+
+                            <div
+                                class="
+                                    flex
+                                    items-center
+                                    gap-3
+                                    p-3
+                                    rounded-xl
+                                    bg-green-500/5
+                                "
+                            >
+
+                                <i
+                                    class="
+                                        fa-solid
+                                        fa-check
+                                        text-green-400
+                                    "
+                                ></i>
+
+                                <span
+                                    class="
+                                        text-xs
+                                        text-gray-300
+                                    "
+                                >
+                                    Supabase session protection
+                                </span>
+
+                            </div>
+
+
+                            <div
+                                class="
+                                    flex
+                                    items-center
+                                    gap-3
+                                    p-3
+                                    rounded-xl
+                                    bg-green-500/5
+                                "
+                            >
+
+                                <i
+                                    class="
+                                        fa-solid
+                                        fa-check
+                                        text-green-400
+                                    "
+                                ></i>
+
+                                <span
+                                    class="
+                                        text-xs
+                                        text-gray-300
+                                    "
+                                >
+                                    Frontend does not contain
+                                    service-role key
+                                </span>
+
+                            </div>
+
+
+                            <div
+                                class="
+                                    flex
+                                    items-center
+                                    gap-3
+                                    p-3
+                                    rounded-xl
+                                    bg-green-500/5
+                                "
+                            >
+
+                                <i
+                                    class="
+                                        fa-solid
+                                        fa-check
+                                        text-green-400
+                                    "
+                                ></i>
+
+                                <span
+                                    class="
+                                        text-xs
+                                        text-gray-300
+                                    "
+                                >
+                                    Telegram token kept server-side
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
 
         </div>
 
-    </div>
+    </main>
 
 </div>
 
 
+
 <!-- =========================================================
-     JAVASCRIPT
-========================================================= -->
+     TOAST
+========================================================== -->
+
+<div
+    id="iois-toast-container"
+    class="
+        fixed
+        right-4
+        bottom-4
+        z-[99999]
+        space-y-2
+        pointer-events-none
+    "
+></div>
+
+
+
+<!-- =========================================================
+     PAGE HELPER FUNCTIONS
+     
+     These are ONLY UI helpers.
+     Database/auth logic remains in admin.js.
+========================================================== -->
 
 <script>
 
-/* =========================================================
-   SUPABASE CONFIGURATION
-=========================================================
+(function () {
 
-   IMPORTANT:
-   केवल PUBLIC ANON/PUBLISHABLE KEY यहाँ इस्तेमाल करें।
+    "use strict";
 
-   SERVICE ROLE KEY यहाँ कभी न डालें।
-   TELEGRAM BOT TOKEN यहाँ कभी न डालें।
 
-========================================================= */
+    /* =====================================================
+       SECTION SWITCHER
+    ====================================================== */
 
-const IOIS_SUPABASE_URL =
-    window.IOIS_SUPABASE_URL || "";
+    window.showSection = function (name) {
 
-const IOIS_SUPABASE_ANON_KEY =
-    window.IOIS_SUPABASE_ANON_KEY || "";
+        const sections =
+            document.querySelectorAll(
+                ".admin-section"
+            );
 
-let supabaseClient = null;
 
-if (
-    IOIS_SUPABASE_URL &&
-    IOIS_SUPABASE_ANON_KEY
-) {
+        sections.forEach(
+            section => {
 
-    supabaseClient =
-        window.supabase.createClient(
-            IOIS_SUPABASE_URL,
-            IOIS_SUPABASE_ANON_KEY
-        );
+                section.classList.add(
+                    "hidden"
+                );
 
-}
-
-
-/* =========================================================
-   STATE
-========================================================= */
-
-let currentAdmin = null;
-
-let membersCache = [];
-
-let registrationsCache = [];
-
-let plansCache = [];
-
-let referralsCache = [];
-
-
-/* =========================================================
-   HELPERS
-========================================================= */
-
-function $(id) {
-    return document.getElementById(id);
-}
-
-
-function escapeHTML(value) {
-
-    if (value === null ||
-        value === undefined) {
-
-        return "";
-
-    }
-
-    return String(value)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-
-}
-
-
-function formatDate(value) {
-
-    if (!value) return "--";
-
-    try {
-
-        return new Date(value)
-            .toLocaleString("en-IN");
-
-    } catch {
-
-        return value;
-
-    }
-
-}
-
-
-function money(value) {
-
-    if (
-        value === null ||
-        value === undefined ||
-        value === ""
-    ) {
-
-        return "₹0";
-
-    }
-
-    return "₹" +
-        Number(value).toLocaleString("en-IN");
-
-}
-
-
-function showMessage(
-    element,
-    message,
-    success = false
-) {
-
-    if (!element) return;
-
-    element.textContent = message;
-
-    element.className =
-        "mt-4 rounded-xl p-3 text-xs text-center " +
-        (
-            success
-            ? "bg-green-500/10 text-green-400 border border-green-500/20"
-            : "bg-red-500/10 text-red-400 border border-red-500/20"
-        );
-
-    element.classList.remove("hidden");
-
-}
-
-
-/* =========================================================
-   PASSWORD
-========================================================= */
-
-function togglePassword(id) {
-
-    const input = $(id);
-
-    if (!input) return;
-
-    input.type =
-        input.type === "password"
-        ? "text"
-        : "password";
-
-}
-
-
-/* =========================================================
-   AUTH
-========================================================= */
-
-async function checkAdminSession() {
-
-    if (!supabaseClient) {
-
-        showLogin();
-
-        $("page-loader")
-            .classList.add("hidden");
-
-        return;
-
-    }
-
-    try {
-
-        const {
-            data: {
-                session
             }
-        } =
-            await supabaseClient.auth
-            .getSession();
-
-
-        if (!session) {
-
-            showLogin();
-
-            return;
-
-        }
-
-
-        const user =
-            session.user;
-
-
-        const isAdmin =
-            await verifyAdmin(user);
-
-
-        if (!isAdmin) {
-
-            await supabaseClient.auth.signOut();
-
-            showLogin();
-
-            showMessage(
-                $("login-message"),
-                "यह account Admin access के लिए authorized नहीं है।"
-            );
-
-            return;
-
-        }
-
-
-        currentAdmin = user;
-
-        showAdmin();
-
-        await loadAll();
-
-    }
-
-    catch(error) {
-
-        console.error(error);
-
-        showLogin();
-
-    }
-
-    finally {
-
-        $("page-loader")
-            .classList.add("hidden");
-
-    }
-
-}
-
-
-async function verifyAdmin(user) {
-
-    /*
-      Admin verification:
-
-      Preferred:
-      profiles.role = 'admin'
-
-      यदि आपके database में role claim/RPC है,
-      उसी server-side policy को authoritative रखें।
-    */
-
-    try {
-
-        const {
-            data,
-            error
-        } =
-            await supabaseClient
-            .from("profiles")
-            .select("role,is_admin")
-            .eq("id",user.id)
-            .maybeSingle();
-
-
-        if (error) {
-
-            console.warn(
-                "Admin profile verification:",
-                error.message
-            );
-
-            return false;
-
-        }
-
-
-        return (
-            data &&
-            (
-                data.role === "admin" ||
-                data.is_admin === true
-            )
         );
 
-    }
 
-    catch {
-
-        return false;
-
-    }
-
-}
+        const target =
+            document.getElementById(
+                "section-" + name
+            );
 
 
-async function loginAdmin(event) {
+        if (target) {
 
-    event.preventDefault();
+            target.classList.remove(
+                "hidden"
+            );
 
-    const email =
-        $("admin-email").value.trim();
-
-    const password =
-        $("admin-password").value;
-
-
-    if (!supabaseClient) {
-
-        showMessage(
-            $("login-message"),
-            "Supabase configuration available नहीं है।"
-        );
-
-        return;
-
-    }
-
-
-    const button =
-        $("admin-login-btn");
-
-    button.disabled = true;
-
-    button.textContent =
-        "Checking...";
-
-
-    try {
-
-        const {
-            data,
-            error
-        } =
-            await supabaseClient.auth
-            .signInWithPassword({
-                email,
-                password
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
             });
 
-
-        if (error)
-            throw error;
-
-
-        const isAdmin =
-            await verifyAdmin(data.user);
-
-
-        if (!isAdmin) {
-
-            await supabaseClient.auth.signOut();
-
-            throw new Error(
-                "Admin authorization failed."
-            );
-
         }
 
+    };
 
-        currentAdmin =
-            data.user;
 
-        showAdmin();
+    /* =====================================================
+       MOBILE MENU
+    ====================================================== */
 
-        await loadAll();
+    window.toggleMobileMenu =
+        function () {
 
-    }
+            const menu =
+                document.getElementById(
+                    "mobile-menu"
+                );
 
-    catch(error) {
+            const overlay =
+                document.getElementById(
+                    "mobile-overlay"
+                );
 
-        showMessage(
-            $("login-message"),
-            "Login failed: " +
-            error.message
-        );
 
-    }
-
-    finally {
-
-        button.disabled = false;
-
-        button.innerHTML =
-            '<i class="fa-solid fa-right-to-bracket mr-2"></i>Secure Login';
-
-    }
-
-}
-
-
-async function logoutAdmin() {
-
-    if (supabaseClient) {
-
-        await supabaseClient.auth.signOut();
-
-    }
-
-    currentAdmin = null;
-
-    showLogin();
-
-}
-
-
-async function recoverAdminPassword() {
-
-    const email =
-        $("admin-email")?.value.trim();
-
-    if (!email) {
-
-        alert(
-            "पहले Admin email डालें।"
-        );
-
-        return;
-
-    }
-
-    if (!supabaseClient) return;
-
-
-    try {
-
-        const {
-            error
-        } =
-            await supabaseClient.auth
-            .resetPasswordForEmail(
-                email,
-                {
-                    redirectTo:
-                        window.location.origin +
-                        window.location.pathname
-                }
-            );
-
-
-        if (error)
-            throw error;
-
-
-        alert(
-            "Password recovery email भेज दिया गया है।"
-        );
-
-    }
-
-    catch(error) {
-
-        alert(
-            "Recovery failed: " +
-            error.message
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   UI
-========================================================= */
-
-function showLogin() {
-
-    $("admin-login")
-        .classList.remove("hidden");
-
-    $("admin-app")
-        .classList.add("hidden");
-
-}
-
-
-function showAdmin() {
-
-    $("admin-login")
-        .classList.add("hidden");
-
-    $("admin-app")
-        .classList.remove("hidden");
-
-
-    if (currentAdmin) {
-
-        $("admin-email-display")
-            .textContent =
-            currentAdmin.email || "";
-
-        $("settings-admin-email")
-            .textContent =
-            currentAdmin.email || "";
-
-    }
-
-}
-
-
-function toggleSidebar() {
-
-    const sidebar =
-        $("admin-sidebar");
-
-    sidebar.classList.toggle(
-        "mobile-sidebar-open"
-    );
-
-}
-
-
-function showSection(name) {
-
-    document
-        .querySelectorAll(".admin-section")
-        .forEach(section => {
-
-            section.classList.add("hidden");
-
-        });
-
-
-    const section =
-        $("section-" + name);
-
-    if (section)
-        section.classList.remove("hidden");
-
-
-    if (name === "members")
-        loadMembers();
-
-    if (name === "registrations")
-        loadRegistrations();
-
-    if (name === "payments")
-        loadPayments();
-
-    if (name === "referrals")
-        loadReferrals();
-
-    if (name === "plans")
-        loadPlans();
-
-    if (
-        window.innerWidth < 1024
-    ) {
-
-        $("admin-sidebar")
-            .classList.remove(
-                "mobile-sidebar-open"
-            );
-
-    }
-
-}
-
-
-/* =========================================================
-   LOAD ALL
-========================================================= */
-
-async function loadAll() {
-
-    await Promise.allSettled([
-
-        loadMembers(),
-
-        loadRegistrations(),
-
-        loadPayments(),
-
-        loadReferrals(),
-
-        loadPlans()
-
-    ]);
-
-    updateStats();
-
-}
-
-
-/* =========================================================
-   MEMBERS
-========================================================= */
-
-async function loadMembers() {
-
-    if (!supabaseClient)
-        return;
-
-
-    const table =
-        $("members-table");
-
-    table.innerHTML =
-        `<tr>
-            <td colspan="7"
-                class="p-5 text-center text-gray-500">
-                Loading...
-            </td>
-        </tr>`;
-
-
-    try {
-
-        /*
-          profiles is intentionally used for member identity.
-          Unique ID should remain immutable at database/RLS level.
-        */
-
-        const {
-            data,
-            error
-        } =
-            await supabaseClient
-            .from("profiles")
-            .select("*")
-            .order(
-                "created_at",
-                {
-                    ascending:false
-                }
-            )
-            .limit(500);
-
-
-        if (error)
-            throw error;
-
-
-        membersCache =
-            data || [];
-
-
-        renderMembers(
-            membersCache
-        );
-
-
-        $("stat-members")
-            .textContent =
-            membersCache.length;
-
-
-    }
-
-    catch(error) {
-
-        table.innerHTML =
-            `<tr>
-                <td colspan="7"
-                    class="p-5 text-center text-red-400">
-                    ${escapeHTML(error.message)}
-                </td>
-            </tr>`;
-
-    }
-
-}
-
-
-function renderMembers(list) {
-
-    const table =
-        $("members-table");
-
-
-    if (!list.length) {
-
-        table.innerHTML =
-            `<tr>
-                <td colspan="7"
-                    class="p-5 text-center text-gray-500">
-                    No members found.
-                </td>
-            </tr>`;
-
-        return;
-
-    }
-
-
-    table.innerHTML =
-        list.map(member => {
-
-            const uid =
-                member.user_id ||
-                member.id ||
-                member.unique_user_id ||
-                "--";
-
-
-            const name =
-                member.full_name ||
-                member.name ||
-                "Unnamed";
-
-
-            const email =
-                member.email ||
-                "--";
-
-
-            const phone =
-                member.whatsapp ||
-                member.phone ||
-                member.phone_number ||
-                "--";
-
-
-            const plan =
-                member.plan_name ||
-                member.membership_plan ||
-                member.plan ||
-                "--";
-
-
-            const status =
-                member.status ||
-                member.account_status ||
-                "active";
-
-
-            return `
-            <tr class="border-t border-gray-800">
-
-                <td class="p-3 font-mono text-amber-400">
-                    ${escapeHTML(uid)}
-                </td>
-
-                <td class="p-3">
-                    <div class="font-bold">
-                        ${escapeHTML(name)}
-                    </div>
-                    <div class="text-gray-500">
-                        ${escapeHTML(email)}
-                    </div>
-                </td>
-
-                <td class="p-3 text-gray-300">
-                    ${escapeHTML(phone)}
-                </td>
-
-                <td class="p-3 text-gray-300">
-                    ${escapeHTML(plan)}
-                </td>
-
-                <td class="p-3">
-                    <span class="text-green-400">
-                        ${escapeHTML(status)}
-                    </span>
-                </td>
-
-                <td class="p-3 text-gray-500">
-                    ${formatDate(member.created_at)}
-                </td>
-
-                <td class="p-3">
-
-                    <button
-                        onclick="viewMember('${escapeHTML(member.id || '')}')"
-                        class="px-3 py-2
-                               rounded-lg
-                               bg-amber-400/10
-                               text-amber-400">
-
-                        View
-
-                    </button>
-
-                </td>
-
-            </tr>`;
-
-        }).join("");
-
-}
-
-
-function filterMembers() {
-
-    const search =
-        $("member-search")
-        .value
-        .toLowerCase()
-        .trim();
-
-
-    if (!search) {
-
-        renderMembers(
-            membersCache
-        );
-
-        return;
-
-    }
-
-
-    const filtered =
-        membersCache.filter(member => {
-
-            return JSON.stringify(member)
-                .toLowerCase()
-                .includes(search);
-
-        });
-
-
-    renderMembers(filtered);
-
-}
-
-
-/* =========================================================
-   MEMBER VIEW
-========================================================= */
-
-function viewMember(id) {
-
-    const member =
-        membersCache.find(
-            m => String(m.id) === String(id)
-        );
-
-
-    if (!member)
-        return;
-
-
-    const container =
-        $("member-details");
-
-
-    container.innerHTML =
-        Object.entries(member)
-        .map(([key,value]) => {
-
-            /*
-              Never expose password/hash fields.
-            */
-
-            const forbidden =
-                [
-                    "password",
-                    "password_hash",
-                    "token",
-                    "access_token",
-                    "refresh_token"
-                ];
-
-
-            if (
-                forbidden.includes(
-                    key.toLowerCase()
-                )
-            ) {
-
-                return "";
-
+            if (!menu || !overlay) {
+                return;
             }
 
 
-            return `
-            <div class="p-3
-                        rounded-xl
-                        bg-[#020617]
-                        border
-                        border-gray-800">
+            const open =
+                menu.classList.toggle(
+                    "open"
+                );
 
-                <div class="text-[10px]
-                            text-gray-500
-                            uppercase">
 
-                    ${escapeHTML(key)}
+            if (open) {
+
+                overlay.classList.remove(
+                    "hidden"
+                );
+
+            } else {
+
+                overlay.classList.add(
+                    "hidden"
+                );
+
+            }
+
+        };
+
+
+    window.mobileNavigate =
+        function (section) {
+
+            window.showSection(
+                section
+            );
+
+            const menu =
+                document.getElementById(
+                    "mobile-menu"
+                );
+
+            const overlay =
+                document.getElementById(
+                    "mobile-overlay"
+                );
+
+
+            if (menu) {
+                menu.classList.remove(
+                    "open"
+                );
+            }
+
+
+            if (overlay) {
+                overlay.classList.add(
+                    "hidden"
+                );
+            }
+
+        };
+
+
+    /* =====================================================
+       TOAST
+    ====================================================== */
+
+    window.showToast =
+        function (
+            message,
+            type = "info"
+        ) {
+
+            const container =
+                document.getElementById(
+                    "iois-toast-container"
+                );
+
+
+            if (!container) {
+                alert(message);
+                return;
+            }
+
+
+            const colors = {
+
+                success:
+                    "border-green-500/30 bg-green-500/10 text-green-300",
+
+                error:
+                    "border-red-500/30 bg-red-500/10 text-red-300",
+
+                warning:
+                    "border-yellow-500/30 bg-yellow-500/10 text-yellow-300",
+
+                info:
+                    "border-blue-500/30 bg-blue-500/10 text-blue-300"
+
+            };
+
+
+            const icons = {
+
+                success:
+                    "fa-circle-check",
+
+                error:
+                    "fa-circle-xmark",
+
+                warning:
+                    "fa-triangle-exclamation",
+
+                info:
+                    "fa-circle-info"
+
+            };
+
+
+            const toast =
+                document.createElement(
+                    "div"
+                );
+
+
+            toast.className = `
+                pointer-events-auto
+                max-w-sm
+                rounded-xl
+                border
+                px-4
+                py-3
+                shadow-2xl
+                backdrop-blur-xl
+                text-xs
+                font-bold
+                ${colors[type] || colors.info}
+            `;
+
+
+            toast.innerHTML = `
+
+                <div
+                    class="
+                        flex
+                        items-start
+                        gap-3
+                    "
+                >
+
+                    <i
+                        class="
+                            fa-solid
+                            ${icons[type] || icons.info}
+                            mt-0.5
+                        "
+                    ></i>
+
+                    <span></span>
 
                 </div>
 
-                <div class="text-sm
-                            mt-1
-                            break-all">
+            `;
 
-                    ${escapeHTML(
-                        typeof value === "object"
-                        ? JSON.stringify(value)
-                        : value
-                    )}
 
-                </div>
+            const span =
+                toast.querySelector(
+                    "span"
+                );
 
-            </div>`;
 
-        })
-        .join("");
+            if (span) {
+                span.textContent =
+                    String(message || "");
+            }
 
 
-    $("member-modal")
-        .classList.remove("hidden");
-
-    $("member-modal")
-        .classList.add("flex");
-
-}
-
-
-function closeMemberModal() {
-
-    $("member-modal")
-        .classList.add("hidden");
-
-    $("member-modal")
-        .classList.remove("flex");
-
-}
-
-
-/* =========================================================
-   REGISTRATIONS
-========================================================= */
-
-async function loadRegistrations() {
-
-    if (!supabaseClient)
-        return;
-
-
-    const table =
-        $("registrations-table");
-
-
-    table.innerHTML =
-        `<tr>
-            <td colspan="7"
-                class="p-5 text-center text-gray-500">
-                Loading...
-            </td>
-        </tr>`;
-
-
-    try {
-
-        const {
-            data,
-            error
-        } =
-            await supabaseClient
-            .from("registrations")
-            .select("*")
-            .order(
-                "created_at",
-                {
-                    ascending:false
-                }
-            )
-            .limit(500);
-
-
-        if (error)
-            throw error;
-
-
-        registrationsCache =
-            data || [];
-
-
-        renderRegistrations(
-            registrationsCache
-        );
-
-
-        $("stat-pending")
-            .textContent =
-            registrationsCache.filter(
-                r =>
-                String(
-                    r.status || ""
-                ).toLowerCase()
-                === "pending"
-            ).length;
-
-
-    }
-
-    catch(error) {
-
-        table.innerHTML =
-            `<tr>
-                <td colspan="7"
-                    class="p-5 text-center text-red-400">
-                    ${escapeHTML(error.message)}
-                </td>
-            </tr>`;
-
-    }
-
-}
-
-
-function renderRegistrations(list) {
-
-    const table =
-        $("registrations-table");
-
-
-    if (!list.length) {
-
-        table.innerHTML =
-            `<tr>
-                <td colspan="7"
-                    class="p-5 text-center text-gray-500">
-                    No registrations found.
-                </td>
-            </tr>`;
-
-        return;
-
-    }
-
-
-    table.innerHTML =
-        list.map(row => {
-
-            const status =
-                String(
-                    row.status ||
-                    "pending"
-                ).toLowerCase();
-
-
-            return `
-            <tr class="border-t border-gray-800">
-
-                <td class="p-3 text-gray-500">
-                    ${formatDate(row.created_at)}
-                </td>
-
-                <td class="p-3 font-bold">
-                    ${escapeHTML(
-                        row.full_name ||
-                        row.name ||
-                        "--"
-                    )}
-                </td>
-
-                <td class="p-3 font-mono text-amber-400">
-                    ${escapeHTML(
-                        row.user_id ||
-                        row.unique_user_id ||
-                        "--"
-                    )}
-                </td>
-
-                <td class="p-3">
-                    ${escapeHTML(
-                        row.plan_name ||
-                        row.plan ||
-                        row.membership_plan ||
-                        "--"
-                    )}
-                </td>
-
-                <td class="p-3">
-                    ${money(
-                        row.amount ||
-                        row.plan_amount ||
-                        0
-                    )}
-                </td>
-
-                <td class="p-3">
-
-                    <span class="${
-                        status === "approved"
-                        ? "status-approved"
-                        : status === "rejected"
-                        ? "status-rejected"
-                        : "status-pending"
-                    } font-bold">
-
-                        ${escapeHTML(status)}
-
-                    </span>
-
-                </td>
-
-                <td class="p-3">
-
-                    <div class="flex gap-2">
-
-                        <button
-                            onclick="approveRegistration('${escapeHTML(row.id || '')}')"
-                            class="px-3 py-2
-                                   rounded-lg
-                                   bg-green-500/10
-                                   text-green-400">
-
-                            Approve
-
-                        </button>
-
-                        <button
-                            onclick="rejectRegistration('${escapeHTML(row.id || '')}')"
-                            class="px-3 py-2
-                                   rounded-lg
-                                   bg-red-500/10
-                                   text-red-400">
-
-                            Reject
-
-                        </button>
-
-                    </div>
-
-                </td>
-
-            </tr>`;
-
-        }).join("");
-
-}
-
-
-/* =========================================================
-   REGISTRATION ACTIONS
-========================================================= */
-
-async function updateRegistrationStatus(
-    id,
-    status
-) {
-
-    if (!supabaseClient || !id)
-        return;
-
-
-    /*
-      These updates must ALSO be protected by
-      Supabase RLS / admin policy.
-    */
-
-    try {
-
-        const {
-            error
-        } =
-            await supabaseClient
-            .from("registrations")
-            .update({
-                status
-            })
-            .eq("id",id);
-
-
-        if (error)
-            throw error;
-
-
-        await loadRegistrations();
-
-        await loadMembers();
-
-        updateStats();
-
-
-        /*
-          Telegram notification should be handled
-          by a secure Edge Function / database trigger.
-        */
-
-    }
-
-    catch(error) {
-
-        alert(
-            "Action failed: " +
-            error.message
-        );
-
-    }
-
-}
-
-
-function approveRegistration(id) {
-
-    if (
-        !confirm(
-            "इस registration को APPROVE करना है?"
-        )
-    ) return;
-
-
-    updateRegistrationStatus(
-        id,
-        "approved"
-    );
-
-}
-
-
-function rejectRegistration(id) {
-
-    if (
-        !confirm(
-            "इस registration को REJECT करना है?"
-        )
-    ) return;
-
-
-    updateRegistrationStatus(
-        id,
-        "rejected"
-    );
-
-}
-
-
-/* =========================================================
-   PAYMENTS
-========================================================= */
-
-async function loadPayments() {
-
-    if (!supabaseClient)
-        return;
-
-
-    const table =
-        $("payments-table");
-
-
-    table.innerHTML =
-        `<tr>
-            <td colspan="7"
-                class="p-5 text-center text-gray-500">
-                Loading...
-            </td>
-        </tr>`;
-
-
-    try {
-
-        const {
-            data,
-            error
-        } =
-            await supabaseClient
-            .from("payments")
-            .select("*")
-            .order(
-                "created_at",
-                {
-                    ascending:false
-                }
-            )
-            .limit(500);
-
-
-        if (error)
-            throw error;
-
-
-        renderPayments(
-            data || []
-        );
-
-
-        const approvedTotal =
-            (data || [])
-            .filter(
-                p =>
-                String(
-                    p.status || ""
-                ).toLowerCase()
-                === "approved"
-            )
-            .reduce(
-                (sum,p) =>
-                sum +
-                Number(
-                    p.amount ||
-                    p.plan_amount ||
-                    0
-                ),
-                0
+            container.appendChild(
+                toast
             );
 
 
-        $("stat-revenue")
-            .textContent =
-            money(approvedTotal);
+            setTimeout(
+                () => {
 
-    }
+                    toast.remove();
 
-    catch(error) {
+                },
+                4500
+            );
 
-        table.innerHTML =
-            `<tr>
-                <td colspan="7"
-                    class="p-5 text-center text-red-400">
-                    ${escapeHTML(error.message)}
-                </td>
-            </tr>`;
+        };
 
-    }
 
-}
+    /* =====================================================
+       PAGE LOADER
+    ====================================================== */
 
+    function hideLoader() {
 
-function renderPayments(list) {
-
-    const table =
-        $("payments-table");
-
-
-    if (!list.length) {
-
-        table.innerHTML =
-            `<tr>
-                <td colspan="7"
-                    class="p-5 text-center text-gray-500">
-                    No payments found.
-                </td>
-            </tr>`;
-
-        return;
-
-    }
-
-
-    table.innerHTML =
-        list.map(row => {
-
-            const proof =
-                row.payment_screenshot ||
-                row.payment_proof ||
-                row.proof_url ||
-                row.screenshot_url;
-
-
-            return `
-            <tr class="border-t border-gray-800">
-
-                <td class="p-3">
-                    ${escapeHTML(
-                        row.full_name ||
-                        row.name ||
-                        row.user_id ||
-                        "--"
-                    )}
-                </td>
-
-                <td class="p-3">
-                    ${escapeHTML(
-                        row.plan_name ||
-                        row.plan ||
-                        "--"
-                    )}
-                </td>
-
-                <td class="p-3 text-amber-400 font-bold">
-                    ${money(
-                        row.amount ||
-                        row.plan_amount
-                    )}
-                </td>
-
-                <td class="p-3 font-mono">
-                    ${escapeHTML(
-                        row.transaction_id ||
-                        row.utr ||
-                        "--"
-                    )}
-                </td>
-
-                <td class="p-3">
-
-                    ${
-                        proof
-                        ?
-                        `<a
-                            href="${escapeHTML(proof)}"
-                            target="_blank"
-                            rel="noopener"
-                            class="text-teal-400">
-
-                            View Proof
-
-                         </a>`
-                        :
-                        `<span class="text-gray-600">
-                            Not available
-                         </span>`
-                    }
-
-                </td>
-
-                <td class="p-3">
-
-                    ${escapeHTML(
-                        row.status ||
-                        "pending"
-                    )}
-
-                </td>
-
-                <td class="p-3">
-
-                    <button
-                        onclick="approvePayment('${escapeHTML(row.id || '')}')"
-                        class="px-3 py-2
-                               rounded-lg
-                               bg-green-500/10
-                               text-green-400">
-
-                        Approve
-
-                    </button>
-
-                </td>
-
-            </tr>`;
-
-        }).join("");
-
-}
-
-
-async function approvePayment(id) {
-
-    if (!id)
-        return;
-
-
-    if (
-        !confirm(
-            "Payment approve करना है?"
-        )
-    ) return;
-
-
-    try {
-
-        const {
-            error
-        } =
-            await supabaseClient
-            .from("payments")
-            .update({
-                status:"approved"
-            })
-            .eq("id",id);
-
-
-        if (error)
-            throw error;
-
-
-        await loadPayments();
-
-    }
-
-    catch(error) {
-
-        alert(
-            "Payment approval failed: " +
-            error.message
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   REFERRALS
-========================================================= */
-
-async function loadReferrals() {
-
-    if (!supabaseClient)
-        return;
-
-
-    const table =
-        $("referrals-table");
-
-
-    try {
-
-        const {
-            data,
-            error
-        } =
-            await supabaseClient
-            .from("referrals")
-            .select("*")
-            .order(
-                "created_at",
-                {
-                    ascending:false
-                }
-            )
-            .limit(500);
-
-
-        if (error)
-            throw error;
-
-
-        referralsCache =
-            data || [];
-
-
-        renderReferrals(
-            referralsCache
-        );
-
-
-        $("stat-referrals")
-            .textContent =
-            referralsCache.length;
-
-    }
-
-    catch(error) {
-
-        table.innerHTML =
-            `<tr>
-                <td colspan="6"
-                    class="p-5 text-center text-red-400">
-                    ${escapeHTML(error.message)}
-                </td>
-            </tr>`;
-
-    }
-
-}
-
-
-function renderReferrals(list) {
-
-    const table =
-        $("referrals-table");
-
-
-    if (!list.length) {
-
-        table.innerHTML =
-            `<tr>
-                <td colspan="6"
-                    class="p-5 text-center text-gray-500">
-
-                    No referrals found.
-
-                </td>
-            </tr>`;
-
-        return;
-
-    }
-
-
-    table.innerHTML =
-        list.map(row => {
-
-            return `
-            <tr class="border-t border-gray-800">
-
-                <td class="p-3 text-amber-400">
-                    ${escapeHTML(
-                        row.sponsor_id ||
-                        row.referrer_id ||
-                        "--"
-                    )}
-                </td>
-
-                <td class="p-3">
-                    ${escapeHTML(
-                        row.referred_user_id ||
-                        row.user_id ||
-                        "--"
-                    )}
-                </td>
-
-                <td class="p-3">
-                    ${escapeHTML(
-                        row.plan_name ||
-                        row.plan ||
-                        "--"
-                    )}
-                </td>
-
-                <td class="p-3">
-                    ${money(
-                        row.amount
-                    )}
-                </td>
-
-                <td class="p-3 text-green-400 font-bold">
-                    ${money(
-                        row.payout ||
-                        row.commission
-                    )}
-                </td>
-
-                <td class="p-3">
-                    ${escapeHTML(
-                        row.status ||
-                        "pending"
-                    )}
-                </td>
-
-            </tr>`;
-
-        }).join("");
-
-}
-
-
-/* =========================================================
-   PLANS
-========================================================= */
-
-async function loadPlans() {
-
-    if (!supabaseClient)
-        return;
-
-
-    const grid =
-        $("plans-grid");
-
-
-    grid.innerHTML =
-        `<div class="text-gray-500 text-sm">
-            Loading plans...
-         </div>`;
-
-
-    try {
-
-        const {
-            data,
-            error
-        } =
-            await supabaseClient
-            .from("membership_plans")
-            .select("*")
-            .order(
-                "amount",
-                {
-                    ascending:true
-                }
+        const loader =
+            document.getElementById(
+                "page-loader"
             );
 
 
-        if (error)
-            throw error;
-
-
-        plansCache =
-            data || [];
-
-
-        if (!plansCache.length) {
-
-            grid.innerHTML =
-                `<div class="text-gray-500 text-sm">
-                    No membership plans found.
-                 </div>`;
-
+        if (!loader) {
             return;
-
         }
 
 
-        grid.innerHTML =
-            plansCache.map(plan => {
+        setTimeout(
+            () => {
 
-                const title =
-                    plan.plan_name ||
-                    plan.title ||
-                    plan.plan_title ||
-                    plan.display_name ||
-                    "IOIS Plan";
+                loader.style.opacity =
+                    "0";
 
-
-                const amount =
-                    plan.amount ??
-                    plan.price ??
-                    0;
+                loader.style.transition =
+                    "opacity .25s ease";
 
 
-                const direct =
-                    plan.direct_payout ??
-                    plan.direct_commission ??
-                    plan.commission ??
-                    0;
+                setTimeout(
+                    () => {
 
+                        loader.remove();
 
-                return `
-                <div
-                    class="glass
-                           card
-                           rounded-2xl
-                           p-5">
+                    },
+                    300
+                );
 
-                    <div class="text-xs
-                                text-gray-500">
-
-                        ${escapeHTML(
-                            plan.plan_code ||
-                            plan.code ||
-                            ""
-                        )}
-
-                    </div>
-
-                    <h3
-                        class="font-black
-                               text-lg
-                               mt-2">
-
-                        ${escapeHTML(title)}
-
-                    </h3>
-
-                    <div
-                        class="text-3xl
-                               font-black
-                               text-amber-400
-                               mt-3">
-
-                        ${money(amount)}
-
-                    </div>
-
-                    <div
-                        class="text-xs
-                               text-teal-400
-                               mt-2">
-
-                        Direct payout:
-                        ${money(direct)}
-
-                    </div>
-
-                    <div
-                        class="text-xs
-                               text-gray-500
-                               mt-3">
-
-                        Status:
-                        ${escapeHTML(
-                            String(
-                                plan.active ??
-                                plan.is_active ??
-                                true
-                            )
-                        )}
-
-                    </div>
-
-                </div>`;
-
-            }).join("");
+            },
+            300
+        );
 
     }
 
-    catch(error) {
 
-        grid.innerHTML =
-            `<div class="text-red-400 text-sm">
-                ${escapeHTML(error.message)}
-             </div>`;
+    /* =====================================================
+       KEEP ADMIN NAME IN SETTINGS IN SYNC
+    ====================================================== */
 
-    }
+    const observer =
+        new MutationObserver(
+            () => {
 
-}
+                const mainName =
+                    document.getElementById(
+                        "admin-name"
+                    );
 
+                const settingsName =
+                    document.getElementById(
+                        "admin-name-settings"
+                    );
 
-/* =========================================================
-   STATS
-========================================================= */
-
-async function updateStats() {
-
-    /*
-      Counts are refreshed through loaded datasets.
-    */
-
-    $("stat-members")
-        .textContent =
-        membersCache.length || 0;
-
-
-    $("stat-pending")
-        .textContent =
-        registrationsCache
-        .filter(
-            r =>
-            String(
-                r.status || ""
-            ).toLowerCase()
-            === "pending"
-        ).length;
-
-
-    $("stat-referrals")
-        .textContent =
-        referralsCache.length || 0;
-
-}
-
-
-/* =========================================================
-   INITIALIZATION
-========================================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-
-        $("admin-login-form")
-            .addEventListener(
-                "submit",
-                loginAdmin
-            );
-
-
-        checkAdminSession();
-
-    }
-);
-
-
-/* =========================================================
-   AUTH STATE CHANGE
-========================================================= */
-
-if (window.supabase &&
-    typeof window.supabase.createClient === "function") {
-
-    /*
-      Listener is attached after client initialization
-      when configuration is available.
-    */
-
-    if (supabaseClient) {
-
-        supabaseClient.auth
-        .onAuthStateChange(
-            async (event,session) => {
 
                 if (
-                    event ===
-                    "SIGNED_OUT"
+                    mainName &&
+                    settingsName
                 ) {
 
-                    showLogin();
+                    settingsName.textContent =
+                        mainName.textContent;
 
                 }
 
             }
         );
 
+
+    const adminName =
+        document.getElementById(
+            "admin-name"
+        );
+
+
+    if (adminName) {
+
+        observer.observe(
+            adminName,
+            {
+                childList: true,
+                characterData: true,
+                subtree: true
+            }
+        );
+
     }
 
-}
+
+    /* =====================================================
+       DEFAULT SECTION
+    ====================================================== */
+
+    window.addEventListener(
+        "load",
+        function () {
+
+            window.showSection(
+                "overview"
+            );
+
+            hideLoader();
+
+        }
+    );
+
+
+})();
 
 </script>
 
 
+
 <!-- =========================================================
-     SAFE CONFIG HOOK
-=========================================================
+     IOIS ADMIN JAVASCRIPT
+========================================================== -->
 
-     Production में इन्हें अपने public configuration
-     loader से provide करें:
+<script src="admin.js"></script>
 
-     window.IOIS_SUPABASE_URL
-     window.IOIS_SUPABASE_ANON_KEY
-
-     Service-role key / Telegram bot token NEVER यहाँ रखें.
-
-========================================================= -->
 
 </body>
 </html>

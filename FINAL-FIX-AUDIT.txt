@@ -1,0 +1,33 @@
+IOIS WEBSITE — FINAL FIX AUDIT
+Date: 10 August 2026
+
+Applied fixes:
+1. Unified frontend Supabase configuration aliases in config.js.
+2. Fixed login authentication configuration mismatch.
+3. Removed Supabase config variable redeclaration risk on registration.html.
+4. Made register.html the canonical registration page.
+5. Redirected legacy registration.html to register.html.
+6. Updated login/auth registration links to the canonical page.
+7. Added missing privacy.html.
+8. Added missing terms.html.
+9. Added missing assets/default-avatar.png using the existing IOIS logo.
+10. Replaced orphaned legacy userlogin.html Firebase fragment with a safe redirect to login.html.
+11. Verified all project JavaScript files with Node.js syntax checking — no syntax errors found.
+12. Preserved the existing IOIS logo and overall design assets.
+
+Important:
+- Supabase database tables, Row Level Security (RLS), Storage policies, Edge Functions, email settings and deployed backend configuration cannot be fully verified from a static ZIP.
+- The Supabase publishable/anon key is safe to expose in a browser only when the project RLS/security policies are correctly configured.
+- Telegram bot tokens must remain server-side (for example, Supabase Edge Function secrets).
+
+Canonical entry:
+index.html
+
+Canonical registration:
+register.html
+
+Canonical login:
+login.html
+
+Deployment:
+Upload the contents of this ZIP to GitHub Pages/Vercel. If the repository already contains old files, replace them with this complete project rather than mixing versions.
