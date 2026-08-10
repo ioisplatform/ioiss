@@ -19,3 +19,9 @@ This is a static frontend. Weather uses Open-Meteo client-side. Registration dem
 
 ## Final Fix Build — 10 Aug 2026
 This build consolidates the frontend configuration, fixes authentication configuration mismatch, removes the duplicate registration-page conflict, adds missing privacy/terms/default-avatar assets, and redirects legacy login/registration entry points to the canonical pages. See `FINAL-FIX-AUDIT.txt`.
+
+
+## V3 Registration Fix
+- Added timeout protection for Auth, Storage and RPC calls.
+- Restored UPI ID and dynamic UPI QR generation.
+- Added non-blocking Telegram notification trigger after successful registration.
