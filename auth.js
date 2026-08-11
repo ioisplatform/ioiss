@@ -746,88 +746,63 @@
        9. LOGIN
     ===================================================== */
 
-    async function loginUser(memberId, password) {
+    async function loginUser(email, password) {
         const client = getClient();
         if (!client) {
-            showMessage("Supabase connection उपलब्ध नहीं है।","error");
-            return {success:false};
+            showMessage("Supabase connection उपलब्ध नहीं है।", "error");
+            return { success: false };
         }
 
-        memberId = safeText(memberId).trim().toUpperCase();
+        email = safeText(email).trim().toLowerCase();
         password = safeText(password);
 
-        if (!memberId) {
-            showMessage("IOIS Member ID डालें।","error");
-            return {success:false};
+        if (!validEmail(email)) {
+            showMessage("कृपया registered Email Address डालें।", "error");
+            return { success: false };
         }
         if (!password) {
-            showMessage("Password डालें।","error");
-            return {success:false};
+            showMessage("Password डालें।", "error");
+            return { success: false };
         }
 
         try {
-            const base = window.IOIS_CONFIG?.SUPABASE_URL || window.IOIS_SUPABASE_URL;
-            const key = window.IOIS_CONFIG?.SUPABASE_PUBLISHABLE_KEY || window.IOIS_SUPABASE_ANON_KEY;
-            if (!base || !key) throw new Error("SUPABASE_NOT_READY");
-
-            // The Edge Function performs the Member-ID -> Auth account lookup
-            // server-side, so the browser never exposes member email mappings.
-            const response = await Promise.race([
-                fetch(`${base}/functions/v1/iois-member-login`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "apikey": key,
-                        "Authorization": `Bearer ${key}`
-                    },
-                    body: JSON.stringify({ member_id: memberId, password })
-                }),
-                new Promise((_, reject) =>
-                    setTimeout(() => reject(new Error("LOGIN_TIMEOUT")), 20000)
-                )
+            const result = await Promise.race([
+                client.auth.signInWithPassword({ email, password }),
+                new Promise((_, reject) => setTimeout(() => reject(new Error("LOGIN_TIMEOUT")), 12000))
             ]);
 
-            const payload = await response.json().catch(() => ({}));
-
-            if (!response.ok || !payload?.access_token || !payload?.refresh_token) {
-                const code = payload?.code || "";
-                if (code === "MEMBER_NOT_FOUND")
-                    showMessage("यह IOIS Member ID नहीं मिली।","error");
-                else if (code === "INVALID_PASSWORD")
-                    showMessage("Password गलत है।","error");
-                else if (code === "MEMBER_INACTIVE")
-                    showMessage("यह Member account अभी active नहीं है।","error");
-                else if (code === "AUTH_NOT_CONFIGURED")
-                    showMessage("Login service अभी configure नहीं है।","error");
-                else
-                    showMessage(payload?.message || "Login नहीं हो सका।","error");
-                return {success:false,error:payload};
+            if (result.error) {
+                const m = String(result.error.message || "");
+                if (/invalid login credentials/i.test(m)) {
+                    showMessage("Email या Password गलत है।", "error");
+                } else if (/email not confirmed/i.test(m)) {
+                    showMessage("Email confirmation अभी enabled है। Supabase में Confirm email OFF करें।", "error");
+                } else if (/rate limit|too many/i.test(m)) {
+                    showMessage("बहुत अधिक login attempts हुए हैं। थोड़ी देर बाद फिर प्रयास करें।", "error");
+                } else {
+                    showMessage(m || "Login नहीं हो सका।", "error");
+                }
+                return { success: false, error: result.error };
             }
 
-            // Establish the normal Supabase session in the browser.
-            const { data, error } = await client.auth.setSession({
-                access_token: payload.access_token,
-                refresh_token: payload.refresh_token
-            });
-
-            if (error || !data?.session || !data?.user) {
-                showMessage("Secure session नहीं बन सकी।","error");
-                return {success:false,error};
+            if (!result.data?.session || !result.data?.user) {
+                showMessage("Login session नहीं बन सकी। Supabase Auth settings check करें।", "error");
+                return { success: false };
             }
 
-            localStorage.setItem("iois_last_login", new Date().toISOString());
-            showMessage("Login सफल हुआ। Dashboard खोला जा रहा है...","success");
-            return {success:true,user:data.user,session:data.session};
+            try { localStorage.setItem("iois_last_login", new Date().toISOString()); } catch (_) {}
+            showMessage("Login सफल हुआ। Dashboard खोला जा रहा है...", "success");
+            return { success: true, user: result.data.user, session: result.data.session };
 
         } catch (error) {
-            console.error("IOIS Member-ID login:", error);
+            console.error("IOIS normal email login:", error);
             showMessage(
                 error?.message === "LOGIN_TIMEOUT"
-                    ? "Login server से समय पर response नहीं मिला। कृपया फिर प्रयास करें।"
+                    ? "Login में बहुत समय लग रहा है। कृपया फिर प्रयास करें।"
                     : "Login service से connection नहीं हो पाया।",
                 "error"
             );
-            return {success:false,error};
+            return { success: false, error };
         }
     }
 
@@ -903,168 +878,42 @@
        11. FORGOT PASSWORD
     ===================================================== */
 
-    async function forgotPassword(
-        email
-    ) {
-
+    async function forgotPassword(email) {
         const client = getClient();
+        email = safeText(email).trim().toLowerCase();
 
         if (!client) {
+            showMessage("Supabase connection उपलब्ध नहीं है।", "error");
             return false;
         }
-
-
-        email =
-            safeText(email)
-                .toLowerCase();
-
-
         if (!validEmail(email)) {
-
-            showMessage(
-                "सही Email Address डालें।",
-                "error"
-            );
-
+            showMessage("कृपया registered Email Address डालें।", "error");
             return false;
         }
-
 
         try {
-
-            const redirectUrl =
-                new URL(
-                    "reset-password.html",
-                    window.location.origin
-                ).href;
-
-
-            const {
-                error
-            } =
-                await client.auth
-                    .resetPasswordForEmail(
-                        email,
-                        {
-                            redirectTo:
-                                redirectUrl
-                        }
-                    );
-
-
-            if (error) {
-
-                console.error(error);
-
-                showMessage(
-                    error.message ||
-                    "Password recovery request failed.",
-                    "error"
-                );
-
-                return false;
-            }
-
-
-            showMessage(
-                "Password reset link आपके Email पर भेज दिया गया है।",
-                "success"
-            );
-
+            const redirectTo = new URL("reset-password.html", window.location.href).href;
+            const result = await Promise.race([
+                client.auth.resetPasswordForEmail(email, { redirectTo }),
+                new Promise((_, reject) => setTimeout(() => reject(new Error("RESET_TIMEOUT")), 12000))
+            ]);
+            if (result.error) throw result.error;
+            showMessage("Password reset link आपके registered email पर भेज दिया गया है।", "success");
             return true;
-
-
         } catch (error) {
-
-            console.error(error);
-
+            console.error("IOIS password reset:", error);
             showMessage(
-                "Password recovery में error आया।",
+                error?.message === "RESET_TIMEOUT"
+                    ? "Password reset request में समय लग रहा है। कृपया फिर प्रयास करें।"
+                    : (error?.message || "Password reset नहीं हो सका।"),
                 "error"
             );
-
             return false;
         }
     }
-
 
     window.IOISAuth.forgotPassword =
         forgotPassword;
-
-
-    /* =====================================================
-       12. UPDATE PASSWORD
-    ===================================================== */
-
-    async function updatePassword(
-        newPassword
-    ) {
-
-        const client = getClient();
-
-        if (!client) {
-            return false;
-        }
-
-
-        newPassword =
-            safeText(newPassword);
-
-
-        if (newPassword.length < 8) {
-
-            showMessage(
-                "New password कम से कम 8 characters का होना चाहिए।",
-                "error"
-            );
-
-            return false;
-        }
-
-
-        try {
-
-            const {
-                error
-            } =
-                await client.auth.updateUser({
-
-                    password:
-                        newPassword
-                });
-
-
-            if (error) {
-
-                showMessage(
-                    error.message ||
-                    "Password update failed.",
-                    "error"
-                );
-
-                return false;
-            }
-
-
-            showMessage(
-                "Password successfully update हो गया।",
-                "success"
-            );
-
-            return true;
-
-
-        } catch (error) {
-
-            console.error(error);
-
-            return false;
-        }
-    }
-
-
-    window.IOISAuth.updatePassword =
-        updatePassword;
 
 
     /* =====================================================
@@ -1587,7 +1436,7 @@
                 const email =
                     document
                         .getElementById(
-                            "login-member-id"
+                            "login-email"
                         )
                         ?.value;
 
@@ -1697,100 +1546,6 @@
                     button,
                     false
                 );
-            }
-        );
-    }
-
-
-    /* =====================================================
-       25. PASSWORD RESET FORM
-    ===================================================== */
-
-    function setupResetPasswordForm() {
-
-        const form =
-            document.getElementById(
-                "reset-password-form"
-            );
-
-        if (!form) {
-            return;
-        }
-
-
-        form.addEventListener(
-            "submit",
-            async event => {
-
-                event.preventDefault();
-
-
-                const password =
-                    document
-                        .getElementById(
-                            "new-password"
-                        )
-                        ?.value;
-
-
-                const confirm =
-                    document
-                        .getElementById(
-                            "confirm-password"
-                        )
-                        ?.value;
-
-
-                if (
-                    password !== confirm
-                ) {
-
-                    showMessage(
-                        "दोनों passwords समान होने चाहिए।",
-                        "error"
-                    );
-
-                    return;
-                }
-
-
-                const button =
-                    form.querySelector(
-                        "button[type='submit']"
-                    );
-
-
-                setButtonLoading(
-                    button,
-                    true
-                );
-
-
-                const result =
-                    await updatePassword(
-                        password
-                    );
-
-
-                setButtonLoading(
-                    button,
-                    false
-                );
-
-
-                if (result) {
-
-                    setTimeout(
-                        () => {
-
-                            window.location.href =
-                                "login.html";
-
-                        },
-                        1200
-                    );
-                }
-
             }
         );
     }
@@ -2114,21 +1869,8 @@
 
             if (session) {
 
-                /*
-                 * Reset-password URL होने पर
-                 * login redirect नहीं करेंगे।
-                 */
-
-                if (
-                    !window.location.hash
-                        .includes(
-                            "type=recovery"
-                        )
-                ) {
-
-                    window.location.href =
-                        "dashboard.html";
-                }
+                window.location.href =
+                    "dashboard.html";
             }
         }
     }
@@ -2307,7 +2049,6 @@
 
         setupForgotPasswordForm();
 
-        setupResetPasswordForm();
 
         setupRegistrationForm();
 

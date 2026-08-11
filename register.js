@@ -349,8 +349,10 @@
     loader?.classList.remove("hidden");
 
     try {
-      const screenshotPath=await upload(pending.screenshot,user.id,"payment");
-      const proofPath=await upload(pending.proof,user.id,"address-proof");
+      const [screenshotPath, proofPath] = await Promise.all([
+        upload(pending.screenshot,user.id,"payment"),
+        upload(pending.proof,user.id,"address-proof")
+      ]);
 
       if(text) text.textContent="Permanent IOIS Member ID बनाया जा रहा है...";
 
@@ -424,11 +426,11 @@
     const btn=$("register-btn"), text=$("register-btn-text"), loader=$("register-loader");
     if(btn) btn.disabled=true;
     loader?.classList.remove("hidden");
-    if(text) text.textContent="Secure account बनाया जा रहा है...";
+    if(text) text.textContent="Account बनाया जा रहा है...";
 
     try {
-      await savePending(d);
-      localStorage.setItem("iois_pending_registration_email",d.email);
+      savePending(d).catch(e => console.warn("IOIS pending-save skipped:", e));
+      try { localStorage.setItem("iois_pending_registration_email",d.email); } catch (_) {}
 
       const result=await withTimeout(
         client.auth.signUp({

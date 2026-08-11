@@ -182,7 +182,7 @@
            class="flex items-center gap-3">
 
             <img
-                src="assets/logo.svg"
+                src="assets/logo.png"
                 alt="IOIS Logo"
                 onerror="this.style.display='none'"
                 class="w-11 h-11 rounded-full
@@ -2681,66 +2681,15 @@ async function changePassword() {
 
 /* =========================================================
    PASSWORD RECOVERY
+
+   IMPORTANT:
+   Email-link recovery is intentionally disabled here.
+   Recovery is handled by recovery.html using the IOIS
+   account-recovery flow (Member ID + registered details).
 ========================================================= */
 
-async function sendPasswordReset() {
-
-    const email =
-        currentUser?.email ||
-        document.getElementById(
-            "emailInput"
-        ).value;
-
-
-    if (!email) {
-
-        showToast(
-            "Email address उपलब्ध नहीं है।",
-            "error"
-        );
-
-        return;
-    }
-
-
-    try {
-
-        const {
-            error
-        } =
-            await supabaseClient.auth.resetPasswordForEmail(
-                email,
-                {
-                    redirectTo:
-                        window.location.origin +
-                        "/reset-password.html"
-                }
-            );
-
-
-        if (error) {
-            throw error;
-        }
-
-
-        showToast(
-            "Password recovery email भेज दिया गया।",
-            "success"
-        );
-
-
-    } catch (error) {
-
-        console.error(
-            error
-        );
-
-        showToast(
-            error.message ||
-            "Recovery email नहीं भेजा जा सका।",
-            "error"
-        );
-    }
+function sendPasswordReset() {
+    window.location.href = "recovery.html?mode=password";
 }
 
 

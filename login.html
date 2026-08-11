@@ -479,7 +479,7 @@
     <div class="text-center">
 
         <img
-            src="assets/logo.svg"
+            src="assets/logo.png"
             alt="IOIS"
             class="
                 w-20
@@ -562,7 +562,7 @@
         >
 
             <img
-                src="assets/logo.svg"
+                src="assets/logo.png"
                 alt="IOIS Logo"
                 class="
                     w-11
@@ -677,7 +677,7 @@
         >
 
             <img
-                src="assets/logo.svg"
+                src="assets/logo.png"
                 alt="IOIS Logo"
                 class="
                     logo-pulse
@@ -795,7 +795,7 @@
                 <div>
 
                     <label
-                        for="login-member-id"
+                        for="login-email"
                         class="
                             block
                             text-xs
@@ -813,7 +813,7 @@
                             "
                         ></i>
 
-                        IOIS Member ID *
+                        Registered Email *
 
                     </label>
 
@@ -839,14 +839,14 @@
 
 
                         <input
-                            id="login-member-id"
-                            name="member_id"
-                            type="text"
-                            autocomplete="username"
-                            inputmode="text"
+                            id="login-email"
+                            name="email"
+                            type="email"
+                            autocomplete="email"
                             required
+                            inputmode="email"
                             spellcheck="false"
-                            placeholder="Enter your IOIS Member ID"
+                            placeholder="Enter your registered email"
                             class="
                                 input-box
                                 rounded-xl
@@ -867,7 +867,7 @@
                             text-gray-500
                         "
                     >
-                        वही Email डालें जिससे आपका
+                        अपने IOIS account में registered Email डालें।
                         IOIS account registered है।
                     </p>
 
@@ -921,7 +921,7 @@
                                 transition
                             "
                         >
-                            Forgot Password?
+                            Forgot User ID / Password?
                         </button>
 
                     </div>
@@ -1362,7 +1362,7 @@
                         font-black
                     "
                 >
-                    Reset Password
+                    Forgot Password
                 </div>
 
                 <div
@@ -1372,7 +1372,7 @@
                         mt-1
                     "
                 >
-                    आपके Email पर reset link भेजा जाएगा।
+                    Registered Email पर standard password reset link भेजा जाएगा।
                 </div>
 
             </div>
@@ -1485,7 +1485,7 @@
                     "
                 ></i>
 
-                Send Reset Link
+                Forgot Password
 
             </button>
 
@@ -1515,8 +1515,7 @@
                 "
             ></i>
 
-            Reset link मिलने के बाद उसे खोलकर
-            नया password set करें।
+            Password reset के लिए अपना registered email डालें।
 
         </div>
 
@@ -1648,46 +1647,7 @@
 
 
     function openForgotModal() {
-
-        if (!modal) {
-            return;
-        }
-
-
-        modal.classList.remove(
-            "hidden"
-        );
-
-        modal.classList.add(
-            "flex"
-        );
-
-
-        if (
-            loginEmail &&
-            forgotEmail &&
-            loginEmail.value
-        ) {
-
-            forgotEmail.value =
-                loginEmail.value.trim();
-
-        }
-
-
-        setTimeout(
-            function () {
-
-                if (forgotEmail) {
-
-                    forgotEmail.focus();
-
-                }
-
-            },
-            100
-        );
-
+        window.location.href = "recovery.html";
     }
 
 

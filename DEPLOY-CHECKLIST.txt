@@ -85,3 +85,9 @@ TEST CHECKLIST
 [ ] Logout works
 [ ] Payment submission works after profile exists
 [ ] Admin access still requires admin_profiles role
+
+
+FINAL RECOVERY RULE:
+The frontend must NOT call supabase.auth.resetPasswordForEmail().
+Forgot User ID / Forgot Password must open recovery.html and use iois-account-recovery Edge Function.
+No email reset links, email OTP, SMS OTP, or WhatsApp OTP are used.

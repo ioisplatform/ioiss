@@ -29,3 +29,9 @@ IOIS V7 COMPLETE AUTH SETUP
 
 7. Important:
    This recovery method intentionally uses knowledge-factor matching. It has no OTP/email link, so keep the Edge Function rate-limited in production. Do not expose the service-role secret.
+
+
+FINAL RECOVERY RULE:
+The frontend must NOT call supabase.auth.resetPasswordForEmail().
+Forgot User ID / Forgot Password must open recovery.html and use iois-account-recovery Edge Function.
+No email reset links, email OTP, SMS OTP, or WhatsApp OTP are used.
