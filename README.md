@@ -25,3 +25,10 @@ This build consolidates the frontend configuration, fixes authentication configu
 - Added timeout protection for Auth, Storage and RPC calls.
 - Restored UPI ID and dynamic UPI QR generation.
 - Added non-blocking Telegram notification trigger after successful registration.
+
+## V6 Production Auth/Dashboard
+Duplicate login handler removed; login timeout added; dashboard now uses actual members and iois_member_registry tables.
+
+
+## V7 Fast Member-ID Login
+See V7-SETUP-GUIDE.txt. Deploy `supabase/functions/iois-member-login/index.ts` and set server-side secrets. Do not expose service-role keys.

@@ -746,146 +746,90 @@
        9. LOGIN
     ===================================================== */
 
-    async function loginUser(
-        email,
-        password
-    ) {
-
+    async function loginUser(memberId, password) {
         const client = getClient();
-
         if (!client) {
-
-            showMessage(
-                "Authentication system उपलब्ध नहीं है।",
-                "error"
-            );
-
-            return {
-                success: false
-            };
+            showMessage("Supabase connection उपलब्ध नहीं है।","error");
+            return {success:false};
         }
 
+        memberId = safeText(memberId).trim().toUpperCase();
+        password = safeText(password);
 
-        email =
-            safeText(email)
-                .toLowerCase();
-
-        password =
-            safeText(password);
-
-
-        if (!validEmail(email)) {
-
-            showMessage(
-                "सही Email डालें।",
-                "error"
-            );
-
-            return {
-                success: false
-            };
+        if (!memberId) {
+            showMessage("IOIS Member ID डालें।","error");
+            return {success:false};
         }
-
-
         if (!password) {
-
-            showMessage(
-                "Password डालें।",
-                "error"
-            );
-
-            return {
-                success: false
-            };
+            showMessage("Password डालें।","error");
+            return {success:false};
         }
-
 
         try {
+            const base = window.IOIS_CONFIG?.SUPABASE_URL || window.IOIS_SUPABASE_URL;
+            const key = window.IOIS_CONFIG?.SUPABASE_PUBLISHABLE_KEY || window.IOIS_SUPABASE_ANON_KEY;
+            if (!base || !key) throw new Error("SUPABASE_NOT_READY");
 
-            const {
-                data,
-                error
-            } =
-                await client.auth.signInWithPassword({
+            // The Edge Function performs the Member-ID -> Auth account lookup
+            // server-side, so the browser never exposes member email mappings.
+            const response = await Promise.race([
+                fetch(`${base}/functions/v1/iois-member-login`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "apikey": key,
+                        "Authorization": `Bearer ${key}`
+                    },
+                    body: JSON.stringify({ member_id: memberId, password })
+                }),
+                new Promise((_, reject) =>
+                    setTimeout(() => reject(new Error("LOGIN_TIMEOUT")), 20000)
+                )
+            ]);
 
-                    email,
+            const payload = await response.json().catch(() => ({}));
 
-                    password
-                });
-
-
-            if (error) {
-
-                console.error(
-                    "IOIS login error:",
-                    error
-                );
-
-                showMessage(
-                    "Email या Password गलत है।",
-                    "error"
-                );
-
-                return {
-                    success: false,
-                    error
-                };
+            if (!response.ok || !payload?.access_token || !payload?.refresh_token) {
+                const code = payload?.code || "";
+                if (code === "MEMBER_NOT_FOUND")
+                    showMessage("यह IOIS Member ID नहीं मिली।","error");
+                else if (code === "INVALID_PASSWORD")
+                    showMessage("Password गलत है।","error");
+                else if (code === "MEMBER_INACTIVE")
+                    showMessage("यह Member account अभी active नहीं है।","error");
+                else if (code === "AUTH_NOT_CONFIGURED")
+                    showMessage("Login service अभी configure नहीं है।","error");
+                else
+                    showMessage(payload?.message || "Login नहीं हो सका।","error");
+                return {success:false,error:payload};
             }
 
+            // Establish the normal Supabase session in the browser.
+            const { data, error } = await client.auth.setSession({
+                access_token: payload.access_token,
+                refresh_token: payload.refresh_token
+            });
 
-            if (!data?.session) {
-
-                showMessage(
-                    "Login session नहीं मिली।",
-                    "error"
-                );
-
-                return {
-                    success: false
-                };
+            if (error || !data?.session || !data?.user) {
+                showMessage("Secure session नहीं बन सकी।","error");
+                return {success:false,error};
             }
 
-
-            localStorage.setItem(
-                "iois_last_login",
-                new Date().toISOString()
-            );
-
-
-            showMessage(
-                "Login सफल हुआ। Dashboard खोला जा रहा है...",
-                "success"
-            );
-
-
-            return {
-
-                success: true,
-
-                user:
-                    data.user,
-
-                session:
-                    data.session
-            };
-
+            localStorage.setItem("iois_last_login", new Date().toISOString());
+            showMessage("Login सफल हुआ। Dashboard खोला जा रहा है...","success");
+            return {success:true,user:data.user,session:data.session};
 
         } catch (error) {
-
-            console.error(error);
-
+            console.error("IOIS Member-ID login:", error);
             showMessage(
-                "Login के दौरान error आया।",
+                error?.message === "LOGIN_TIMEOUT"
+                    ? "Login server से समय पर response नहीं मिला। कृपया फिर प्रयास करें।"
+                    : "Login service से connection नहीं हो पाया।",
                 "error"
             );
-
-            return {
-                success: false,
-                error
-            };
+            return {success:false,error};
         }
     }
-
 
     window.IOISAuth.login =
         loginUser;
@@ -1643,7 +1587,7 @@
                 const email =
                     document
                         .getElementById(
-                            "login-email"
+                            "login-member-id"
                         )
                         ?.value;
 

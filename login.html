@@ -795,7 +795,7 @@
                 <div>
 
                     <label
-                        for="login-email"
+                        for="login-member-id"
                         class="
                             block
                             text-xs
@@ -808,12 +808,12 @@
                         <i
                             class="
                                 fa-solid
-                                fa-envelope
+                                fa-id-card
                                 mr-1
                             "
                         ></i>
 
-                        Registered Email *
+                        IOIS Member ID *
 
                     </label>
 
@@ -827,7 +827,7 @@
                         <i
                             class="
                                 fa-solid
-                                fa-envelope
+                                fa-id-card
                                 absolute
                                 left-4
                                 top-1/2
@@ -839,14 +839,14 @@
 
 
                         <input
-                            id="login-email"
-                            name="email"
-                            type="email"
+                            id="login-member-id"
+                            name="member_id"
+                            type="text"
                             autocomplete="username"
-                            inputmode="email"
+                            inputmode="text"
                             required
                             spellcheck="false"
-                            placeholder="Enter your registered email"
+                            placeholder="Enter your IOIS Member ID"
                             class="
                                 input-box
                                 rounded-xl
@@ -1433,7 +1433,7 @@
                     <i
                         class="
                             fa-solid
-                            fa-envelope
+                            fa-id-card
                             absolute
                             left-4
                             top-1/2
@@ -1915,6 +1915,7 @@
 </script>
 
 
+<script src="login-guard.js"></script>
 </body>
 
 </html>

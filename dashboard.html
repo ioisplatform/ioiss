@@ -24,6 +24,9 @@
 
     <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+    <script src="dashboard.js"></script>
 
     <!-- IOIS existing CSS -->
     <link rel="stylesheet" href="style.css">
@@ -155,7 +158,7 @@
     </style>
 </head>
 
-<body>
+<body><div id="dashboard-loading" class="fixed inset-0 z-[9999] flex items-center justify-center bg-[#030712]"><div class="text-center"><div class="text-amber-400 text-3xl mb-3"><i class="fa-solid fa-spinner fa-spin"></i></div><div class="text-sm text-slate-300">Secure dashboard तैयार हो रहा है...</div></div></div>
 
 <!-- =========================================================
      HEADER
