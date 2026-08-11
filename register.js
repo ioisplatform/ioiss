@@ -409,22 +409,8 @@
   }
 
   async function completeIfVerified() {
-    const email=localStorage.getItem("iois_pending_registration_email");
-    if(!email) return;
-
-    const {data:{session}}=await withTimeout(
-      client.auth.getSession(),
-      10000,
-      "Session check"
-    );
-
-    if(!session?.user) return;
-
-    const pending=await getPending(email);
-    if(!pending) return;
-
-    if($("email")) $("email").value=pending.email;
-    await finalize(pending,session.user);
+    // Legacy compatibility only. V7/V8 does not use email verification.
+    return;
   }
 
   async function submit(e) {
@@ -444,52 +430,42 @@
       await savePending(d);
       localStorage.setItem("iois_pending_registration_email",d.email);
 
-      const redirect = new URL("register.html",location.href).href + "?complete=1";
-
       const result=await withTimeout(
         client.auth.signUp({
           email:d.email,
           password:d.password,
           options:{
-            emailRedirectTo:redirect,
+            // No email verification flow is used. Supabase Auth must have
+            // Confirm email disabled in Authentication settings.
             data:{
               full_name:d.fullName,
               phone:d.phone,
-              plan_amount:selectedPlan.price
+              plan_amount:selectedPlan.price,
+              plan_code:selectedPlan.code
             }
           }
         }),
         20000,
-        "Email account creation"
+        "Account creation"
       );
 
       if(result.error) throw result.error;
 
-      if(result.data?.session) {
-        const pending=await getPending(d.email);
-        await finalize(pending,result.data.user);
-        return;
+      if(!result.data?.session?.user) {
+        throw new Error("ACCOUNT_SESSION_NOT_CREATED");
       }
 
-      // Email confirmation enabled: don't leave the page spinning.
-      if(text) text.textContent="VERIFICATION EMAIL SENT";
-      loader?.classList.add("hidden");
-      if(btn) btn.disabled=true;
-
-      msg(
-        "Account बन गया है। अपने email inbox में verification link खोलें। " +
-        "Verification के बाद इसी device पर registration automatically complete होगा। " +
-        "अभी Register दोबारा न दबाएँ।",
-        "success"
-      );
+      const pending = pendingMemory || await getPending(d.email);
+      await finalize(pending,result.data.session.user);
+      return;
 
     } catch(e) {
       console.error("IOIS registration error",e);
 
       let m=e?.message||"Registration failed.";
 
-      if(/rate limit|rate_limit|too many|email.*limit/i.test(m))
-        m="Supabase की email sending limit अभी पूरी हो गई है। Register बार-बार न दबाएँ। पहले email rate limit reset होने दें या custom SMTP configure करें।";
+      if(/rate limit|rate_limit|too many/i.test(m))
+        m="Registration requests temporarily limited हैं। कुछ क्षण बाद दोबारा प्रयास करें।";
 
       if(/already registered|already exists|user already registered/i.test(m))
         m="यह email पहले से registered है। Login करें या Password Reset इस्तेमाल करें।";
